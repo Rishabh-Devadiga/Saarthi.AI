@@ -4,6 +4,8 @@ import {
   RefreshCw,
   ShieldCheck,
   Sparkles,
+  Volume2,
+  VolumeOff,
   Wrench,
 } from "lucide-react";
 
@@ -11,14 +13,22 @@ import { Button } from "@/components/common/Button";
 import type { InterviewSummary } from "@/types/interview";
 
 type InterviewResultsProps = {
+  isMuted: boolean;
+  isSpeaking: boolean;
   onDashboard: () => void;
   onRetry: () => void;
+  onToggleMute: () => void;
+  speechSupported: boolean;
   summary: InterviewSummary;
 };
 
 export function InterviewResults({
+  isMuted,
+  isSpeaking,
   onDashboard,
   onRetry,
+  onToggleMute,
+  speechSupported,
   summary,
 }: InterviewResultsProps) {
   const scores = [
@@ -54,6 +64,29 @@ export function InterviewResults({
         <p className="mt-3 text-sm text-slate-600">
           {summary.questions_answered} questions answered
         </p>
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+          <Button
+            disabled={!speechSupported}
+            onClick={onToggleMute}
+            variant="outline"
+          >
+            {isMuted ? (
+              <VolumeOff className="h-4 w-4" aria-hidden="true" />
+            ) : (
+              <Volume2 className="h-4 w-4" aria-hidden="true" />
+            )}
+            {isMuted ? "Unmute" : "Mute"}
+          </Button>
+          {isSpeaking ? (
+            <span
+              className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600"
+              role="status"
+            >
+              <span className="h-2 w-2 rounded-full bg-blue-500" />
+              Speaking...
+            </span>
+          ) : null}
+        </div>
       </section>
 
       <div className="grid gap-4 md:grid-cols-3">
