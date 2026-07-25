@@ -1,4 +1,11 @@
-import { AlertTriangle, Mic, Send, Square } from "lucide-react";
+import {
+  AlertTriangle,
+  Mic,
+  Send,
+  Square,
+  Volume2,
+  VolumeOff,
+} from "lucide-react";
 import type { FormEvent } from "react";
 
 import { Button } from "@/components/common/Button";
@@ -10,15 +17,27 @@ import type { InterviewQuestion } from "@/types/interview";
 type InterviewSessionProps = {
   feedback: string | null;
   isLoading: boolean;
+  isMuted: boolean;
+  isSpeaking: boolean;
   onSubmit: (answer: string) => void;
+  onReplayQuestion: () => void;
+  onToggleMute: () => void;
   question: InterviewQuestion;
+  speechError: string | null;
+  speechSupported: boolean;
 };
 
 export function InterviewSession({
   feedback,
   isLoading,
+  isMuted,
+  isSpeaking,
+  onReplayQuestion,
   onSubmit,
+  onToggleMute,
   question,
+  speechError,
+  speechSupported,
 }: InterviewSessionProps) {
   const {
     error,
@@ -45,6 +64,39 @@ export function InterviewSession({
           current={question.question_number}
           total={question.total_questions}
         />
+        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-slate-200 pt-4">
+          <Button
+            disabled={!speechSupported}
+            onClick={onToggleMute}
+            size="default"
+            variant="outline"
+          >
+            {isMuted ? (
+              <VolumeOff className="h-4 w-4" aria-hidden="true" />
+            ) : (
+              <Volume2 className="h-4 w-4" aria-hidden="true" />
+            )}
+            {isMuted ? "Unmute" : "Mute"}
+          </Button>
+          <Button
+            disabled={!speechSupported || isMuted || isSpeaking}
+            onClick={onReplayQuestion}
+            size="default"
+            variant="outline"
+          >
+            <Volume2 className="h-4 w-4" aria-hidden="true" />
+            Replay Question
+          </Button>
+          {isSpeaking ? (
+            <span
+              className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600"
+              role="status"
+            >
+              <span className="h-2 w-2 rounded-full bg-blue-500" />
+              Speaking...
+            </span>
+          ) : null}
+        </div>
       </section>
 
       {feedback ? (
@@ -57,6 +109,12 @@ export function InterviewSession({
       ) : null}
 
       <InterviewQuestionCard question={question} />
+
+      {!speechSupported ? (
+        <VoiceError message="Voice playback is not supported in this browser. The interview will continue without spoken questions." />
+      ) : null}
+
+      {speechError ? <VoiceError message={speechError} /> : null}
 
       <form
         className="rounded-md border border-slate-200 bg-white p-5 shadow-sm sm:p-7"
@@ -83,7 +141,7 @@ export function InterviewSession({
             </Button>
           ) : (
             <Button
-              disabled={!isSupported || isLoading}
+              disabled={!isSupported || isLoading || isSpeaking}
               onClick={startRecording}
               variant="outline"
             >

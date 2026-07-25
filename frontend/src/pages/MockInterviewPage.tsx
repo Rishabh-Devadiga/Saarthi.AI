@@ -1,5 +1,5 @@
 import { AlertTriangle, BriefcaseBusiness, RefreshCw } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/common/Button";
@@ -7,6 +7,7 @@ import { InterviewResults } from "@/components/interview/InterviewResults";
 import { InterviewSession } from "@/components/interview/InterviewSession";
 import { InterviewSetup } from "@/components/interview/InterviewSetup";
 import { useSession } from "@/context/SessionContext";
+import { useSpeechSynthesis } from "@/hooks/useSpeechSynthesis";
 import {
   endInterview,
   startInterview,
@@ -19,6 +20,7 @@ import type {
 } from "@/types/interview";
 
 type InterviewView = "setup" | "session" | "results";
+const ACKNOWLEDGEMENTS = ["Thank you.", "Got it.", "Let's continue."];
 
 export function MockInterviewPage() {
   const { state } = useSession();
@@ -32,6 +34,50 @@ export function MockInterviewPage() {
   const [feedback, setFeedback] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const {
+    cancel: cancelSpeech,
+    error: speechError,
+    isMuted,
+    isSpeaking,
+    isSupported: speechSupported,
+    replay,
+    speak,
+    toggleMute,
+  } = useSpeechSynthesis();
+
+  useEffect(() => {
+    if (view !== "session" || !question) {
+      return;
+    }
+
+    const questionText = getQuestionSpeech(question);
+    if (question.question_number === 1) {
+      speak(
+        `Welcome to your mock interview. Let's begin. ${questionText}`
+      );
+      return;
+    }
+
+    const acknowledgement =
+      ACKNOWLEDGEMENTS[
+        Math.floor(Math.random() * ACKNOWLEDGEMENTS.length)
+      ];
+    speak(`${acknowledgement} ${questionText}`);
+  }, [question, speak, view]);
+
+  useEffect(() => {
+    if (view !== "results" || !summary) {
+      return;
+    }
+
+    const acknowledgement =
+      ACKNOWLEDGEMENTS[
+        Math.floor(Math.random() * ACKNOWLEDGEMENTS.length)
+      ];
+    speak(
+      `${acknowledgement} Interview completed. Overall, ${summary.overall_feedback} Thank you for participating.`
+    );
+  }, [speak, summary, view]);
 
   async function handleStart(request: InterviewStartRequest) {
     setIsLoading(true);
@@ -91,6 +137,7 @@ export function MockInterviewPage() {
   }
 
   function resetInterview() {
+    cancelSpeech();
     setView("setup");
     setInterviewId(null);
     setQuestion(null);
@@ -152,16 +199,28 @@ export function MockInterviewPage() {
         <InterviewSession
           feedback={feedback}
           isLoading={isLoading}
+          isMuted={isMuted}
+          isSpeaking={isSpeaking}
           key={question.question_id}
+          onReplayQuestion={() =>
+            replay(getQuestionSpeech(question))
+          }
           onSubmit={(answer) => void handleSubmitAnswer(answer)}
+          onToggleMute={toggleMute}
           question={question}
+          speechError={speechError}
+          speechSupported={speechSupported}
         />
       ) : null}
 
       {view === "results" && summary ? (
         <InterviewResults
+          isMuted={isMuted}
+          isSpeaking={isSpeaking}
           onDashboard={() => navigate("/dashboard")}
           onRetry={resetInterview}
+          onToggleMute={toggleMute}
+          speechSupported={speechSupported}
           summary={summary}
         />
       ) : null}
@@ -171,4 +230,8 @@ export function MockInterviewPage() {
 
 function getErrorMessage(error: unknown, fallback: string): string {
   return error instanceof Error ? error.message : fallback;
+}
+
+function getQuestionSpeech(question: InterviewQuestion): string {
+  return `Question ${question.question_number} of ${question.total_questions}. ${question.question}`;
 }
