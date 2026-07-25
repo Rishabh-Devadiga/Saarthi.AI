@@ -121,6 +121,11 @@
     color-scheme: dark;
   }
 
+  .interview-wave-bar {
+    height: 1.5rem;
+    animation: interview-wave 720ms ease-in-out infinite alternate;
+  }
+
   .workspace-shell {
     color-scheme: dark;
   }
@@ -216,6 +221,18 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes interview-wave {
+  from {
+    height: 0.35rem;
+    opacity: 0.45;
+  }
+
+  to {
+    height: 1.65rem;
+    opacity: 1;
   }
 }
 

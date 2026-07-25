@@ -11,8 +11,10 @@ import {
 
 import { Button } from "@/components/common/Button";
 import type { InterviewSummary } from "@/types/interview";
+import { formatElapsedTime } from "@/utils/interview";
 
 type InterviewResultsProps = {
+  elapsedSeconds: number;
   isMuted: boolean;
   isSpeaking: boolean;
   onDashboard: () => void;
@@ -23,6 +25,7 @@ type InterviewResultsProps = {
 };
 
 export function InterviewResults({
+  elapsedSeconds,
   isMuted,
   isSpeaking,
   onDashboard,
@@ -62,7 +65,8 @@ export function InterviewResults({
           Your Interview Results
         </h1>
         <p className="mt-3 text-sm text-slate-600">
-          {summary.questions_answered} questions answered
+          {summary.questions_answered} questions answered in{" "}
+          {formatElapsedTime(elapsedSeconds)}
         </p>
         <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
           <Button

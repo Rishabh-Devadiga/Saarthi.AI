@@ -34,6 +34,10 @@ export function MockInterviewPage() {
   const [feedback, setFeedback] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [interviewStartedAt, setInterviewStartedAt] = useState<number | null>(
+    null
+  );
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const {
     cancel: cancelSpeech,
     error: speechError,
@@ -85,6 +89,8 @@ export function MockInterviewPage() {
     setFeedback(null);
     try {
       const response = await startInterview(request);
+      setInterviewStartedAt(Date.now());
+      setElapsedSeconds(0);
       setInterviewId(response.data.interview_id);
       setQuestion(response.data.current_question);
       setView("session");
@@ -114,6 +120,7 @@ export function MockInterviewPage() {
 
       if (response.data.is_interview_complete) {
         const endResponse = await endInterview({ interview_id: interviewId });
+        finishTimer();
         setSummary(endResponse.data.summary);
         setQuestion(null);
         setView("results");
@@ -136,6 +143,42 @@ export function MockInterviewPage() {
     }
   }
 
+  async function handleEndInterview() {
+    if (!interviewId) {
+      setError("This interview session has expired. Please start again.");
+      setView("setup");
+      return;
+    }
+
+    cancelSpeech();
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await endInterview({ interview_id: interviewId });
+      finishTimer();
+      setSummary(response.data.summary);
+      setQuestion(null);
+      setView("results");
+    } catch (requestError) {
+      setError(
+        getErrorMessage(
+          requestError,
+          "Unable to end the interview. Please try again."
+        )
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  function finishTimer() {
+    if (interviewStartedAt !== null) {
+      setElapsedSeconds(
+        Math.max(0, Math.floor((Date.now() - interviewStartedAt) / 1000))
+      );
+    }
+  }
+
   function resetInterview() {
     cancelSpeech();
     setView("setup");
@@ -145,6 +188,8 @@ export function MockInterviewPage() {
     setFeedback(null);
     setError(null);
     setIsLoading(false);
+    setInterviewStartedAt(null);
+    setElapsedSeconds(0);
   }
 
   if (!learningGoal) {
@@ -195,13 +240,14 @@ export function MockInterviewPage() {
         />
       ) : null}
 
-      {view === "session" && question ? (
+      {view === "session" && question && interviewStartedAt !== null ? (
         <InterviewSession
           feedback={feedback}
           isLoading={isLoading}
           isMuted={isMuted}
           isSpeaking={isSpeaking}
           key={question.question_id}
+          onEnd={() => void handleEndInterview()}
           onReplayQuestion={() =>
             replay(getQuestionSpeech(question))
           }
@@ -210,11 +256,13 @@ export function MockInterviewPage() {
           question={question}
           speechError={speechError}
           speechSupported={speechSupported}
+          startedAt={interviewStartedAt}
         />
       ) : null}
 
       {view === "results" && summary ? (
         <InterviewResults
+          elapsedSeconds={elapsedSeconds}
           isMuted={isMuted}
           isSpeaking={isSpeaking}
           onDashboard={() => navigate("/dashboard")}
