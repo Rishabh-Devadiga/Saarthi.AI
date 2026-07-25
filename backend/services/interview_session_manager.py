@@ -37,8 +37,20 @@ class InvalidInterviewStateError(InterviewSessionError):
 
 
 @dataclass
+class InterviewAnswerEvaluation:
+    """Stored evaluation for one submitted interview answer."""
+
+    question: str
+    candidate_answer: str
+    technical_score: int
+    communication_score: int
+    confidence_score: int
+    feedback: str
+
+
+@dataclass
 class InterviewSession:
-    """Internal state for one in-memory mock interview."""
+    """Internal state for one in-memory interview."""
 
     interview_id: str
     learning_goal: str
@@ -48,6 +60,9 @@ class InterviewSession:
     current_question_index: int
     question_list: list[str]
     candidate_answers: list[str] = field(default_factory=list)
+    answer_evaluations: list[InterviewAnswerEvaluation] = field(
+        default_factory=list
+    )
     interview_start_time: datetime = field(
         default_factory=lambda: datetime.now(UTC)
     )
