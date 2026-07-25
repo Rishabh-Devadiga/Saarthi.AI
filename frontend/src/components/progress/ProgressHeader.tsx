@@ -15,10 +15,10 @@ export function ProgressHeader({
   workflowCompleted,
 }: ProgressHeaderProps) {
   return (
-    <section className="rounded-md border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+    <section className="rounded-md border border-white/[0.08] bg-[linear-gradient(120deg,#1A2235,rgba(30,41,59,0.82))] p-6 shadow-sm sm:p-7">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-md bg-slate-900 text-white">
+          <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-violet-500 text-white">
             <TrendingUp className="h-5 w-5" aria-hidden="true" />
           </div>
           <p className="text-sm font-medium text-slate-500">

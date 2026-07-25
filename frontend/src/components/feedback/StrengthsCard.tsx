@@ -10,9 +10,9 @@ export function StrengthsCard({ strengths }: StrengthsCardProps) {
   }
 
   return (
-    <section className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
+    <section className="h-full rounded-md border border-white/[0.08] bg-[#1A2235] p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-white/[0.14] sm:p-6">
       <div className="mb-4 flex items-center gap-3">
-        <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-emerald-50 text-emerald-700">
+        <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
           <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
         </span>
         <h2 className="text-base font-semibold text-slate-950">Strengths</h2>
