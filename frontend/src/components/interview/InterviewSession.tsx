@@ -1,16 +1,16 @@
-import {
-  AlertTriangle,
-  Mic,
-  Send,
-  Square,
-  Volume2,
-  VolumeOff,
-} from "lucide-react";
-import type { FormEvent } from "react";
+import { AlertTriangle } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from "@/components/common/Button";
+import {
+  AIInterviewerCard,
+  type InterviewerStatus,
+} from "@/components/interview/AIInterviewerCard";
+import { CandidateCard } from "@/components/interview/CandidateCard";
+import { EndInterviewDialog } from "@/components/interview/EndInterviewDialog";
+import { InterviewControlBar } from "@/components/interview/InterviewControlBar";
 import { InterviewProgress } from "@/components/interview/InterviewProgress";
 import { InterviewQuestionCard } from "@/components/interview/InterviewQuestionCard";
+import { InterviewTimer } from "@/components/interview/InterviewTimer";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
 import type { InterviewQuestion } from "@/types/interview";
 
@@ -19,12 +19,14 @@ type InterviewSessionProps = {
   isLoading: boolean;
   isMuted: boolean;
   isSpeaking: boolean;
-  onSubmit: (answer: string) => void;
+  onEnd: () => void;
   onReplayQuestion: () => void;
+  onSubmit: (answer: string) => void;
   onToggleMute: () => void;
   question: InterviewQuestion;
   speechError: string | null;
   speechSupported: boolean;
+  startedAt: number;
 };
 
 export function InterviewSession({
@@ -32,12 +34,14 @@ export function InterviewSession({
   isLoading,
   isMuted,
   isSpeaking,
+  onEnd,
   onReplayQuestion,
   onSubmit,
   onToggleMute,
   question,
   speechError,
   speechSupported,
+  startedAt,
 }: InterviewSessionProps) {
   const {
     error,
@@ -47,9 +51,9 @@ export function InterviewSession({
     stopRecording,
     transcript,
   } = useSpeechRecognition();
+  const [showEndDialog, setShowEndDialog] = useState(false);
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function handleSubmit() {
     const trimmedTranscript = transcript.trim();
     if (!trimmedTranscript || isLoading || isRecording) {
       return;
@@ -57,140 +61,85 @@ export function InterviewSession({
     onSubmit(trimmedTranscript);
   }
 
+  function handleConfirmEnd() {
+    setShowEndDialog(false);
+    onEnd();
+  }
+
+  const interviewerStatus: InterviewerStatus = isSpeaking
+    ? "Speaking..."
+    : isLoading
+      ? "Thinking..."
+      : isRecording
+        ? "Listening..."
+        : "Waiting...";
+
   return (
-    <div className="space-y-5">
-      <section className="rounded-md border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <InterviewProgress
-          current={question.question_number}
-          total={question.total_questions}
-        />
-        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-slate-200 pt-4">
-          <Button
-            disabled={!speechSupported}
-            onClick={onToggleMute}
-            size="default"
-            variant="outline"
-          >
-            {isMuted ? (
-              <VolumeOff className="h-4 w-4" aria-hidden="true" />
-            ) : (
-              <Volume2 className="h-4 w-4" aria-hidden="true" />
-            )}
-            {isMuted ? "Unmute" : "Mute"}
-          </Button>
-          <Button
-            disabled={!speechSupported || isMuted || isSpeaking}
-            onClick={onReplayQuestion}
-            size="default"
-            variant="outline"
-          >
-            <Volume2 className="h-4 w-4" aria-hidden="true" />
-            Replay Question
-          </Button>
-          {isSpeaking ? (
-            <span
-              className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600"
-              role="status"
-            >
-              <span className="h-2 w-2 rounded-full bg-blue-500" />
-              Speaking...
-            </span>
-          ) : null}
+    <div className="space-y-4">
+      <section className="rounded-md border border-white/[0.08] bg-[#111827] p-4 shadow-xl sm:p-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0 flex-1">
+            <InterviewProgress
+              current={question.question_number}
+              total={question.total_questions}
+            />
+          </div>
+          <InterviewTimer startedAt={startedAt} />
         </div>
       </section>
 
       {feedback ? (
         <p
-          className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-800"
+          className="rounded-md border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-300"
           role="status"
         >
-          Answer recorded.
+          Answer recorded. The interviewer is preparing the next question.
         </p>
       ) : null}
 
       <InterviewQuestionCard question={question} />
 
-      {!speechSupported ? (
-        <VoiceError message="Voice playback is not supported in this browser. The interview will continue without spoken questions." />
+      <div className="grid gap-4 md:grid-cols-2">
+        <AIInterviewerCard status={interviewerStatus} />
+        <CandidateCard
+          error={error}
+          isRecording={isRecording}
+          isSupported={isSupported}
+          transcript={transcript}
+        />
+      </div>
+
+      {!speechSupported || speechError ? (
+        <VoiceError
+          message={
+            speechError ??
+            "Voice playback is unavailable. The interview will continue normally."
+          }
+        />
       ) : null}
 
-      {speechError ? <VoiceError message={speechError} /> : null}
-
-      <form
-        className="rounded-md border border-slate-200 bg-white p-5 shadow-sm sm:p-7"
+      <InterviewControlBar
+        canSubmit={Boolean(transcript.trim())}
+        isLoading={isLoading}
+        isMuted={isMuted}
+        isRecording={isRecording}
+        isSpeaking={isSpeaking}
+        onEnd={() => setShowEndDialog(true)}
+        onReplay={onReplayQuestion}
+        onStartRecording={startRecording}
+        onStopRecording={stopRecording}
         onSubmit={handleSubmit}
-      >
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h3 className="text-sm font-semibold text-slate-800">
-              Your Spoken Answer
-            </h3>
-            <p className="mt-1 text-xs leading-5 text-slate-500">
-              Record your answer, review the read-only transcript, then submit.
-            </p>
-          </div>
+        onToggleMute={onToggleMute}
+        recognitionSupported={isSupported}
+        speechSupported={speechSupported}
+      />
 
-          {isRecording ? (
-            <Button
-              disabled={isLoading}
-              onClick={stopRecording}
-              variant="outline"
-            >
-              <Square className="h-4 w-4 fill-current" aria-hidden="true" />
-              Stop Recording
-            </Button>
-          ) : (
-            <Button
-              disabled={!isSupported || isLoading || isSpeaking}
-              onClick={startRecording}
-              variant="outline"
-            >
-              <Mic className="h-4 w-4" aria-hidden="true" />
-              {transcript ? "Record Again" : "Start Recording"}
-            </Button>
-          )}
-        </div>
-
-        {isRecording ? (
-          <div
-            className="mt-5 flex items-center gap-3 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-800"
-            role="status"
-          >
-            <span className="h-2.5 w-2.5 rounded-full bg-red-500" />
-            Listening...
-          </div>
-        ) : null}
-
-        {!isSupported ? (
-          <VoiceError message="Speech recognition is not supported in this browser. Use a current version of Chrome or Edge." />
-        ) : null}
-
-        {error ? <VoiceError message={error} /> : null}
-
-        <div
-          aria-label="Speech transcript"
-          aria-live="polite"
-          aria-readonly="true"
-          className="mt-5 min-h-44 w-full whitespace-pre-wrap rounded-md border border-slate-300 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700"
-          role="textbox"
-        >
-          {transcript || (
-            <span className="text-slate-500">
-              Your live transcript will appear here while you speak.
-            </span>
-          )}
-        </div>
-
-        <div className="mt-4 flex justify-end">
-          <Button
-            disabled={!transcript.trim() || isLoading || isRecording}
-            type="submit"
-          >
-            <Send className="h-4 w-4" aria-hidden="true" />
-            {isLoading ? "Submitting..." : "Submit Answer"}
-          </Button>
-        </div>
-      </form>
+      <EndInterviewDialog
+        isEnding={isLoading}
+        onCancel={() => setShowEndDialog(false)}
+        onConfirm={handleConfirmEnd}
+        open={showEndDialog}
+      />
     </div>
   );
 }
@@ -198,7 +147,7 @@ export function InterviewSession({
 function VoiceError({ message }: { message: string }) {
   return (
     <div
-      className="mt-4 flex gap-3 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900"
+      className="flex gap-3 rounded-md border border-amber-400/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-200"
       role="alert"
     >
       <AlertTriangle
