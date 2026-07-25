@@ -1,6 +1,7 @@
 import {
   BookOpen,
   ClipboardCheck,
+  BriefcaseBusiness,
   LayoutDashboard,
   MessageCircle,
   MessagesSquare,
@@ -16,6 +17,11 @@ const sidebarItems = [
   { label: "Learning Plan", to: "/learning-plan", icon: BookOpen },
   { label: "Quiz", to: "/quiz", icon: ClipboardCheck },
   { label: "AI Mentor", to: "/mentor", icon: MessagesSquare },
+  {
+    label: "Mock Interview",
+    to: "/interview",
+    icon: BriefcaseBusiness,
+  },
   { label: "Progress", to: "/progress", icon: TrendingUp },
   {
     label: "Feedback and Nudges",
