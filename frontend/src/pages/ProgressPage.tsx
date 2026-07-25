@@ -1,4 +1,10 @@
+import { Layers3 } from "lucide-react";
+
 import { EmptyProgress } from "@/components/progress/EmptyProgress";
+import {
+  EstimatedCompletionCard,
+  type CompletionEstimate,
+} from "@/components/progress/EstimatedCompletionCard";
 import { NextActionCard } from "@/components/progress/NextActionCard";
 import { ProgressCards } from "@/components/progress/ProgressCards";
 import { ProgressHeader } from "@/components/progress/ProgressHeader";
@@ -26,9 +32,24 @@ export function ProgressPage() {
     progress,
     state.learningPlan
   );
+  const estimate = buildCompletionEstimate({
+    completedTopics: progress.completed_topics.length,
+    plan: state.learningPlan,
+    targetDeadline:
+      state.intent?.target_deadline ??
+      state.learningPlan?.target_deadline ??
+      null,
+    totalTopics:
+      state.learningPlan?.phases.reduce(
+        (total, phase) => total + phase.recommended_topics.length,
+        0
+      ) ??
+      progress.completed_topics.length + progress.remaining_topics.length,
+    userCreatedAt: state.user?.created_at ?? null,
+  });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <ProgressHeader
         currentStage={state.currentStage}
         goal={goal}
@@ -36,8 +57,10 @@ export function ProgressPage() {
         workflowCompleted={state.workflowCompleted}
       />
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-        <main className="space-y-6">
+      <EstimatedCompletionCard estimate={estimate} />
+
+      <div className="grid items-stretch gap-5 lg:grid-cols-12">
+        <main className="flex min-w-0 flex-col gap-5 lg:col-span-8">
           <ProgressOverview
             completionPercentage={progress.overall_completion_percentage}
             currentPhase={progress.current_phase}
@@ -54,7 +77,7 @@ export function ProgressPage() {
           <ProgressTimeline entries={timelineEntries} />
         </main>
 
-        <aside className="space-y-6">
+        <aside className="flex min-w-0 flex-col gap-5 lg:col-span-4">
           <NextActionCard nextAction={progress.next_recommended_task} />
           <TopicCard
             completedTopics={progress.completed_topics}
@@ -64,6 +87,103 @@ export function ProgressPage() {
       </div>
     </div>
   );
+}
+
+type CompletionEstimateInput = {
+  completedTopics: number;
+  plan: LearningPlan | null;
+  targetDeadline: string | null;
+  totalTopics: number;
+  userCreatedAt: string | null;
+};
+
+function buildCompletionEstimate({
+  completedTopics,
+  plan,
+  targetDeadline,
+  totalTopics,
+  userCreatedAt,
+}: CompletionEstimateInput): CompletionEstimate {
+  const today = startOfDay(new Date());
+  const targetDate = parseDate(targetDeadline);
+  const startDate =
+    parseDate(plan?.phases[0]?.start_date ?? null) ??
+    parseDate(userCreatedAt);
+  const daysRemaining = targetDate
+    ? Math.ceil((targetDate.getTime() - today.getTime()) / 86_400_000)
+    : null;
+
+  if (!targetDate || !startDate || totalTopics <= 0 || completedTopics < 2) {
+    return {
+      daysRemaining,
+      estimatedCompletionDate: null,
+      message:
+        "Complete a few more topics to estimate your completion date.",
+      status:
+        targetDate && daysRemaining !== null && daysRemaining < 0
+          ? "Behind Schedule"
+          : null,
+      targetDate,
+    };
+  }
+
+  if (completedTopics >= totalTopics) {
+    return {
+      daysRemaining,
+      estimatedCompletionDate: today,
+      message: "All roadmap topics are complete.",
+      status: today <= targetDate ? "On Track" : "Behind Schedule",
+      targetDate,
+    };
+  }
+
+  const elapsedDays = Math.max(
+    1,
+    Math.ceil((today.getTime() - startDate.getTime()) / 86_400_000)
+  );
+  const topicsPerDay = completedTopics / elapsedDays;
+  if (!Number.isFinite(topicsPerDay) || topicsPerDay <= 0) {
+    return {
+      daysRemaining,
+      estimatedCompletionDate: null,
+      message:
+        "Complete a few more topics to estimate your completion date.",
+      status: null,
+      targetDate,
+    };
+  }
+
+  const remainingTopics = totalTopics - completedTopics;
+  const projectedDays = Math.ceil(remainingTopics / topicsPerDay);
+  const estimatedCompletionDate = new Date(today);
+  estimatedCompletionDate.setDate(today.getDate() + projectedDays);
+
+  return {
+    daysRemaining,
+    estimatedCompletionDate,
+    message: `Based on ${completedTopics} completed topics over ${elapsedDays} ${
+      elapsedDays === 1 ? "day" : "days"
+    }.`,
+    status:
+      estimatedCompletionDate <= targetDate
+        ? "On Track"
+        : "Behind Schedule",
+    targetDate,
+  };
+}
+
+function parseDate(value: string | null): Date | null {
+  if (!value) {
+    return null;
+  }
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : startOfDay(parsed);
+}
+
+function startOfDay(date: Date): Date {
+  const normalized = new Date(date);
+  normalized.setHours(0, 0, 0, 0);
+  return normalized;
 }
 
 function buildTimelineEntries(
@@ -140,8 +260,18 @@ function TopicCard({ completedTopics, remainingTopics }: TopicCardProps) {
   }
 
   return (
-    <section className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
-      <h2 className="text-base font-semibold text-slate-950">Topics</h2>
+    <section className="flex flex-1 flex-col rounded-md border border-white/[0.08] bg-[#1A2235] p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-white/[0.14] sm:p-6">
+      <div className="flex items-center gap-3">
+        <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-violet-500 text-white">
+          <Layers3 className="h-5 w-5" aria-hidden="true" />
+        </span>
+        <div>
+          <p className="text-xs font-semibold uppercase text-slate-500">
+            Roadmap Coverage
+          </p>
+          <h2 className="mt-0.5 text-base font-bold text-slate-950">Topics</h2>
+        </div>
+      </div>
       {completedTopics.length > 0 ? (
         <div className="mt-4">
           <p className="text-xs font-semibold uppercase text-slate-500">

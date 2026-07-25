@@ -53,7 +53,7 @@ export function ProgressCards({
   }
 
   return (
-    <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    <section className="grid auto-rows-fr gap-5 sm:grid-cols-2">
       {cards.map((card) => (
         <ProgressMetricCard
           icon={card.icon}
@@ -78,8 +78,8 @@ function ProgressMetricCard({ icon, label, value }: ProgressMetricCardProps) {
   }
 
   return (
-    <article className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-md bg-slate-100 text-slate-700">
+    <article className="min-h-36 rounded-md border border-white/[0.08] bg-[#1A2235] p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-white/[0.14]">
+      <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-md bg-white/[0.06] text-blue-300">
         {icon}
       </div>
       <p className="text-sm font-semibold text-slate-500">{label}</p>

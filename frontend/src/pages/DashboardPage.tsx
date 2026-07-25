@@ -6,10 +6,13 @@ import { connectCalendar, createCalendarEvents } from "@/api/calendarApi";
 import { ConnectCalendarCard } from "@/components/calendar/ConnectCalendarCard";
 import { SchedulePreview } from "@/components/calendar/SchedulePreview";
 import { FeedbackCard } from "@/components/dashboard/FeedbackCard";
+import { InterviewAnalytics } from "@/components/dashboard/InterviewAnalytics";
 import { NudgeCard } from "@/components/dashboard/NudgeCard";
-import { SummaryCards } from "@/components/dashboard/SummaryCards";
+import { ProgressSummaryCard } from "@/components/dashboard/ProgressSummaryCard";
+import { QuickStats } from "@/components/dashboard/QuickStats";
+import { TodaysGoal } from "@/components/dashboard/TodaysGoal";
 import { WelcomeCard } from "@/components/dashboard/WelcomeCard";
-import { WorkflowStatus } from "@/components/dashboard/WorkflowStatus";
+import { WeeklyActivity } from "@/components/dashboard/WeeklyActivity";
 import { useSession } from "@/context/SessionContext";
 import {
   generateStudySchedule,
@@ -42,39 +45,68 @@ export function DashboardPage() {
   const learningGoal =
     state.intent?.learning_goal ?? state.learningPlan?.learning_goal ?? null;
   const subject = state.intent?.subject ?? state.learningPlan?.subject ?? null;
-  const currentSkillLevel =
-    state.intent?.current_skill_level ?? state.learningPlan?.learner_level ?? null;
-  const targetDeadline =
-    state.intent?.target_deadline ?? state.learningPlan?.target_deadline ?? null;
+  const topics =
+    state.learningPlan?.phases.flatMap((phase) => phase.recommended_topics) ?? [];
+  const completedTopics = Math.max(
+    Object.values(state.completedTopics).filter(Boolean).length,
+    state.progress?.completed_topics.length ?? 0
+  );
+  const progressPercentage =
+    state.progress?.overall_completion_percentage ??
+    (topics.length === 0
+      ? 0
+      : Math.round((completedTopics / topics.length) * 100));
+  const todaysTask =
+    state.progress?.next_recommended_task ??
+    state.progress?.remaining_topics[0] ??
+    topics.find((topic) => !state.progress?.completed_topics.includes(topic)) ??
+    null;
+  const estimatedMinutes = Math.min(
+    Math.max(
+      Math.round(
+        parseDailyStudyHours(
+          state.intent?.available_time ??
+            state.learningPlan?.total_available_time
+        ) * 60
+      ),
+      30
+    ),
+    120
+  );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <WelcomeCard
         learnerName={state.user?.name ?? null}
         learningGoal={learningGoal}
         subject={subject}
       />
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px]">
-        <div className="space-y-6">
-          <SummaryCards
-            currentSkillLevel={currentSkillLevel}
-            learningGoal={learningGoal}
-            progressSummary={state.progress?.summary ?? null}
-            subject={subject}
-            targetDeadline={targetDeadline}
-          />
-          <div className="grid gap-6 xl:grid-cols-2">
-            <FeedbackCard feedback={state.feedback} />
-            <NudgeCard nudge={state.nudges} />
-          </div>
-        </div>
+      <QuickStats
+        completedTopics={completedTopics}
+        totalTopics={topics.length}
+      />
 
-        <aside className="space-y-6">
-          <WorkflowStatus
-            currentStage={state.currentStage}
-            workflowCompleted={state.workflowCompleted}
+      <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-12">
+        <div className="xl:col-span-5">
+          <InterviewAnalytics />
+        </div>
+        <div className="xl:col-span-4">
+          <WeeklyActivity />
+        </div>
+        <div className="lg:col-span-2 xl:col-span-3">
+          <TodaysGoal
+            estimatedMinutes={estimatedMinutes}
+            progress={progressPercentage}
+            task={todaysTask}
           />
+        </div>
+      </div>
+
+      <div className="grid items-stretch gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <FeedbackCard feedback={state.feedback} />
+        <NudgeCard nudge={state.nudges} />
+        <div className="md:col-span-2 xl:col-span-1">
           <ConnectCalendarCard
             connected={state.calendar.connected}
             disabled={!state.learningPlan}
@@ -90,9 +122,15 @@ export function DashboardPage() {
               {calendarError}
             </p>
           ) : null}
-          <NavigationCard />
-        </aside>
+        </div>
       </div>
+
+      <ProgressSummaryCard
+        completedTopics={completedTopics}
+        percentage={progressPercentage}
+        summary={state.progress?.summary ?? null}
+        totalTopics={topics.length}
+      />
 
       {isPreviewOpen ? (
         <SchedulePreview
@@ -261,30 +299,6 @@ function EmptyDashboardState() {
         Start in Chat
         <ArrowRight className="h-4 w-4" aria-hidden="true" />
       </Link>
-    </section>
-  );
-}
-
-function NavigationCard() {
-  return (
-    <section className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
-      <h2 className="text-base font-semibold text-slate-950">Continue</h2>
-      <div className="mt-4 grid gap-3">
-        <Link
-          className="flex items-center justify-between rounded-md border border-slate-200 px-3 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-          to="/learning-plan"
-        >
-          Learning Plan
-          <ArrowRight className="h-4 w-4" aria-hidden="true" />
-        </Link>
-        <Link
-          className="flex items-center justify-between rounded-md border border-slate-200 px-3 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-          to="/progress"
-        >
-          Progress
-          <ArrowRight className="h-4 w-4" aria-hidden="true" />
-        </Link>
-      </div>
     </section>
   );
 }

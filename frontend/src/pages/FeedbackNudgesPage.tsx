@@ -27,7 +27,7 @@ export function FeedbackNudgesPage() {
     null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <FeedbackHeader
         currentStage={state.currentStage}
         goal={currentGoal}
@@ -35,40 +35,41 @@ export function FeedbackNudgesPage() {
         workflowCompleted={state.workflowCompleted}
       />
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-        <main className="space-y-6">
-          <FeedbackSummary
-            confidenceLevel={null}
-            motivationMessage={feedback?.motivation_message ?? null}
-            summary={feedback?.overall_performance_assessment ?? null}
-          />
-          <StrengthsCard strengths={feedback?.strengths ?? []} />
-          <ImprovementsCard
-            improvements={feedback?.areas_for_improvement ?? []}
-          />
-          <RecommendationsCard
-            recommendations={feedback?.personalized_study_recommendations ?? []}
-          />
-        </main>
+      <div className="grid items-stretch gap-5 md:grid-cols-2 [&>*:only-child]:md:col-span-2">
+        <FeedbackSummary
+          confidenceLevel={null}
+          motivationMessage={feedback?.motivation_message ?? null}
+          summary={feedback?.overall_performance_assessment ?? null}
+        />
+        <NudgeCard
+          message={nudge?.personalized_message ?? null}
+          recommendedAction={nudge?.recommended_action ?? null}
+          urgency={nudge?.urgency ?? null}
+        />
+      </div>
 
-        <aside className="space-y-6">
-          <NudgeCard
-            message={nudge?.personalized_message ?? null}
-            recommendedAction={nudge?.recommended_action ?? null}
-            urgency={nudge?.urgency ?? null}
-          />
-          <StudyInsights
-            completionPercentage={
-              state.progress?.overall_completion_percentage ?? null
-            }
-            currentGoal={currentGoal}
-            currentPhase={state.progress?.current_phase ?? null}
-            progressStatus={
-              state.progress?.learner_status ?? nudge?.learner_status ?? null
-            }
-            recommendedFocus={recommendedFocus}
-          />
-        </aside>
+      <div className="grid items-stretch gap-5 md:grid-cols-2 [&>*:only-child]:md:col-span-2">
+        <StrengthsCard strengths={feedback?.strengths ?? []} />
+        <ImprovementsCard
+          improvements={feedback?.areas_for_improvement ?? []}
+        />
+      </div>
+
+      <div className="grid items-stretch gap-5 lg:grid-cols-2 [&>*:only-child]:lg:col-span-2">
+        <RecommendationsCard
+          recommendations={feedback?.personalized_study_recommendations ?? []}
+        />
+        <StudyInsights
+          completionPercentage={
+            state.progress?.overall_completion_percentage ?? null
+          }
+          currentGoal={currentGoal}
+          currentPhase={state.progress?.current_phase ?? null}
+          progressStatus={
+            state.progress?.learner_status ?? nudge?.learner_status ?? null
+          }
+          recommendedFocus={recommendedFocus}
+        />
       </div>
     </div>
   );

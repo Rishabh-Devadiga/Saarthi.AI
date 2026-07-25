@@ -16,10 +16,10 @@ export function ProgressOverview({
   const boundedCompletion = Math.min(Math.max(completionPercentage, 0), 100);
 
   return (
-    <section className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
+    <section className="rounded-md border border-white/[0.08] bg-[#1A2235] p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-white/[0.14] sm:p-6">
       <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <div>
-          <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-md bg-slate-100 text-slate-700">
+          <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-violet-500 text-white">
             <Activity className="h-5 w-5" aria-hidden="true" />
           </div>
           <p className="text-sm font-semibold text-slate-500">
