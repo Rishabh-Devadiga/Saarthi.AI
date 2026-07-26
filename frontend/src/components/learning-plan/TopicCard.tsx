@@ -5,7 +5,7 @@ import type { YouTubeVideo } from "@/services/youtubeService";
 
 type TopicCardProps = {
   difficulty: "Beginner" | "Intermediate" | "Advanced";
-  duration: string;
+  estimatedTime: string | null;
   isCompleted: boolean;
   isVideoLoading: boolean;
   onToggle: (completed: boolean) => void;
@@ -15,7 +15,7 @@ type TopicCardProps = {
 
 export function TopicCard({
   difficulty,
-  duration,
+  estimatedTime,
   isCompleted,
   isVideoLoading,
   onToggle,
@@ -41,7 +41,11 @@ export function TopicCard({
               <div className="mt-2 flex flex-wrap gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">
                   <Clock3 className="h-3.5 w-3.5" aria-hidden="true" />
-                  {duration}
+                  {isVideoLoading
+                    ? "Estimating learning time..."
+                    : estimatedTime
+                      ? `Estimated Time: ${estimatedTime}`
+                      : "Estimated time unavailable."}
                 </span>
                 <span className="rounded-md bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-700">
                   {difficulty}
