@@ -1,7 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 
 type FeatureCardProps = {
-  comingSoon?: boolean;
   description: string;
   icon: LucideIcon;
   tone: "blue" | "violet" | "emerald" | "amber" | "rose" | "cyan";
@@ -18,7 +17,6 @@ const iconTones = {
 };
 
 export function FeatureCard({
-  comingSoon = false,
   description,
   icon: Icon,
   tone,
@@ -32,11 +30,6 @@ export function FeatureCard({
         >
           <Icon className="h-5 w-5" aria-hidden="true" />
         </span>
-        {comingSoon ? (
-          <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold uppercase text-slate-500">
-            Coming Soon
-          </span>
-        ) : null}
       </div>
       <h3 className="mt-5 text-lg font-semibold text-slate-950">{title}</h3>
       <p className="mt-2 text-sm leading-6 text-slate-600">{description}</p>

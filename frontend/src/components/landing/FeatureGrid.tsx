@@ -1,9 +1,11 @@
 import {
   BellRing,
+  Bot,
   BrainCircuit,
   CalendarDays,
   ChartNoAxesCombined,
-  MessageSquareText,
+  ClipboardCheck,
+  Mic,
   Youtube,
 } from "lucide-react";
 
@@ -13,46 +15,58 @@ const features = [
   {
     title: "AI Learning Planner",
     description:
-      "Creates a personalized, phased roadmap around your goal, current level, schedule, and deadline.",
+      "Creates a personalized, milestone-based learning roadmap based on your goal, current skill level, schedule, and target deadline.",
     icon: BrainCircuit,
     tone: "blue" as const,
   },
   {
     title: "Progress Tracking",
     description:
-      "Tracks milestones, completion, remaining topics, and the next best action across your roadmap.",
+      "Monitor completion, milestones, estimated completion date, upcoming tasks, and overall learning progress in real time.",
     icon: ChartNoAxesCombined,
     tone: "emerald" as const,
   },
   {
-    title: "Adaptive Feedback",
+    title: "AI Mentor",
     description:
-      "Turns your current progress into practical strengths, improvement areas, and focused study guidance.",
-    icon: MessageSquareText,
+      "Chat with an AI mentor for concept explanations, doubt solving, study guidance, and personalized learning support.",
+    icon: Bot,
     tone: "violet" as const,
   },
   {
-    title: "Smart Nudges",
+    title: "Quiz & Knowledge Checks",
     description:
-      "Keeps your momentum visible with timely motivation, reminders, and accountable next steps.",
-    icon: BellRing,
+      "Generate AI-powered quizzes to assess your understanding and identify concepts that need revision.",
+    icon: ClipboardCheck,
     tone: "amber" as const,
+  },
+  {
+    title: "Mock Interview",
+    description:
+      "Practice AI-powered mock interviews with voice interaction, instant evaluation, and detailed performance feedback.",
+    icon: Mic,
+    tone: "rose" as const,
+  },
+  {
+    title: "Smart Feedback & Nudges",
+    description:
+      "Receive personalized feedback, actionable recommendations, and intelligent nudges to stay on track.",
+    icon: BellRing,
+    tone: "cyan" as const,
   },
   {
     title: "YouTube Learning Resources",
     description:
-      "Will recommend relevant educational videos that align with each phase of your learning plan.",
+      "Access curated YouTube learning resources for every topic, complete with estimated learning time based on real video durations.",
     icon: Youtube,
     tone: "rose" as const,
-    comingSoon: true,
   },
   {
-    title: "Google Calendar Sync",
+    title: "Google Calendar Integration",
     description:
-      "Will turn roadmap milestones into scheduled study sessions and helpful reminders.",
+      "Sync your learning roadmap with Google Calendar to schedule study sessions and stay accountable.",
     icon: CalendarDays,
-    tone: "cyan" as const,
-    comingSoon: true,
+    tone: "blue" as const,
   },
 ];
 
@@ -76,7 +90,7 @@ export function FeatureGrid() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {features.map((feature) => (
             <FeatureCard key={feature.title} {...feature} />
           ))}
