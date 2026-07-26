@@ -1,4 +1,8 @@
 import { parseYouTubeDuration } from "@/utils/youtubeDuration";
+import {
+  loadApiKeys,
+  StickyApiKeyPool,
+} from "@/utils/apiKeyRotation";
 
 export type YouTubeVideo = {
   title: string;
@@ -44,9 +48,26 @@ type YouTubeVideosResponse = {
   }>;
 };
 
-const YOUTUBE_API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY as
-  | string
-  | undefined;
+class YouTubeApiError extends YouTubeSearchError {
+  constructor(
+    message: string,
+    readonly retryable: boolean
+  ) {
+    super(message);
+    this.name = "YouTubeApiError";
+  }
+}
+
+const youtubeApiKeys = loadApiKeys(
+  [
+    import.meta.env.VITE_YOUTUBE_API_KEY_1,
+    import.meta.env.VITE_YOUTUBE_API_KEY_2,
+    import.meta.env.VITE_YOUTUBE_API_KEY_3,
+    import.meta.env.VITE_YOUTUBE_API_KEY_4,
+  ],
+  import.meta.env.VITE_YOUTUBE_API_KEY
+);
+const youtubeKeyPool = new StickyApiKeyPool("YouTube", youtubeApiKeys);
 const tutorialCache = new Map<string, YouTubeVideo[]>();
 const tutorialErrors = new Map<string, YouTubeSearchError>();
 const tutorialRequests = new Map<string, Promise<YouTubeVideo[]>>();
@@ -97,12 +118,7 @@ async function fetchYouTubeTutorials(
   topic: string,
   topicCacheKey: string
 ): Promise<YouTubeVideo[]> {
-  if (!YOUTUBE_API_KEY) {
-    throw new YouTubeSearchError("YouTube API key is not configured.");
-  }
-
   const params = new URLSearchParams({
-    key: YOUTUBE_API_KEY,
     part: "snippet",
     maxResults: "3",
     q: `${topic} tutorial`,
@@ -111,14 +127,7 @@ async function fetchYouTubeTutorials(
     videoEmbeddable: "true",
   });
 
-  const response = await fetch(
-    `https://www.googleapis.com/youtube/v3/search?${params.toString()}`
-  );
-
-  if (!response.ok) {
-    const message = await getYouTubeErrorMessage(response);
-    throw new YouTubeSearchError(message);
-  }
+  const response = await fetchYouTube("search", params);
 
   const payload = (await response.json()) as YouTubeSearchResponse;
   const candidates =
@@ -163,23 +172,17 @@ async function fetchYouTubeTutorials(
 async function fetchVideoDurations(
   videoIds: string[]
 ): Promise<Map<string, number>> {
-  if (!YOUTUBE_API_KEY || videoIds.length === 0) {
+  if (videoIds.length === 0) {
     return new Map();
   }
 
   const params = new URLSearchParams({
-    key: YOUTUBE_API_KEY,
     part: "contentDetails",
     id: videoIds.join(","),
   });
 
   try {
-    const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?${params.toString()}`
-    );
-    if (!response.ok) {
-      return new Map();
-    }
+    const response = await fetchYouTube("videos", params);
 
     const payload = (await response.json()) as YouTubeVideosResponse;
     return new Map(
@@ -198,16 +201,59 @@ async function fetchVideoDurations(
   }
 }
 
-async function getYouTubeErrorMessage(response: Response): Promise<string> {
+async function fetchYouTube(
+  resource: "search" | "videos",
+  params: URLSearchParams
+): Promise<Response> {
+  return youtubeKeyPool.execute(async (apiKey) => {
+    const requestParams = new URLSearchParams(params);
+    requestParams.set("key", apiKey);
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/${resource}?${requestParams.toString()}`
+    );
+    if (!response.ok) {
+      throw await createYouTubeApiError(response);
+    }
+    return response;
+  }, isRetryableYouTubeError);
+}
+
+function isRetryableYouTubeError(error: unknown): boolean {
+  return error instanceof YouTubeApiError && error.retryable;
+}
+
+async function createYouTubeApiError(
+  response: Response
+): Promise<YouTubeApiError> {
   try {
     const payload = (await response.json()) as {
-      error?: { message?: string; status?: string };
+      error?: {
+        message?: string;
+        status?: string;
+        errors?: Array<{ reason?: string }>;
+      };
     };
-    return payload.error?.message
+    const reasons =
+      payload.error?.errors?.map((error) => error.reason ?? "") ?? [];
+    const retryable =
+      response.status === 429 ||
+      response.status >= 500 ||
+      reasons.some((reason) =>
+        [
+          "quotaExceeded",
+          "rateLimitExceeded",
+          "userRateLimitExceeded",
+        ].includes(reason)
+      );
+    const message = payload.error?.message
       ? `YouTube API error: ${payload.error.message}`
       : `YouTube API request failed with status ${response.status}.`;
+    return new YouTubeApiError(message, retryable);
   } catch {
-    return `YouTube API request failed with status ${response.status}.`;
+    return new YouTubeApiError(
+      `YouTube API request failed with status ${response.status}.`,
+      response.status === 429 || response.status >= 500
+    );
   }
 }
 

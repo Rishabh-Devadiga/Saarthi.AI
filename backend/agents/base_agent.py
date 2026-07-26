@@ -10,7 +10,8 @@ from collections.abc import Callable
 from itertools import count
 from typing import TypeVar
 
-from crewai import Agent, LLM
+from crewai import Agent
+from crewai.llms.base_llm import BaseLLM
 from google.genai import models as genai_models
 
 from backend.core.llm import get_gemini_llm
@@ -50,7 +51,7 @@ def create_base_agent(
     role: str,
     goal: str,
     backstory: str,
-    llm: LLM | None = None,
+    llm: BaseLLM | None = None,
     verbose: bool = False,
     allow_delegation: bool = False,
     max_iter: int = 5,
