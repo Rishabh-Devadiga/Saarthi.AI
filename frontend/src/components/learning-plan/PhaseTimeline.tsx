@@ -7,7 +7,7 @@ type PhaseTimelineProps = {
   loadingTopics: Record<string, boolean>;
   onToggleTopic: (phaseNumber: number, topic: string, completed: boolean) => void;
   phases: LearningPhase[];
-  videos: Record<string, YouTubeVideo | null>;
+  videos: Record<string, YouTubeVideo[]>;
 };
 
 export function PhaseTimeline({

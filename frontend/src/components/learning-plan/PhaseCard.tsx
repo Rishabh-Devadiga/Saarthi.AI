@@ -13,7 +13,7 @@ type PhaseCardProps = {
   loadingTopics: Record<string, boolean>;
   onToggleTopic: (phaseNumber: number, topic: string, completed: boolean) => void;
   phase: LearningPhase;
-  videos: Record<string, YouTubeVideo | null>;
+  videos: Record<string, YouTubeVideo[]>;
 };
 
 export function PhaseCard({
@@ -69,7 +69,6 @@ export function PhaseCard({
         completedTopics={completedTopics}
         loadingTopics={loadingTopics}
         onToggleTopic={onToggleTopic}
-        phaseDuration={phase.estimated_duration}
         phaseNumber={phase.phase_number}
         topics={phase.recommended_topics}
         videos={videos}

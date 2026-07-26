@@ -6,7 +6,7 @@ import { PhaseTimeline } from "@/components/learning-plan/PhaseTimeline";
 import { PlanHeader } from "@/components/learning-plan/PlanHeader";
 import { useSession } from "@/context/SessionContext";
 import {
-  searchYouTubeTutorial,
+  searchYouTubeTutorials,
   YouTubeSearchError,
   type YouTubeVideo,
 } from "@/services/youtubeService";
@@ -15,10 +15,10 @@ import { getTopicKey } from "@/utils/learningPlan";
 export function LearningPlanPage() {
   const { state, toggleTopicCompletion } = useSession();
   const plan = state.learningPlan;
-  const [videos, setVideos] = useState<Record<string, YouTubeVideo | null>>({});
+  const [videos, setVideos] = useState<Record<string, YouTubeVideo[]>>({});
   const [loadingTopics, setLoadingTopics] = useState<Record<string, boolean>>({});
   const [youtubeError, setYoutubeError] = useState<string | null>(null);
-  const fetchedTopicsRef = useRef<Record<string, YouTubeVideo | null>>({});
+  const fetchedTopicsRef = useRef<Record<string, YouTubeVideo[]>>({});
   const requestedTopicsRef = useRef<Set<string>>(new Set());
   const activePlanKeyRef = useRef<string | null>(null);
   const planKey = useMemo(
@@ -93,13 +93,13 @@ export function LearningPlanPage() {
 
     void Promise.allSettled(
       uniqueMissingTopics.map(async (entry) => {
-        const video = await searchYouTubeTutorial(entry.topic).catch((error) => {
+        const videos = await searchYouTubeTutorials(entry.topic).catch((error) => {
           if (error instanceof YouTubeSearchError) {
             throw error;
           }
           throw new YouTubeSearchError("Unable to load YouTube tutorials.");
         });
-        return { topicCacheKey: entry.topicCacheKey, video };
+        return { topicCacheKey: entry.topicCacheKey, videos };
       })
     )
       .then((settledResults) => {
@@ -111,11 +111,11 @@ export function LearningPlanPage() {
         settledResults.forEach((result, index) => {
           const topic = uniqueMissingTopics[index];
           if (result.status === "fulfilled") {
-            fetchedTopicsRef.current[topic.topicCacheKey] = result.value.video;
+            fetchedTopicsRef.current[topic.topicCacheKey] = result.value.videos;
             return;
           }
 
-          fetchedTopicsRef.current[topic.topicCacheKey] = null;
+          fetchedTopicsRef.current[topic.topicCacheKey] = [];
           failures.push(
             result.reason instanceof Error
               ? `${topic.topic}: ${result.reason.message}`
@@ -133,7 +133,7 @@ export function LearningPlanPage() {
           ...Object.fromEntries(
             topicEntries.map((entry) => [
               entry.key,
-              fetchedTopicsRef.current[entry.topicCacheKey] ?? null,
+              fetchedTopicsRef.current[entry.topicCacheKey] ?? [],
             ])
           ),
         }));

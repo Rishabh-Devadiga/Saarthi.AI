@@ -3,13 +3,13 @@ import { ListChecks } from "lucide-react";
 import { TopicCard } from "@/components/learning-plan/TopicCard";
 import type { YouTubeVideo } from "@/services/youtubeService";
 import { getTopicKey } from "@/utils/learningPlan";
+import { getEstimatedLearningTime } from "@/utils/youtubeDuration";
 
 type TopicChecklistProps = {
   completedTopics: Record<string, boolean>;
-  phaseDuration: string;
   phaseNumber: number;
   topics: string[];
-  videos: Record<string, YouTubeVideo | null>;
+  videos: Record<string, YouTubeVideo[]>;
   loadingTopics: Record<string, boolean>;
   onToggleTopic: (phaseNumber: number, topic: string, completed: boolean) => void;
 };
@@ -18,7 +18,6 @@ export function TopicChecklist({
   completedTopics,
   loadingTopics,
   onToggleTopic,
-  phaseDuration,
   phaseNumber,
   topics,
   videos,
@@ -36,10 +35,11 @@ export function TopicChecklist({
       <div className="grid gap-3">
         {topics.map((topic, index) => {
           const topicKey = getTopicKey(phaseNumber, topic);
+          const topicVideos = videos[topicKey] ?? [];
           return (
             <TopicCard
               difficulty={getDifficulty(index, topics.length)}
-              duration={estimateTopicDuration(phaseDuration, topics.length)}
+              estimatedTime={getEstimatedLearningTime(topicVideos)}
               isCompleted={completedTopics[topicKey] ?? false}
               isVideoLoading={loadingTopics[topicKey] ?? false}
               key={topicKey}
@@ -47,7 +47,7 @@ export function TopicChecklist({
                 onToggleTopic(phaseNumber, topic, completed)
               }
               topic={topic}
-              video={videos[topicKey] ?? null}
+              video={topicVideos[0] ?? null}
             />
           );
         })}
@@ -68,12 +68,4 @@ function getDifficulty(
     return "Intermediate";
   }
   return "Advanced";
-}
-
-function estimateTopicDuration(phaseDuration: string, topicCount: number): string {
-  if (topicCount <= 1 || !phaseDuration.trim()) {
-    return phaseDuration || "Self-paced";
-  }
-
-  return `${phaseDuration} phase`;
 }
