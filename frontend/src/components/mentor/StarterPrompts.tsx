@@ -31,7 +31,7 @@ export function StarterPrompts({
       <div className="mt-7 grid w-full gap-3 sm:grid-cols-2">
         {STARTER_PROMPTS.map((prompt) => (
           <button
-            className="flex items-start gap-3 rounded-md border border-slate-200 bg-white p-4 text-left text-sm font-semibold leading-6 text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:bg-blue-50 disabled:opacity-50"
+            className="glass-control flex items-start gap-3 rounded-md p-4 text-left text-sm font-semibold leading-6 text-slate-800 transition hover:-translate-y-0.5 hover:border-blue-300 disabled:opacity-50"
             disabled={disabled}
             key={prompt}
             onClick={() => onSelect(prompt)}

@@ -37,7 +37,7 @@ export function ChatInput({
           Include your target role, current level, timeline, and study time.
         </p>
         <button
-          className="inline-flex items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+          className="blue-pill inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-black text-white transition disabled:cursor-not-allowed disabled:opacity-60"
           disabled={isSubmitting}
           onClick={onSubmit}
           type="button"

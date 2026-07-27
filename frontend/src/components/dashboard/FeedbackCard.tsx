@@ -8,26 +8,26 @@ type FeedbackCardProps = {
 
 export function FeedbackCard({ feedback }: FeedbackCardProps) {
   return (
-    <section className="h-full rounded-md border border-white/[0.08] bg-[#1A2235] p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-white/[0.14]">
+    <section className="metric-card h-full p-5 transition hover:-translate-y-0.5">
       <div className="mb-4 flex items-center gap-3">
-        <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-violet-500 to-blue-500 text-white">
+        <span className="blue-pill inline-flex h-10 w-10 items-center justify-center rounded-full text-white">
           <Lightbulb className="h-5 w-5" aria-hidden="true" />
         </span>
-        <h2 className="text-base font-semibold text-slate-950">
-          Latest Feedback
-        </h2>
+        <h2 className="text-base font-black text-slate-950">Latest Feedback</h2>
       </div>
       {feedback ? (
         <div className="space-y-3">
-          <p className="text-sm leading-6 text-slate-700">
+          <p className="text-sm font-medium leading-6 text-slate-600">
             {feedback.overall_performance_assessment}
           </p>
-          <p className="rounded-md bg-slate-50 p-3 text-sm font-medium leading-6 text-slate-800">
+          <p className="glass-control rounded-[18px] p-3 text-sm font-bold leading-6 text-slate-800">
             {feedback.motivation_message}
           </p>
         </div>
       ) : (
-        <p className="text-sm text-slate-600">No feedback available yet.</p>
+        <p className="text-sm font-semibold text-slate-500">
+          No feedback available yet.
+        </p>
       )}
     </section>
   );

@@ -17,7 +17,7 @@ export function CalendarActions({
 }: CalendarActionsProps) {
   return connected ? (
     <button
-      className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+      className="blue-pill inline-flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-black text-white transition disabled:cursor-not-allowed disabled:opacity-60"
       disabled={disabled || isBusy}
       onClick={onGenerateSchedule}
       type="button"
@@ -31,7 +31,7 @@ export function CalendarActions({
     </button>
   ) : (
     <button
-      className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+      className="blue-pill inline-flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-black text-white transition disabled:cursor-not-allowed disabled:opacity-60"
       disabled={isBusy}
       onClick={onConnect}
       type="button"

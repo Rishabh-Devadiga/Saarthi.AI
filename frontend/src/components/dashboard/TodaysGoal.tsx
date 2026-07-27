@@ -15,42 +15,44 @@ export function TodaysGoal({
   const normalizedProgress = Math.min(Math.max(progress, 0), 100);
 
   return (
-    <section className="flex h-full min-h-72 flex-col rounded-md border border-white/[0.08] bg-[#1A2235] p-5 shadow-sm sm:p-6">
-      <div className="flex items-center gap-3">
-        <span className="flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-emerald-500 to-teal-500 text-white">
+    <section className="metric-card flex h-full min-h-72 flex-col p-5 sm:p-6">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 className="font-black text-slate-950">Today&apos;s Goal</h2>
+          <p className="mt-0.5 text-xs font-semibold text-slate-500">
+            Recommended next step
+          </p>
+        </div>
+        <span className="blue-pill flex h-10 w-10 items-center justify-center rounded-full text-white">
           <Target className="h-5 w-5" aria-hidden="true" />
         </span>
-        <div>
-          <h2 className="font-bold text-white">Today&apos;s Goal</h2>
-          <p className="mt-0.5 text-xs text-slate-400">Recommended next step</p>
-        </div>
       </div>
 
-      <div className="mt-6 flex-1">
-        <p className="text-base font-bold leading-6 text-white">
-          {task ?? "Your next roadmap task will appear here."}
-        </p>
-        <div className="mt-5 flex items-center gap-2 text-sm text-slate-300">
-          <Clock3 className="h-4 w-4 text-blue-400" aria-hidden="true" />
-          {estimatedMinutes} min estimated
+      <div className="mt-6 flex flex-1 flex-col items-center text-center">
+        <div
+          className="grid h-32 w-32 place-items-center rounded-full"
+          style={{
+            background: `conic-gradient(#4058ff ${normalizedProgress * 3.6}deg, #e3e6ef 0deg)`,
+          }}
+        >
+          <div className="grid h-24 w-24 place-items-center rounded-full bg-white shadow-inner">
+            <span className="text-2xl font-black text-slate-950">
+              {normalizedProgress}%
+            </span>
+          </div>
         </div>
 
-        <div className="mt-6 space-y-2">
-          <div className="flex items-center justify-between text-xs font-semibold">
-            <span className="text-slate-400">Overall progress</span>
-            <span className="text-white">{normalizedProgress}%</span>
-          </div>
-          <div className="h-2 overflow-hidden rounded-full bg-white/10">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500"
-              style={{ width: `${normalizedProgress}%` }}
-            />
-          </div>
+        <p className="mt-5 text-base font-black leading-6 text-slate-950">
+          {task ?? "Your next roadmap task will appear here."}
+        </p>
+        <div className="mt-3 flex items-center gap-2 text-sm font-bold text-slate-500">
+          <Clock3 className="h-4 w-4 text-blue-600" aria-hidden="true" />
+          {estimatedMinutes} min estimated
         </div>
       </div>
 
       <Link
-        className="mt-6 inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-gradient-to-r from-blue-500 to-violet-500 px-4 text-sm font-bold text-white transition hover:-translate-y-0.5"
+        className="blue-pill mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-4 text-sm font-black text-white"
         to="/learning-plan"
       >
         Continue Learning

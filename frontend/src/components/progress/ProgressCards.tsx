@@ -78,8 +78,8 @@ function ProgressMetricCard({ icon, label, value }: ProgressMetricCardProps) {
   }
 
   return (
-    <article className="min-h-36 rounded-md border border-white/[0.08] bg-[#1A2235] p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-white/[0.14]">
-      <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-md bg-white/[0.06] text-blue-300">
+    <article className="glass-panel min-h-36 rounded-[24px] p-5 transition hover:-translate-y-0.5">
+      <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-[16px] bg-blue-50 text-blue-600">
         {icon}
       </div>
       <p className="text-sm font-semibold text-slate-500">{label}</p>

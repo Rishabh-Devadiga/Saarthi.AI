@@ -16,7 +16,7 @@ export function ProgressOverview({
   const boundedCompletion = Math.min(Math.max(completionPercentage, 0), 100);
 
   return (
-    <section className="rounded-md border border-white/[0.08] bg-[#1A2235] p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-white/[0.14] sm:p-6">
+    <section className="glass-panel rounded-[24px] p-5 transition hover:-translate-y-0.5 sm:p-6">
       <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <div>
           <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-violet-500 text-white">
@@ -32,7 +32,7 @@ export function ProgressOverview({
             {summary}
           </p>
         </div>
-        <div className="min-w-36 rounded-md bg-slate-950 p-4 text-white">
+        <div className="blue-pill min-w-36 rounded-[18px] p-4 text-white">
           <p className="text-xs font-semibold uppercase text-slate-300">
             Completion
           </p>
@@ -41,7 +41,7 @@ export function ProgressOverview({
       </div>
       <div className="mt-5 h-3 overflow-hidden rounded-full bg-slate-100">
         <div
-          className="h-full rounded-full bg-slate-900 transition-all"
+          className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500 transition-all"
           style={{ width: `${boundedCompletion}%` }}
         />
       </div>

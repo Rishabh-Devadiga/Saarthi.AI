@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpenCheck } from "lucide-react";
+import { ArrowRight, BookOpenCheck, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 
 type WelcomeCardProps = {
@@ -13,34 +13,35 @@ export function WelcomeCard({
   subject,
 }: WelcomeCardProps) {
   return (
-    <section className="rounded-md border border-white/[0.08] bg-[linear-gradient(120deg,#1A2235,rgba(30,41,59,0.82))] p-6 shadow-sm sm:p-7">
-      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+    <section className="glass-panel rounded-[26px] p-5 sm:p-6">
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
         <div>
-          <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-violet-500 text-white">
-            <BookOpenCheck className="h-5 w-5" aria-hidden="true" />
+          <div className="glass-control mb-4 inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-black text-blue-600">
+            <Sparkles className="h-4 w-4" aria-hidden="true" />
+            Active learning workspace
           </div>
-          <p className="text-sm font-semibold text-slate-400">
+          <p className="text-sm font-bold text-slate-500">
             Welcome{learnerName ? `, ${learnerName}` : ""}
           </p>
-          <h1 className="mt-2 text-2xl font-bold tracking-normal text-white sm:text-3xl">
-            Your learning dashboard
-          </h1>
-          {learningGoal ? (
-            <p className="mt-3 max-w-2xl text-base leading-7 text-slate-300">
-              {learningGoal}
-            </p>
-          ) : null}
+          <h2 className="mt-1 text-2xl font-black tracking-normal text-slate-950 sm:text-3xl">
+            Your personal learning report
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm font-medium leading-6 text-slate-600 sm:text-base">
+            {learningGoal ??
+              "Build a roadmap from chat, then track study goals, feedback, nudges, and schedules here."}
+          </p>
         </div>
-        <div className="flex shrink-0 flex-col gap-3 sm:flex-row md:flex-col">
+
+        <div className="flex shrink-0 flex-col gap-3 sm:flex-row lg:flex-col">
           <Link
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-gradient-to-r from-blue-500 to-violet-500 px-5 text-sm font-bold text-white transition hover:-translate-y-0.5"
+            className="blue-pill inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 text-sm font-black text-white"
             to="/learning-plan"
           >
             Learning Plan
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
           <Link
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-white/10 px-5 text-sm font-bold text-slate-200 transition hover:bg-white/[0.05]"
+            className="glass-control inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-5 text-sm font-black text-slate-800"
             to="/progress"
           >
             Progress
@@ -48,9 +49,11 @@ export function WelcomeCard({
           </Link>
         </div>
       </div>
+
       {subject ? (
-        <div className="mt-5 inline-flex rounded-md bg-white/[0.05] px-3 py-2 text-sm font-semibold text-blue-200">
-          Subject: {subject}
+        <div className="glass-control mt-5 inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-bold text-slate-700">
+          <BookOpenCheck className="h-4 w-4 text-blue-600" aria-hidden="true" />
+          {subject}
         </div>
       ) : null}
     </section>
