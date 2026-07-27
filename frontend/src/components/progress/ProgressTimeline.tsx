@@ -15,7 +15,7 @@ export function ProgressTimeline({ entries }: ProgressTimelineProps) {
   }
 
   return (
-    <section className="flex flex-1 flex-col rounded-md border border-white/[0.08] bg-[#1A2235] p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-white/[0.14] sm:p-6">
+    <section className="glass-panel flex flex-1 flex-col rounded-[24px] p-5 transition hover:-translate-y-0.5 sm:p-6">
       <div className="flex items-center gap-3">
         <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-violet-500 to-blue-500 text-white">
           <ListChecks className="h-5 w-5" aria-hidden="true" />
@@ -32,7 +32,7 @@ export function ProgressTimeline({ entries }: ProgressTimelineProps) {
       <div className="mt-5 flex-1 space-y-3">
         {entries.map((entry) => (
           <div
-            className="flex items-start gap-3 rounded-md bg-slate-50 p-3"
+            className="glass-control flex items-start gap-3 rounded-[18px] p-3"
             key={`${entry.status}-${entry.label}`}
           >
             <TimelineIcon status={entry.status} />

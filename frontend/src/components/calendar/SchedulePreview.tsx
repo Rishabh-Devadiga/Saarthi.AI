@@ -21,32 +21,32 @@ export function SchedulePreview({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4">
-      <section className="max-h-[90vh] w-full max-w-3xl overflow-hidden rounded-md bg-white shadow-xl">
-        <div className="flex items-center justify-between border-b border-slate-200 p-5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/30 p-4 backdrop-blur-sm">
+      <section className="glass-panel max-h-[90vh] w-full max-w-3xl overflow-hidden rounded-[28px]">
+        <div className="flex items-center justify-between border-b border-white/70 p-5">
           <div>
-            <h2 className="text-lg font-bold text-slate-950">Review Schedule</h2>
-            <p className="mt-1 text-sm text-slate-600">
+            <h2 className="text-lg font-black text-slate-950">Review Schedule</h2>
+            <p className="mt-1 text-sm font-medium text-slate-600">
               {events.length} study sessions will be added to your primary calendar.
             </p>
           </div>
           <button
             aria-label="Close schedule preview"
-            className="rounded-md p-2 text-slate-500 transition hover:bg-slate-100"
+            className="glass-control rounded-full p-2 text-slate-600"
             onClick={onCancel}
             type="button"
           >
             <X className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
-        <div className="max-h-[60vh] space-y-3 overflow-y-auto bg-slate-50 p-5">
+        <div className="max-h-[60vh] space-y-3 overflow-y-auto bg-white/25 p-5">
           {events.map((event) => (
             <ScheduleEventCard event={event} key={event.id} />
           ))}
         </div>
-        <div className="flex flex-col gap-3 border-t border-slate-200 p-5 sm:flex-row sm:justify-end">
+        <div className="flex flex-col gap-3 border-t border-white/70 p-5 sm:flex-row sm:justify-end">
           <button
-            className="rounded-md border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+            className="glass-control rounded-full px-5 py-2.5 text-sm font-black text-slate-700"
             disabled={isCreating}
             onClick={onCancel}
             type="button"
@@ -54,7 +54,7 @@ export function SchedulePreview({
             Cancel
           </button>
           <button
-            className="rounded-md bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:bg-slate-400"
+            className="blue-pill rounded-full px-5 py-2.5 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-60"
             disabled={isCreating}
             onClick={onCreate}
             type="button"

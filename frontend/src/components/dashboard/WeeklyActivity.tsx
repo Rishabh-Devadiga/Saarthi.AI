@@ -20,17 +20,17 @@ const activity = [
 
 export function WeeklyActivity() {
   return (
-    <section className="h-full min-h-72 rounded-md border border-white/[0.08] bg-[#1A2235] p-5 shadow-sm sm:p-6">
-      <div className="flex items-center gap-3">
-        <span className="flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-violet-500 to-blue-500 text-white">
-          <CalendarDays className="h-5 w-5" aria-hidden="true" />
-        </span>
+    <section className="metric-card h-full min-h-72 p-5 sm:p-6">
+      <div className="flex items-center justify-between gap-3">
         <div>
-          <h2 className="font-bold text-white">Weekly Learning Activity</h2>
-          <p className="mt-0.5 text-xs text-slate-400">
+          <h2 className="font-black text-slate-950">Study Habits</h2>
+          <p className="mt-0.5 text-xs font-semibold text-slate-500">
             Example activity until history is available
           </p>
         </div>
+        <span className="glass-control flex h-10 w-10 items-center justify-center rounded-full text-blue-600">
+          <CalendarDays className="h-5 w-5" aria-hidden="true" />
+        </span>
       </div>
 
       <div className="mt-5 h-44">
@@ -39,25 +39,26 @@ export function WeeklyActivity() {
             <XAxis
               axisLine={false}
               dataKey="day"
-              tick={{ fill: "#94a3b8", fontSize: 11 }}
+              tick={{ fill: "#8993a5", fontSize: 11, fontWeight: 700 }}
               tickLine={false}
             />
             <YAxis hide domain={[0, 60]} />
             <Tooltip
               contentStyle={{
                 background: "#111827",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: 8,
+                border: "0",
+                borderRadius: 16,
                 color: "#fff",
+                boxShadow: "0 16px 40px rgba(15,23,42,0.22)",
               }}
-              cursor={{ fill: "rgba(255,255,255,0.03)" }}
+              cursor={{ fill: "rgba(64,88,255,0.06)" }}
               formatter={(value) => [`${String(value)} min`, "Learning"]}
             />
             <Bar
               dataKey="minutes"
-              fill="#6366f1"
-              maxBarSize={28}
-              radius={[5, 5, 0, 0]}
+              fill="#3f51ff"
+              maxBarSize={30}
+              radius={[10, 10, 10, 10]}
             />
           </BarChart>
         </ResponsiveContainer>

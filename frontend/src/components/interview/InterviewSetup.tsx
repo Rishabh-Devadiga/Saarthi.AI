@@ -99,7 +99,7 @@ export function InterviewSetup({
                 className={cn(
                   "rounded-md border px-4 py-3 text-sm font-semibold",
                   difficulty === option
-                    ? "border-blue-500 bg-blue-50 text-blue-700"
+                    ? "blue-pill border-blue-500 text-white"
                     : "border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300"
                 )}
                 key={option}
@@ -120,7 +120,7 @@ export function InterviewSetup({
                 className={cn(
                   "rounded-md border px-4 py-3 text-sm font-semibold",
                   numberOfQuestions === count
-                    ? "border-violet-500 bg-violet-50 text-violet-700"
+                    ? "blue-pill border-violet-500 text-white"
                     : "border-slate-200 bg-slate-50 text-slate-700 hover:border-slate-300"
                 )}
                 key={count}

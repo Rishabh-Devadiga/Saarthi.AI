@@ -22,14 +22,14 @@ export function ConnectCalendarCard({
   upcomingStudySession,
 }: ConnectCalendarCardProps) {
   return (
-    <section className="flex h-full flex-col rounded-md border border-white/[0.08] bg-[#1A2235] p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-white/[0.14]">
+    <section className="metric-card flex h-full flex-col p-5 transition hover:-translate-y-0.5">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <span className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-violet-500 text-white">
+          <span className="blue-pill inline-flex h-10 w-10 items-center justify-center rounded-full text-white">
             <CalendarDays className="h-5 w-5" aria-hidden="true" />
           </span>
           <div>
-            <h2 className="text-base font-semibold text-slate-950">
+            <h2 className="text-base font-black text-slate-950">
               Google Calendar
             </h2>
             <CalendarStatus connected={connected} />
@@ -38,18 +38,18 @@ export function ConnectCalendarCard({
       </div>
 
       {upcomingStudySession ? (
-        <div className="mb-4 rounded-md bg-slate-50 p-4">
-          <p className="text-xs font-semibold uppercase text-slate-500">
+        <div className="glass-control mb-4 rounded-[20px] p-4">
+          <p className="text-xs font-black uppercase text-slate-400">
             Upcoming Study Session
           </p>
-          <p className="mt-2 text-sm font-semibold text-slate-950">
+          <p className="mt-2 text-sm font-black text-slate-950">
             {formatRelativeDate(upcomingStudySession.start)}
           </p>
-          <p className="mt-1 text-sm text-slate-700">
+          <p className="mt-1 text-sm font-medium text-slate-600">
             {formatTime(upcomingStudySession.start)} - {upcomingStudySession.topic}
           </p>
           <a
-            className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-slate-900 hover:underline"
+            className="mt-3 inline-flex items-center gap-2 text-sm font-black text-blue-600 hover:underline"
             href="https://calendar.google.com/calendar/u/0/r"
             rel="noreferrer"
             target="_blank"

@@ -52,7 +52,7 @@ export function QuizQuestionCard({
               className={cn(
                 "flex cursor-pointer items-center gap-3 rounded-md border p-4 text-sm font-medium transition",
                 isSelected
-                  ? "border-blue-500 bg-blue-50 text-blue-950"
+                  ? "blue-pill border-blue-500 text-white"
                   : "border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50"
               )}
               key={option}

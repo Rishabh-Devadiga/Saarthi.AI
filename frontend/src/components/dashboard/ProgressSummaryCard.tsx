@@ -16,15 +16,15 @@ export function ProgressSummaryCard({
   const normalizedPercentage = Math.min(Math.max(percentage, 0), 100);
 
   return (
-    <section className="rounded-md border border-white/[0.08] bg-[#1A2235] p-5 shadow-sm sm:p-6">
-      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(260px,420px)] lg:items-center">
+    <section className="glass-panel rounded-[26px] p-5 sm:p-6">
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(240px,420px)] lg:items-center">
         <div className="flex items-start gap-3">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-violet-500 text-white">
+          <span className="blue-pill flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white">
             <TrendingUp className="h-5 w-5" aria-hidden="true" />
           </span>
           <div>
-            <h2 className="font-bold text-white">Progress Summary</h2>
-            <p className="mt-1 text-sm leading-6 text-slate-400">
+            <h2 className="font-black text-slate-950">Progress Summary</h2>
+            <p className="mt-1 text-sm font-medium leading-6 text-slate-600">
               {summary ??
                 `${completedTopics} of ${totalTopics} roadmap topics completed.`}
             </p>
@@ -32,12 +32,12 @@ export function ProgressSummaryCard({
         </div>
 
         <div className="flex items-center gap-4">
-          <span className="w-10 text-right text-sm font-bold text-white">
+          <span className="w-12 text-right text-lg font-black text-slate-950">
             {normalizedPercentage}%
           </span>
-          <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/10">
+          <div className="h-3 flex-1 overflow-hidden rounded-full bg-slate-200">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500"
+              className="blue-pill h-full rounded-full"
               style={{ width: `${normalizedPercentage}%` }}
             />
           </div>

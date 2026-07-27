@@ -1,5 +1,6 @@
 import { CheckCircle2 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import { EmptyPlan } from "@/components/learning-plan/EmptyPlan";
 import { PhaseTimeline } from "@/components/learning-plan/PhaseTimeline";
@@ -10,11 +11,14 @@ import {
   YouTubeSearchError,
   type YouTubeVideo,
 } from "@/services/youtubeService";
+import type { LearningPhase } from "@/types/learning";
 import { getTopicKey } from "@/utils/learningPlan";
 
 export function LearningPlanPage() {
   const { state, toggleTopicCompletion } = useSession();
+  const [searchParams] = useSearchParams();
   const plan = state.learningPlan;
+  const searchQuery = searchParams.get("q")?.trim() ?? "";
   const [videos, setVideos] = useState<Record<string, YouTubeVideo[]>>({});
   const [loadingTopics, setLoadingTopics] = useState<Record<string, boolean>>({});
   const [youtubeError, setYoutubeError] = useState<string | null>(null);
@@ -157,27 +161,33 @@ export function LearningPlanPage() {
     return <EmptyPlan />;
   }
 
+  const filteredPhases = filterPhases(plan.phases, searchQuery);
+  const visibleTopicCount = filteredPhases.reduce(
+    (total, phase) => total + phase.recommended_topics.length,
+    0
+  );
+
   return (
     <div className="space-y-6">
       <PlanHeader plan={plan} />
 
       {youtubeError ? (
-        <section className="rounded-md border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-800">
+        <section className="rounded-[20px] border border-amber-200 bg-amber-50/80 p-4 text-sm font-semibold leading-6 text-amber-800">
           {youtubeError}
         </section>
       ) : null}
 
       {plan.final_milestone ? (
-        <section className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
+        <section className="metric-card p-5">
           <div className="flex gap-3">
-            <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-slate-100 text-slate-700">
+            <span className="glass-control inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-blue-600">
               <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
             </span>
             <div>
-              <p className="text-sm font-semibold text-slate-500">
+              <p className="text-sm font-black text-slate-500">
                 Final Milestone
               </p>
-              <p className="mt-2 text-sm leading-6 text-slate-700">
+              <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
                 {plan.final_milestone}
               </p>
             </div>
@@ -189,7 +199,9 @@ export function LearningPlanPage() {
         completedTopics={state.completedTopics}
         loadingTopics={loadingTopics}
         onToggleTopic={toggleTopicCompletion}
-        phases={plan.phases}
+        phases={filteredPhases}
+        searchQuery={searchQuery}
+        visibleTopicCount={visibleTopicCount}
         videos={videos}
       />
     </div>
@@ -198,4 +210,60 @@ export function LearningPlanPage() {
 
 function getTopicCacheKey(topic: string): string {
   return topic.trim().toLowerCase();
+}
+
+function filterPhases(phases: LearningPhase[], query: string): LearningPhase[] {
+  const queryTokens = normalizeSearchText(query).split(" ").filter(Boolean);
+
+  if (queryTokens.length === 0) {
+    return phases;
+  }
+
+  return phases
+    .map((phase) => {
+      const phaseSearchText = normalizeSearchText(
+        [
+          phase.title,
+          phase.objective,
+          phase.estimated_duration,
+          ...phase.milestones,
+          ...phase.suggested_resource_categories,
+        ].join(" ")
+      );
+      const phaseMatches = matchesSearchTokens(phaseSearchText, queryTokens);
+      const matchingTopics = phase.recommended_topics.filter((topic) => {
+        const topicSearchText = normalizeSearchText(
+          [
+            topic,
+            phase.title,
+            phase.objective,
+            ...phase.milestones,
+            ...phase.suggested_resource_categories,
+          ].join(" ")
+        );
+
+        return matchesSearchTokens(topicSearchText, queryTokens);
+      });
+
+      if (!phaseMatches && matchingTopics.length === 0) {
+        return null;
+      }
+
+      return {
+        ...phase,
+        recommended_topics: phaseMatches ? phase.recommended_topics : matchingTopics,
+      };
+    })
+    .filter((phase): phase is LearningPhase => phase !== null);
+}
+
+function normalizeSearchText(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function matchesSearchTokens(searchText: string, queryTokens: string[]): boolean {
+  return queryTokens.every((token) => searchText.includes(token));
 }

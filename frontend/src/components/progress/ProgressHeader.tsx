@@ -15,7 +15,7 @@ export function ProgressHeader({
   workflowCompleted,
 }: ProgressHeaderProps) {
   return (
-    <section className="rounded-md border border-white/[0.08] bg-[linear-gradient(120deg,#1A2235,rgba(30,41,59,0.82))] p-6 shadow-sm sm:p-7">
+    <section className="glass-panel rounded-[24px] p-6 sm:p-7">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-violet-500 text-white">
@@ -33,16 +33,16 @@ export function ProgressHeader({
             </p>
           ) : null}
         </div>
-        <div className="flex flex-col gap-2 sm:flex-row lg:flex-col">
+        <div className="glass-control inline-flex w-full flex-col gap-1 rounded-[22px] p-1 sm:w-auto sm:flex-row lg:flex-col">
           <Link
-            className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+            className="inline-flex min-h-10 items-center justify-center gap-2 rounded-[18px] px-4 py-2 text-sm font-black text-slate-700"
             to="/learning-plan"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
             Learning Plan
           </Link>
           <Link
-            className="inline-flex items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800"
+            className="blue-pill inline-flex min-h-10 items-center justify-center gap-2 rounded-[18px] px-4 py-2 text-sm font-black text-white"
             to="/dashboard"
           >
             <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
@@ -74,7 +74,7 @@ function StatusMeta({ label, value }: StatusMetaProps) {
   }
 
   return (
-    <div className="rounded-md bg-slate-50 p-3">
+    <div className="glass-control rounded-[18px] p-3">
       <p className="text-xs font-semibold uppercase text-slate-500">{label}</p>
       <p className="mt-1 text-sm font-semibold text-slate-900">{value}</p>
     </div>

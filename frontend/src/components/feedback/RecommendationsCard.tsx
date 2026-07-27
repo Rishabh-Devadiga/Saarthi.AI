@@ -12,19 +12,19 @@ export function RecommendationsCard({
   }
 
   return (
-    <section className="h-full rounded-md border border-white/[0.08] bg-[#1A2235] p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-white/[0.14] sm:p-6">
+    <section className="metric-card h-full p-5 transition hover:-translate-y-0.5 sm:p-6">
       <div className="mb-4 flex items-center gap-3">
-        <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-sky-500 to-blue-500 text-white">
+        <span className="blue-pill inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white">
           <ListChecks className="h-5 w-5" aria-hidden="true" />
         </span>
-        <h2 className="text-base font-semibold text-slate-950">
+        <h2 className="text-base font-black text-slate-950">
           Recommendations
         </h2>
       </div>
       <div className="space-y-3">
         {recommendations.map((recommendation) => (
           <p
-            className="rounded-md bg-slate-50 p-3 text-sm leading-6 text-slate-700"
+            className="glass-control rounded-[18px] p-3 text-sm font-medium leading-6 text-slate-600"
             key={recommendation}
           >
             {recommendation}
