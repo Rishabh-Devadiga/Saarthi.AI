@@ -1,275 +1,659 @@
-# AI-Learning-Agent
+# Saarthi.AI — AI Learning Agent
 
-AI-Learning-Agent is a production-oriented foundation for an AI-powered personal learning assistant. This repository currently contains the development environment scaffold, Gemini configuration, CrewAI-backed Gemini smoke tests, and a minimal FastAPI backend.
+> **An agentic AI learning companion that turns a learner's goal into a personalized, adaptive learning journey.**
 
-No frontend code, database models, authentication, memory, orchestration, or business workflows are implemented at this stage.
+Saarthi.AI is an **AI-powered personal learning agent** designed to help users move from *"I want to learn this"* to a structured, guided, and measurable learning journey.
 
-## Project Overview
+Instead of simply generating a static roadmap, Saarthi.AI uses multiple specialized AI agents to understand the learner, create a personalized plan, track progress, provide feedback, recommend resources, conduct quizzes and mock interviews, and keep the learner accountable through intelligent nudges.
 
-The long-term goal is to evolve this project into a full-stack learning agent that can plan, personalize, and support learning workflows using modern AI engineering practices. The current milestone is intentionally limited to a clean, scalable setup that future contributors can build on safely.
+---
 
-## Architecture Overview
+## ✨ What Saarthi.AI Does
 
-The planned architecture separates the system into a Python backend, a future React frontend, documentation, tests, and operational scripts.
+A learner starts by providing information such as:
 
-- `backend/` will contain the FastAPI service, CrewAI agent modules, shared configuration, database access, schemas, services, memory integrations, and utilities.
-- `frontend/` is reserved for the future React and TypeScript application.
-- `tests/` is reserved for automated tests across backend components and future integration boundaries.
-- `docs/` stores architecture notes, setup guides, and design decisions.
-- `scripts/` stores project-level automation and maintenance scripts.
+* What they want to learn or which career they want to pursue
+* Current skill/knowledge level
+* Available study time
+* Learning preferences
+* Target deadline
+* Personal preferences and constraints
 
-## Folder Structure
+Saarthi.AI then builds and manages a personalized learning journey.
+
+### Core capabilities
+
+| Capability                   | Description                                                                    |
+| ---------------------------- | ------------------------------------------------------------------------------ |
+| 🎯 **Intent Understanding**  | Understands the learner's goal, current level, constraints, and preferences    |
+| 🗺️ **Personalized Roadmap** | Generates a structured learning plan based on the learner's goal               |
+| 📺 **Resource Curation**     | Recommends relevant learning resources, including YouTube content              |
+| 📊 **Progress Tracking**     | Tracks the learner's progress through the journey                              |
+| 🧠 **AI Feedback**           | Analyzes progress and provides personalized feedback                           |
+| 🔔 **Smart Nudges**          | Encourages the learner when progress slows or action is required               |
+| 📝 **AI Quizzes**            | Generates quizzes to reinforce concepts and evaluate understanding             |
+| 🎤 **Mock Interviews**       | Provides AI-powered interview practice                                         |
+| 👨‍🏫 **AI Mentor**          | Allows learners to interact with an AI mentor for guidance                     |
+| 📅 **Scheduling**            | Integrates learning activities with scheduling functionality                   |
+| 💾 **Persistent Memory**     | Stores learner information, plans, progress, feedback, and interaction history |
+
+---
+
+# 🧠 Agentic Architecture
+
+Saarthi.AI is not built as a single LLM prompt.
+
+It uses a collection of specialized agents and workflows coordinated by an orchestration layer.
 
 ```text
-AI-Learning-Agent/
-|-- backend/
-|   |-- agents/
-|   |   `-- base_agent.py
-|   |-- api/
-|   |   |-- router.py
-|   |   `-- routes/
-|   |       |-- chat.py
-|   |       |-- health.py
-|   |       `-- root.py
-|   |-- core/
-|   |   |-- config.py
-|   |   `-- llm.py
-|   |-- database/
-|   |-- memory/
-|   |-- models/
-|   |-- schemas/
-|   |   |-- chat.py
-|   |   |-- common.py
-|   |   `-- health.py
-|   |-- scripts/
-|   |   |-- test_crewai.py
-|   |   `-- test_gemini.py
-|   |-- services/
-|   |   `-- chat_service.py
-|   |-- utils/
-|   `-- main.py
-|-- docs/
-|-- frontend/
-|-- scripts/
-|-- tests/
-|-- .env
-|-- .env.example
-|-- .gitignore
-|-- .python-version
-|-- README.md
-`-- requirements.txt
+                         ┌──────────────────────┐
+                         │       Learner        │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │    FastAPI Backend   │
+                         └──────────┬───────────┘
+                                    │
+                                    ▼
+                         ┌──────────────────────┐
+                         │  Domain Orchestrator │
+                         └──────────┬───────────┘
+                                    │
+              ┌─────────────────────┼─────────────────────┐
+              │                     │                     │
+              ▼                     ▼                     ▼
+      ┌───────────────┐     ┌───────────────┐     ┌───────────────┐
+      │ Intent Agent  │     │ Planner Agent │     │ Progress Agent│
+      └───────────────┘     └───────────────┘     └───────────────┘
+              │                     │                     │
+              └─────────────────────┼─────────────────────┘
+                                    │
+                       ┌────────────┴────────────┐
+                       │                         │
+                       ▼                         ▼
+                ┌───────────────┐        ┌───────────────┐
+                │ Feedback Agent│        │  Nudge Agent  │
+                └───────────────┘        └───────────────┘
+                       │                         │
+                       └────────────┬────────────┘
+                                    ▼
+                         ┌──────────────────────┐
+                         │    Domain Workflows  │
+                         └──────────┬───────────┘
+                                    │
+                 ┌──────────────────┼──────────────────┐
+                 │                  │                  │
+                 ▼                  ▼                  ▼
+          ┌────────────┐     ┌────────────┐     ┌────────────┐
+          │ PostgreSQL │     │ YouTube API│     │ Google APIs│
+          └────────────┘     └────────────┘     └────────────┘
 ```
 
-## Tech Stack
+---
 
-- Python 3.12+
-- Google Gemini models
-- Google GenAI SDK
-- CrewAI
-- FastAPI
-- React + TypeScript later
-- PostgreSQL later
-- Redis later
-- SQLAlchemy
-- Pydantic
-- python-dotenv
-- pip
-- Git
+# 🤖 AI Agents
 
-## Project Setup
+### 1. Intent Agent
 
-Install Python 3.12 or newer before creating the virtual environment.
+Converts the learner's natural-language requirements into structured learner intent.
 
-Clone the repository and move into the project directory:
+It identifies information such as:
 
-```powershell
-git clone <repository-url>
-cd AI-Learning-Agent
+* Learning/career goal
+* Current level
+* Available time
+* Deadline
+* Preferences
+* Constraints
+
+The result is represented using typed Pydantic schemas.
+
+---
+
+### 2. Planner Agent
+
+Uses the learner's intent to generate a structured learning plan.
+
+The planner considers:
+
+* Learner level
+* Target outcome
+* Available study time
+* Deadline
+* Learning preferences
+
+The resulting plan becomes the foundation for the learner's journey.
+
+---
+
+### 3. Progress Agent
+
+Evaluates the learner's current progress against the learning plan.
+
+It helps answer:
+
+> "Where am I right now compared with where I should be?"
+
+---
+
+### 4. Feedback Agent
+
+Generates personalized feedback based on the learner's progress and activity.
+
+The objective is not merely to say *"Good job"* but to identify:
+
+* What is going well
+* What is falling behind
+* What needs improvement
+* What the learner should do next
+
+---
+
+### 5. Nudge Agent
+
+Provides timely interventions when the learner needs an additional push.
+
+Examples include:
+
+* Reminders
+* Encouragement
+* Recovery suggestions after missed activities
+* Recommendations for the next action
+
+---
+
+# 🏗️ Technology Stack
+
+## Backend
+
+* **Python**
+* **FastAPI**
+* **CrewAI**
+* **Google Gemini**
+* **Pydantic**
+* **SQLAlchemy**
+* **PostgreSQL**
+* **Uvicorn**
+
+## Frontend
+
+* **React**
+* **TypeScript**
+* **Vite**
+* **Tailwind CSS**
+* **shadcn/ui**
+
+## Integrations
+
+* **YouTube Data API**
+* **Google APIs**
+* **PostgreSQL**
+
+## Development
+
+* Git
+* GitHub
+* Python virtual environments
+* npm
+* Vercel
+* Railway
+
+---
+
+# 📁 Project Structure
+
+```text
+Saarthi.AI/
+│
+├── backend/
+│   │
+│   ├── api/
+│   │   ├── routes/
+│   │   │   ├── calendar.py
+│   │   │   ├── interview.py
+│   │   │   ├── learning.py
+│   │   │   ├── mentor.py
+│   │   │   └── quiz.py
+│   │   └── router.py
+│   │
+│   ├── database/
+│   │   ├── crud.py
+│   │   ├── database.py
+│   │   └── models.py
+│   │
+│   ├── framework/
+│   │   ├── agents/
+│   │   │   └── base_agent.py
+│   │   ├── base/
+│   │   │   ├── api_key_rotation.py
+│   │   │   ├── config.py
+│   │   │   └── llm.py
+│   │   ├── domains/
+│   │   │   ├── loader.py
+│   │   │   └── registry.py
+│   │   └── tools/
+│   │       ├── console.py
+│   │       └── google_calendar_service.py
+│   │
+│   ├── domains/
+│   │   └── learning/
+│   │       ├── agents/
+│   │       │   ├── feedback_agent.py
+│   │       │   ├── intent_agent.py
+│   │       │   ├── nudge_agent.py
+│   │       │   ├── planner_agent.py
+│   │       │   └── progress_agent.py
+│   │       │
+│   │       ├── prompts/
+│   │       │   ├── feedback.md
+│   │       │   ├── intent.md
+│   │       │   ├── interview.md
+│   │       │   ├── mentor.md
+│   │       │   ├── nudge.md
+│   │       │   ├── planner.md
+│   │       │   ├── progress.md
+│   │       │   └── quiz.md
+│   │       │
+│   │       ├── schemas/
+│   │       └── workflows/
+│   │
+│   ├── schemas/
+│   ├── services/
+│   └── main.py
+│
+├── frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── domain/
+│   │   ├── pages/
+│   │   └── services/
+│   ├── package.json
+│   └── vite.config.ts
+│
+├── docs/
+│   ├── architecture.md
+│   ├── contributing.md
+│   └── create-new-domain.md
+│
+├── .env.example
+├── requirements.txt
+└── README.md
 ```
 
-Create a local `.env` file from the example:
+---
+
+# 🔄 Learning Session Flow
+
+A typical learning session follows this flow:
+
+```text
+User Input
+    │
+    ▼
+Intent Agent
+    │
+    ▼
+Structured Learner Intent
+    │
+    ▼
+Planner Agent
+    │
+    ▼
+Personalized Learning Plan
+    │
+    ▼
+Progress Tracking
+    │
+    ├───────────────┐
+    ▼               ▼
+Feedback Agent   Nudge Agent
+    │               │
+    └───────┬───────┘
+            ▼
+     Updated Learner State
+            │
+            ▼
+      Next Best Action
+```
+
+This allows Saarthi.AI to operate as an **ongoing learning companion**, rather than a one-time roadmap generator.
+
+---
+
+# ⚙️ Configuration
+
+Saarthi.AI uses environment variables for API keys, database configuration, and domain selection.
+
+Create a `.env` file from the provided example:
+
+```bash
+cp .env.example .env
+```
+
+On Windows PowerShell:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Fill in the required API keys and service URLs in `.env`. Never commit `.env`.
+Then configure the required values.
 
-Set `MOCK_MODE=true` to use local mock Planner output without consuming Gemini API quota.
+Example:
 
-Create a virtual environment:
+```env
+DATABASE_URL=postgresql://username:password@localhost:5432/saarthi
 
-```powershell
-py -3.12 -m venv venv
+GEMINI_API_KEY_1=your_key
+GEMINI_API_KEY_2=your_key
+
+YOUTUBE_API_KEY_1=your_key
+YOUTUBE_API_KEY_2=your_key
+
+ACTIVE_DOMAIN=learning
 ```
 
-Activate it on Windows PowerShell:
+### Never commit `.env`
+
+API keys and database credentials must remain outside Git.
+
+---
+
+# 🚀 Local Development
+
+## Prerequisites
+
+Make sure you have:
+
+* Python 3.12+
+* Node.js
+* npm
+* PostgreSQL
+* Git
+
+---
+
+## 1. Clone the repository
+
+```bash
+git clone https://github.com/Rishabh-Devadiga/Saarthi.AI.git
+cd Saarthi.AI
+```
+
+---
+
+## 2. Create the Python environment
+
+### Windows
 
 ```powershell
+python -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
-Activate it on macOS or Linux:
+### macOS/Linux
 
 ```bash
+python3 -m venv venv
 source venv/bin/activate
 ```
 
-Upgrade pip and install dependencies:
+---
 
-```powershell
-python -m pip install --upgrade pip
+## 3. Install backend dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-Run the Gemini connectivity test:
+---
+
+## 4. Configure environment variables
 
 ```powershell
-python -m backend.scripts.test_gemini
+Copy-Item .env.example .env
 ```
 
-Run the CrewAI Gemini smoke test:
+Fill in the required API keys and database URL.
 
-```powershell
-python -m backend.scripts.test_crewai
+---
+
+## 5. Start the backend
+
+From the project root:
+
+```bash
+python -m backend.main
 ```
 
-Run the Intent Agent smoke test:
+Or using Uvicorn:
 
-```powershell
-python -m backend.scripts.test_intent_agent
-```
-
-Run the Planner Agent smoke test:
-
-```powershell
-python -m backend.scripts.test_planner_agent
-```
-
-When `MOCK_MODE=true`, the Planner Agent test runs without calling Gemini.
-
-Start the FastAPI backend:
-
-```powershell
+```bash
 uvicorn backend.main:app --reload
 ```
 
-Open Swagger UI at `http://127.0.0.1:8000/docs`.
+The backend will be available at:
 
-## Installation Instructions
-
-Follow the Project Setup section above for local development.
-
-## Virtual Environment Setup
-
-Use `py -3.12 -m venv venv` on Windows or `python3.12 -m venv venv` on macOS and Linux.
-
-## Dependency Installation
-
-Install dependencies with `pip install -r requirements.txt` after activating the virtual environment.
-
-## Running the Project
-
-Start the FastAPI backend:
-
-```powershell
-uvicorn backend.main:app --reload
+```text
+http://127.0.0.1:8000
 ```
 
-Available endpoints:
+FastAPI documentation:
 
-- `GET /` returns a welcome message.
-- `GET /health` returns service health.
-- `POST /chat` sends a temporary prompt to the CrewAI Gemini integration.
-- `GET /docs` opens Swagger UI.
-
-Example temporary chat request:
-
-```powershell
-Invoke-RestMethod -Method Post `
-  -Uri http://127.0.0.1:8000/chat `
-  -ContentType "application/json" `
-  -Body '{"prompt":"Explain what Artificial Intelligence is in two sentences."}'
+```text
+http://127.0.0.1:8000/docs
 ```
 
-Validate Gemini connectivity after adding `GEMINI_API_KEY` to `.env`:
+---
+
+# 💻 Frontend Setup
+
+Open another terminal:
 
 ```powershell
-python -m backend.scripts.test_gemini
+cd frontend
 ```
 
-Validate CrewAI can use the centralized Gemini LLM:
+Install dependencies:
 
-```powershell
-python -m backend.scripts.test_crewai
+```bash
+npm install
 ```
 
-## Future Roadmap
+Create/configure:
 
-- Expand FastAPI endpoints as product requirements are defined.
-- Add CrewAI agents and task orchestration.
-- Add persistent memory and retrieval capabilities.
-- Add PostgreSQL database models and migrations.
-- Add Redis caching for selected workflows.
-- Add React and TypeScript frontend.
-- Add authentication and user profile management.
-- Add CI checks, linting, formatting, and test automation.
-- Add deployment documentation.
-
-## Contribution Guidelines
-
-- Keep changes scoped and aligned with the current milestone.
-- Do not add agents, API routes, database tables, memory, or workflows until those milestones are explicitly started.
-- Keep secrets out of version control and use `.env` for local-only configuration.
-- Add tests when implementing behavior.
-- Document architectural decisions in `docs/` as the system grows.
-
-## Verification Steps
-
-Confirm Python works:
-
-```powershell
-python --version
+```text
+frontend/.env
 ```
 
-The version should be `3.12` or newer. On Windows, use this command if the default `python` points to an older interpreter:
+Example:
 
-```powershell
-py -3.12 --version
+```env
+VITE_API_BASE_URL=http://127.0.0.1:8000
 ```
 
-Confirm dependencies install:
+Start the development server:
 
-```powershell
-pip install -r requirements.txt
+```bash
+npm run dev
 ```
 
-Confirm Gemini connectivity:
+Vite will provide a local URL, normally:
 
-```powershell
-python -m backend.scripts.test_gemini
+```text
+http://localhost:5173
 ```
 
-Confirm CrewAI Gemini connectivity:
+---
 
-```powershell
-python -m backend.scripts.test_crewai
+# 🧪 Verification
+
+### Backend compilation
+
+```bash
+python -m compileall backend
 ```
 
-Confirm Intent Agent structured extraction:
+### Frontend build
 
-```powershell
-python -m backend.scripts.test_intent_agent
+```bash
+cd frontend
+npm run build
 ```
 
-Confirm Planner Agent roadmap generation:
+### Frontend lint
 
-```powershell
-python -m backend.scripts.test_planner_agent
+```bash
+npm run lint
 ```
 
-Confirm project structure:
+### API documentation
 
-```powershell
-Get-ChildItem -Recurse
+Once the backend is running:
+
+```text
+http://127.0.0.1:8000/docs
 ```
+
+---
+
+# 🌐 Deployment
+
+Saarthi.AI can be deployed as two services.
+
+```text
+                   Internet
+                       │
+            ┌──────────┴──────────┐
+            │                     │
+            ▼                     ▼
+       Vercel                  Railway
+       Frontend                Backend
+            │                     │
+            │ HTTPS               │
+            └──────────►──────────┤
+                                  │
+                                  ▼
+                              PostgreSQL
+```
+
+### Frontend
+
+Recommended deployment:
+
+**Vercel**
+
+Build command:
+
+```bash
+npm run build
+```
+
+Output directory:
+
+```text
+dist
+```
+
+Set the frontend environment variable:
+
+```env
+VITE_API_BASE_URL=https://your-railway-domain
+```
+
+### Backend
+
+Recommended deployment:
+
+**Railway**
+
+Start command:
+
+```bash
+uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+```
+
+Configure backend environment variables in Railway rather than committing them to Git.
+
+---
+
+# 🔐 Security
+
+Do not commit:
+
+```text
+.env
+```
+
+or any file containing:
+
+* Gemini API keys
+* YouTube API keys
+* Google credentials
+* Database passwords
+* OAuth secrets
+
+The `.env.example` file should contain **variable names and placeholders only**.
+
+Also note that Vite exposes variables beginning with `VITE_` to browser-side code. Therefore, browser-exposed API keys should never be treated as server-side secrets and should have appropriate API restrictions configured.
+
+---
+
+# 📚 Documentation
+
+Additional documentation:
+
+* `docs/architecture.md` — system architecture and design
+* `docs/create-new-domain.md` — creating and registering a new domain
+* `docs/contributing.md` — contribution guidelines
+
+---
+
+# 🗺️ Roadmap
+
+Future improvements include:
+
+* [ ] More autonomous multi-agent workflows
+* [ ] Improved long-term learner memory
+* [ ] Better resource ranking and personalization
+* [ ] Adaptive learning-plan regeneration
+* [ ] More integrations with external knowledge sources
+* [ ] Advanced analytics and learner insights
+* [ ] More domain implementations
+* [ ] Production-grade authentication and authorization
+* [ ] Improved observability and agent tracing
+* [ ] Automated evaluation of agent outputs
+
+---
+
+# 🎯 Vision
+
+Most learning platforms answer:
+
+> **"What should I learn?"**
+
+Saarthi.AI aims to answer something more useful:
+
+> **"What should I do next, given who I am, where I am, where I want to go, and how I'm progressing?"**
+
+The goal is to build an AI learning companion that continuously understands the learner's evolving state and adapts the journey accordingly.
+
+---
+
+# 👨‍💻 Author
+
+**Rishabh Devadiga**
+
+Computer Science Engineering — AI & Data Science
+
+GitHub:
+https://github.com/Rishabh-Devadiga
+
+---
+
+# 📄 License
+
+This project is currently intended as a personal/hackathon project.
+
+Add an explicit open-source license before distributing the code for external use.
