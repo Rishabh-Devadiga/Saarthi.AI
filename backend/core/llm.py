@@ -13,7 +13,7 @@ from backend.core.api_key_rotation import ApiKey, StickyApiKeyPool, load_api_key
 from backend.core.config import get_settings
 
 
-GEMINI_FLASH_MODEL = "gemini/gemini-flash-latest"
+GEMINI_FLASH_MODEL = "gemini/gemini-3.5-flash"
 RETRYABLE_GEMINI_MARKERS = (
     "resource_exhausted",
     "resource exhausted",
