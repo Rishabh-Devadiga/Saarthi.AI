@@ -650,6 +650,13 @@ Computer Science Engineering — AI & Data Science
 GitHub:
 https://github.com/Rishabh-Devadiga
 
+**Tanushk Baranwal**
+
+Computer Science Engineering IN AI & Data Science
+
+Github:
+https://github.com/Tanushk-glitch
+
 ---
 
 # 📄 License
