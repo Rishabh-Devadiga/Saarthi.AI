@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/common/Button";
 import type { WizardStep } from "@/components/onboarding/types";
@@ -40,8 +40,8 @@ export function WizardNavigation({
       >
         {isFinalStep ? (
           <>
-            <Sparkles className="h-4 w-4" aria-hidden="true" />
-            Generate Learning Plan
+            Build my learning plan
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </>
         ) : (
           <>

@@ -26,7 +26,10 @@ const benefits = [
 
 export function Benefits() {
   return (
-    <section className="border-y border-slate-200 bg-[#f6f8fc] py-20 sm:py-24">
+    <section
+      className="scroll-mt-20 border-y border-slate-200 bg-[#f6f8fc] py-20 sm:py-24"
+      id="about"
+    >
       <div className="mx-auto grid w-[min(100%-2rem,1180px)] gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
         <div className="max-w-md">
           <p className="text-sm font-semibold uppercase text-emerald-700">

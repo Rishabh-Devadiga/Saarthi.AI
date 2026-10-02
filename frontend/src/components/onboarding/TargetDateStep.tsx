@@ -21,7 +21,7 @@ export function TargetDateStep({
         description="Set the date you want to reach your goal. You can adjust your pace later as your learning journey evolves."
         icon={CalendarDays}
         step={4}
-        title="When do you want to finish?"
+        title="What are you working toward?"
       />
 
       <div className="mt-8">

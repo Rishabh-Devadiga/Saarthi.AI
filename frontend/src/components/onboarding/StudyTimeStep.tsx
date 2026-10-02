@@ -17,7 +17,7 @@ export function StudyTimeStep({ onChange, value }: StudyTimeStepProps) {
         description="Choose a sustainable daily commitment. Saarthi will shape the roadmap around the time you can consistently protect."
         icon={Clock3}
         step={3}
-        title="How much time can you study each day?"
+        title="How much time can you commit?"
       />
 
       <div className="mt-10 rounded-md border border-white/12 bg-black/10 p-5 sm:p-7">

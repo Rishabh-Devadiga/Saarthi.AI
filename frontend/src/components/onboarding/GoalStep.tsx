@@ -34,7 +34,7 @@ export function GoalStep({ error, onChange, value }: GoalStepProps) {
         description="Choose a popular path or describe the outcome you want Saarthi.AI to help you reach."
         icon={Target}
         step={1}
-        title="What do you want to achieve?"
+        title="What do you want to learn?"
       />
 
       <div

@@ -174,6 +174,11 @@ export function OnboardingPage() {
         ) : null}
       </div>
 
+      {currentStep === 5 ? (
+        <p className="px-5 pb-1 pt-2 text-center text-sm font-semibold tracking-wide text-teal-200 sm:px-8">
+          Your journey starts here.
+        </p>
+      ) : null}
       <WizardNavigation
         canContinue={canContinue}
         currentStep={currentStep}
