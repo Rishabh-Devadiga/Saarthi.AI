@@ -141,21 +141,66 @@
     animation: onboarding-step-in 240ms ease-out;
   }
 
-  .space-parallax {
-    --space-px: 0;
-    --space-py: 0;
-    transform: translate3d(
-      calc(var(--space-px) * -18px),
-      calc(var(--space-py) * -12px),
-      0
-    );
+  .space-scene {
+    transform-origin: 62% 42%;
+    transition: transform 1.25s cubic-bezier(0.3, 0.6, 0.3, 1);
+  }
+
+  .space-base-img {
+    transition:
+      filter 1.25s ease,
+      transform 1.25s cubic-bezier(0.3, 0.6, 0.3, 1);
+  }
+
+  .space-sprite {
     will-change: transform;
   }
 
-  .space-drift {
-    background-image: url("/images/space-hero.png");
-    animation: space-drift 46s ease-in-out infinite alternate;
+  .space-zoom {
+    transition: transform 1.25s cubic-bezier(0.3, 0.6, 0.3, 1);
+  }
+
+  .space-veil {
+    transition: opacity 1.2s ease 0.05s;
+  }
+
+  /* Cinematic fly-through: camera pushes toward the helmet while near
+     layers rush past faster than distant ones. */
+  .space-leaving .space-scene {
+    transform: scale(1.22);
+  }
+
+  .space-leaving .space-base-img {
+    filter: blur(3px) brightness(1.1);
+  }
+
+  .space-leaving .space-zoom {
+    transform: scale(calc(1 + var(--depth) * 0.3));
+  }
+
+  .space-leaving .space-veil {
+    opacity: 1;
+  }
+
+  .drift-a,
+  .drift-b,
+  .drift-c {
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
     will-change: transform;
+  }
+
+  .drift-a {
+    animation-name: drift-a;
+  }
+
+  .drift-b {
+    animation-name: drift-b;
+  }
+
+  .drift-c {
+    animation-name: drift-c;
   }
 
   .onboarding-range {
@@ -402,13 +447,35 @@
   }
 }
 
-@keyframes space-drift {
+@keyframes drift-a {
   from {
-    transform: scale(1.02) translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) rotate(0deg);
   }
 
   to {
-    transform: scale(1.1) translate3d(-1.2%, 1%, 0);
+    transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--rr));
+  }
+}
+
+@keyframes drift-b {
+  from {
+    transform: translate3d(calc(var(--dx) * -0.6), var(--dy), 0)
+      rotate(calc(var(--rr) * -1));
+  }
+
+  to {
+    transform: translate3d(calc(var(--dx) * 0.6), calc(var(--dy) * -1), 0)
+      rotate(var(--rr));
+  }
+}
+
+@keyframes drift-c {
+  from {
+    transform: translate3d(var(--dx), calc(var(--dy) * -0.5), 0) rotate(0deg);
+  }
+
+  to {
+    transform: translate3d(calc(var(--dx) * -1), var(--dy), 0) rotate(var(--rr));
   }
 }
 
