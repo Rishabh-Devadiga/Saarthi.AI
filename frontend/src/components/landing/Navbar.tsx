@@ -1,9 +1,8 @@
-import { Menu, Sparkles, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Button } from "@/components/common/Button";
-import { buttonVariants } from "@/components/common/buttonVariants";
 import { cn } from "@/utils/cn";
 
 const navigationItems = [
@@ -32,16 +31,14 @@ export function Navbar() {
           : "border-b border-transparent bg-transparent",
       )}
     >
-      <div className="mx-auto flex h-18 w-[min(100%-2rem,1180px)] items-center justify-between">
-        <Link
-          aria-label="Saarthi.AI home"
-          className="inline-flex items-center gap-2.5 font-semibold"
-          to="/"
-        >
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-teal-400 text-[#06281f] shadow-[0_8px_24px_rgba(45,212,191,0.35)]">
-            <Sparkles className="h-5 w-5" aria-hidden="true" />
-          </span>
-          <span className="text-lg">Saarthi.AI</span>
+      <div className="flex h-18 w-full items-center justify-between px-5 sm:px-8 lg:px-12">
+        <Link aria-label="Saarthi.AI home" className="shrink-0" to="/">
+          <img
+            alt="Saarthi.AI"
+            className="h-8 w-auto"
+            draggable={false}
+            src="/images/logo.png"
+          />
         </Link>
 
         <nav
@@ -63,11 +60,11 @@ export function Navbar() {
           >
             Sign in
           </Link>
-          <Link
-            className={cn(buttonVariants(), "ml-3 min-h-10 px-4")}
-            to="/onboarding"
-          >
-            Start learning
+          <Link className="cta-nav ml-2 shrink-0" to="/onboarding">
+            <span className="cta-label">Start learning</span>
+            <span className="cta-arrow" aria-hidden="true">
+              <ArrowRight className="h-3.5 w-3.5" />
+            </span>
           </Link>
         </nav>
 
@@ -113,11 +110,14 @@ export function Navbar() {
               Sign in
             </Link>
             <Link
-              className={cn(buttonVariants(), "mt-3 w-full")}
+              className="cta-nav mt-3 w-full justify-between"
               onClick={() => setIsOpen(false)}
               to="/onboarding"
             >
-              Start learning
+              <span className="cta-label">Start learning</span>
+              <span className="cta-arrow" aria-hidden="true">
+                <ArrowRight className="h-3.5 w-3.5" />
+              </span>
             </Link>
           </div>
         </nav>

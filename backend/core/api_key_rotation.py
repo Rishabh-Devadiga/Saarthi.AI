@@ -75,6 +75,26 @@ class StickyApiKeyPool:
         raise first_error
 
 
+def load_groq_keys() -> list[ApiKey]:
+    """Load Groq Cloud keys from the environment.
+
+    Reads the GROQ_API_KEY_1..4 slots. If none are set, falls back to the
+    legacy GROK_API_KEY_1..4 slots so deployments created before the rename
+    keep working. Reads environment variables only; nothing is modified.
+    """
+
+    keys = load_api_keys("GROQ_API_KEY")
+    if keys:
+        return keys
+    legacy_keys = load_api_keys("GROK_API_KEY")
+    if legacy_keys:
+        logger.info(
+            "Using legacy GROK_API_KEY_* slots for Groq Cloud keys. "
+            "Rename them to GROQ_API_KEY_* when convenient."
+        )
+    return legacy_keys
+
+
 def load_api_keys(
     prefix: str,
     *,

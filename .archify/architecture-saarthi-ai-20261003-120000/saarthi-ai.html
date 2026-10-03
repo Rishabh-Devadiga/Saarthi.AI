@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saarthi.AI System Architecture</title>
+<script>(function(){try{var t=null;try{t=new URLSearchParams(location.search).get('theme');}catch(_){}if(t!=='light'&&t!=='dark'){try{t=localStorage.getItem('saarthi-arch-theme');}catch(_){} }if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(_){}})();</script>
+<style>
+:root,[data-theme="dark"]{--bg:#0b1120;--panel:#111a2e;--border:#243152;--text:#f1f5f9;--muted:#94a3b8;--frontend-stroke:#22d3ee;--frontend-fill:rgba(34,211,238,.13);--backend-stroke:#34d399;--backend-fill:rgba(52,211,153,.13);--database-stroke:#a78bfa;--database-fill:rgba(167,139,250,.14);--external-stroke:#94a3b8;--external-fill:rgba(148,163,184,.12);--arrow:#64748b;--arrow-e:#34d399;--region-stroke:#334155;}
+[data-theme="light"]{--bg:#f4f6fa;--panel:#ffffff;--border:#dbe2ec;--text:#0f172a;--muted:#5b6474;--frontend-stroke:#0891b2;--frontend-fill:rgba(34,211,238,.14);--backend-stroke:#059669;--backend-fill:rgba(52,211,153,.16);--database-stroke:#7c3aed;--database-fill:rgba(167,139,250,.18);--external-stroke:#64748b;--external-fill:rgba(148,163,184,.16);--arrow:#94a3b8;--arrow-e:#059669;--region-stroke:#cbd5e1;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);padding:2rem;min-height:100vh}
+.wrap{max-width:1360px;margin:0 auto}
+header{display:flex;align-items:center;gap:.75rem;margin-bottom:.25rem}
+h1{font-size:1.4rem;font-weight:700;letter-spacing:-.01em}
+.sub{color:var(--muted);font-size:.85rem;margin-bottom:1.25rem}
+button.theme{margin-left:auto;background:var(--panel);border:1px solid var(--border);color:var(--text);border-radius:.6rem;padding:.45rem .9rem;font:inherit;font-size:.8rem;cursor:pointer}
+.diagram{background:var(--panel);border:1px solid var(--border);border-radius:1rem;padding:1.25rem;overflow-x:auto}
+svg{width:100%;min-width:900px;height:auto;display:block}
+.region rect{fill:none;stroke:var(--region-stroke);stroke-dasharray:7 5;stroke-width:1.5}
+.t-region{fill:var(--muted);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.node rect{stroke-width:1.6}
+.node:focus{outline:none}
+.node:focus rect{stroke-width:2.6}
+.n-frontend{fill:var(--frontend-fill);stroke:var(--frontend-stroke)}
+.n-backend{fill:var(--backend-fill);stroke:var(--backend-stroke)}
+.n-database{fill:var(--database-fill);stroke:var(--database-stroke)}
+.n-external{fill:var(--external-fill);stroke:var(--external-stroke)}
+.t-label{fill:var(--text);font-size:13.5px;font-weight:650}
+.t-sub{fill:var(--muted);font-size:11px}
+.edge{fill:none;stroke:var(--arrow);stroke-width:1.7}
+.edge.emphasis{stroke:var(--arrow-e);stroke-width:2.2}
+.edge.dashed{stroke-dasharray:6 5}
+.t-edge{fill:var(--muted);font-size:11.5px}
+.t-edge.e{fill:var(--arrow-e);font-weight:600}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:1.25rem}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:.9rem;padding:1rem 1.15rem}
+.card h3{font-size:.85rem;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.card ul{list-style:none}
+.card li{font-size:.82rem;color:var(--muted);line-height:1.6;padding-left:1rem;position:relative}
+.card li::before{content:"–";position:absolute;left:0;color:var(--muted)}
+.card code{font-size:.74rem;color:var(--text);background:rgba(148,163,184,.14);padding:.05rem .35rem;border-radius:.3rem}
+footer{margin-top:1.25rem;color:var(--muted);font-size:.75rem}
+footer code{font-size:.72rem}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;margin:0 0 1rem .1rem;font-size:.78rem;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:.4rem}
+.sw{width:11px;height:11px;border-radius:3px;display:inline-block;border-width:1.6px;border-style:solid}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Saarthi.AI System Architecture</h1><button class="theme" id="themeBtn" type="button">Toggle theme</button></header>
+<p class="sub">AI-powered personalized learning platform · high-level request and data flow</p>
+<div class="legend" aria-label="Layer legend">
+<span><i class="sw" style="border-color:var(--frontend-stroke);background:var(--frontend-fill)"></i>Frontend</span>
+<span><i class="sw" style="border-color:var(--backend-stroke);background:var(--backend-fill)"></i>Backend + Agentic AI</span>
+<span><i class="sw" style="border-color:var(--database-stroke);background:var(--database-fill)"></i>Data</span>
+<span><i class="sw" style="border-color:var(--external-stroke);background:var(--external-fill)"></i>User · LLMs · External APIs</span>
+</div>
+<div class="diagram">
+<svg viewBox="0 0 1280 920" role="img" aria-label="Saarthi.AI architecture: user to frontend to FastAPI to CrewAI agents to Gemini/Groq, with Postgres, Redis, YouTube and Calendar integrations">
+<defs>
+<marker id="arr" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--arrow)"/></marker>
+<marker id="arr-e" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--arrow-e)"/></marker>
+</defs>
+<g class="region"><rect x="40" y="170" width="710" height="130" rx="14"/><text x="54" y="192" class="t-region">Browser</text></g>
+<g class="region"><rect x="40" y="350" width="890" height="324" rx="14"/><text x="54" y="372" class="t-region">Server · FastAPI + CrewAI</text></g>
+<path class="edge" d="M135 104 L135 200" marker-end="url(#arr)"/><text x="143" y="152" text-anchor="middle" class="t-edge">uses</text>
+<path class="edge" d="M230 232 L300 232" marker-end="url(#arr)"/><text x="265" y="220" text-anchor="middle" class="t-edge">onboards</text>
+<path class="edge" d="M490 232 L560 232" marker-end="url(#arr)"/><text x="525" y="220" text-anchor="middle" class="t-edge">mic + TTS</text>
+<path class="edge emphasis" d="M145 264 L365 380" marker-end="url(#arr-e)"/><text x="255" y="306" text-anchor="middle" class="t-edge e">POST session + JSON</text>
+<path class="edge" d="M230 412 L300 412" marker-end="url(#arr)"/><text x="265" y="404" text-anchor="middle" class="t-edge">dispatch</text>
+<path class="edge" d="M330 444 L135 580" marker-end="url(#arr)"/><text x="212" y="500" text-anchor="middle" class="t-edge">run workflow</text>
+<path class="edge" d="M210 612 L235 612" marker-end="url(#arr)"/>
+<path class="edge" d="M385 612 L410 612" marker-end="url(#arr)"/>
+<path class="edge" d="M560 612 L585 612" marker-end="url(#arr)"/>
+<path class="edge" d="M735 612 L760 612" marker-end="url(#arr)"/>
+<path class="edge" d="M310 644 L495 740" marker-end="url(#arr)"/><text x="392" y="678" text-anchor="middle" class="t-edge">primary · keys 1–4</text>
+<path class="edge dashed" d="M560 772 L640 772" marker-end="url(#arr)"/><text x="600" y="758" text-anchor="middle" class="t-edge">failover · keys 1–3</text>
+<path class="edge" d="M490 412 L1050 412" marker-end="url(#arr)"/><text x="770" y="404" text-anchor="middle" class="t-edge">SQL writes</text>
+<path class="edge dashed" d="M490 430 L980 430 L980 552 L1050 552" marker-end="url(#arr)"/><text x="1015" y="544" text-anchor="middle" class="t-edge">cache</text>
+<path class="edge dashed" d="M490 430 L980 430 L980 692 L1050 692" marker-end="url(#arr)"/><text x="1015" y="684" text-anchor="middle" class="t-edge">videos</text>
+<path class="edge dashed" d="M490 430 L980 430 L980 832 L1050 832" marker-end="url(#arr)"/><text x="1015" y="852" text-anchor="middle" class="t-edge">schedule</text>
+<g class="node" data-node-id="user" tabindex="0" role="img" aria-label="Learner, Browser"><rect x="60" y="40" width="150" height="64" rx="10" class="n-external"/><text x="135" y="67" text-anchor="middle" class="t-label">Learner</text><text x="135" y="86" text-anchor="middle" class="t-sub">Browser</text></g>
+<g class="node" data-node-id="landing" tabindex="0" role="img" aria-label="Landing · Onboarding, Home · intake flow"><rect x="60" y="200" width="170" height="64" rx="10" class="n-frontend"/><text x="145" y="227" text-anchor="middle" class="t-label">Landing · Onboarding</text><text x="145" y="246" text-anchor="middle" class="t-sub">Home · intake flow</text></g>
+<g class="node" data-node-id="workspace" tabindex="0" role="img" aria-label="Learning workspace, Plan · Dashboard · Mentor · Quiz · Interview"><rect x="300" y="200" width="190" height="64" rx="10" class="n-frontend"/><text x="395" y="227" text-anchor="middle" class="t-label">Learning workspace</text><text x="395" y="246" text-anchor="middle" class="t-sub">Plan · Dashboard · Mentor · Quiz · Interview</text></g>
+<g class="node" data-node-id="speech" tabindex="0" role="img" aria-label="Web Speech API, mic + TTS"><rect x="560" y="200" width="170" height="64" rx="10" class="n-external"/><text x="645" y="227" text-anchor="middle" class="t-label">Web Speech API</text><text x="645" y="246" text-anchor="middle" class="t-sub">mic + TTS</text></g>
+<g class="node" data-node-id="api" tabindex="0" role="img" aria-label="FastAPI, REST API"><rect x="60" y="380" width="170" height="64" rx="10" class="n-backend"/><text x="145" y="407" text-anchor="middle" class="t-label">FastAPI</text><text x="145" y="426" text-anchor="middle" class="t-sub">REST API</text></g>
+<g class="node" data-node-id="services" tabindex="0" role="img" aria-label="Services · Workflows, session · plan · quiz"><rect x="300" y="380" width="190" height="64" rx="10" class="n-backend"/><text x="395" y="407" text-anchor="middle" class="t-label">Services · Workflows</text><text x="395" y="426" text-anchor="middle" class="t-sub">session · plan · quiz</text></g>
+<g class="node" data-node-id="intent" tabindex="0" role="img" aria-label="Intent Agent, goal intake"><rect x="60" y="580" width="150" height="64" rx="10" class="n-backend"/><text x="135" y="607" text-anchor="middle" class="t-label">Intent Agent</text><text x="135" y="626" text-anchor="middle" class="t-sub">goal intake</text></g>
+<g class="node" data-node-id="planner" tabindex="0" role="img" aria-label="Planner Agent, roadmap"><rect x="235" y="580" width="150" height="64" rx="10" class="n-backend"/><text x="310" y="607" text-anchor="middle" class="t-label">Planner Agent</text><text x="310" y="626" text-anchor="middle" class="t-sub">roadmap</text></g>
+<g class="node" data-node-id="progress" tabindex="0" role="img" aria-label="Progress Agent, tracking"><rect x="410" y="580" width="150" height="64" rx="10" class="n-backend"/><text x="485" y="607" text-anchor="middle" class="t-label">Progress Agent</text><text x="485" y="626" text-anchor="middle" class="t-sub">tracking</text></g>
+<g class="node" data-node-id="feedback" tabindex="0" role="img" aria-label="Feedback Agent, coaching"><rect x="585" y="580" width="150" height="64" rx="10" class="n-backend"/><text x="660" y="607" text-anchor="middle" class="t-label">Feedback Agent</text><text x="660" y="626" text-anchor="middle" class="t-sub">coaching</text></g>
+<g class="node" data-node-id="nudge" tabindex="0" role="img" aria-label="Nudge Agent, reminders"><rect x="760" y="580" width="150" height="64" rx="10" class="n-backend"/><text x="835" y="607" text-anchor="middle" class="t-label">Nudge Agent</text><text x="835" y="626" text-anchor="middle" class="t-sub">reminders</text></g>
+<g class="node" data-node-id="gemini" tabindex="0" role="img" aria-label="Gemini, primary · keys 1–4"><rect x="390" y="740" width="170" height="64" rx="10" class="n-external"/><text x="475" y="767" text-anchor="middle" class="t-label">Gemini</text><text x="475" y="786" text-anchor="middle" class="t-sub">primary · keys 1–4</text></g>
+<g class="node" data-node-id="groq" tabindex="0" role="img" aria-label="Groq, fallback · keys 1–3"><rect x="640" y="740" width="170" height="64" rx="10" class="n-external"/><text x="725" y="767" text-anchor="middle" class="t-label">Groq</text><text x="725" y="786" text-anchor="middle" class="t-sub">fallback · keys 1–3</text></g>
+<g class="node" data-node-id="postgres" tabindex="0" role="img" aria-label="PostgreSQL, SQLAlchemy"><rect x="1050" y="380" width="150" height="64" rx="10" class="n-database"/><text x="1125" y="407" text-anchor="middle" class="t-label">PostgreSQL</text><text x="1125" y="426" text-anchor="middle" class="t-sub">SQLAlchemy</text></g>
+<g class="node" data-node-id="redis" tabindex="0" role="img" aria-label="Redis, cache · REDIS_URL"><rect x="1050" y="520" width="150" height="64" rx="10" class="n-database"/><text x="1125" y="547" text-anchor="middle" class="t-label">Redis</text><text x="1125" y="566" text-anchor="middle" class="t-sub">cache · REDIS_URL</text></g>
+<g class="node" data-node-id="youtube" tabindex="0" role="img" aria-label="YouTube API, tutorial videos"><rect x="1050" y="660" width="150" height="64" rx="10" class="n-external"/><text x="1125" y="687" text-anchor="middle" class="t-label">YouTube API</text><text x="1125" y="706" text-anchor="middle" class="t-sub">tutorial videos</text></g>
+<g class="node" data-node-id="calendar" tabindex="0" role="img" aria-label="Google Calendar, study schedule"><rect x="1050" y="800" width="150" height="64" rx="10" class="n-external"/><text x="1125" y="827" text-anchor="middle" class="t-label">Google Calendar</text><text x="1125" y="846" text-anchor="middle" class="t-sub">study schedule</text></g>
+</svg>
+</div>
+<div class="cards">
+<div class="card"><h3><i class="dot" style="background:#34d399"></i>Request flow</h3><ul>
+<li>Browser → FastAPI (<code>POST /learning/session</code>) → services dispatch the CrewAI workflow.</li>
+<li>Agents run in order: intent → planner → progress → feedback → nudge, each returning a Pydantic model.</li>
+<li>JSON responses flow back up to the React workspace.</li></ul></div>
+<div class="card"><h3><i class="dot" style="background:#22d3ee"></i>LLM fallback</h3><ul>
+<li>Gemini keys 1–4 are primary with sticky rotation on quota and server errors.</li>
+<li>Groq keys 1–3 engage only after Gemini is exhausted (<code>backend/core/llm.py</code>).</li>
+<li>Structured outputs are preserved on both providers.</li></ul></div>
+<div class="card"><h3><i class="dot" style="background:#a78bfa"></i>Data &amp; external APIs</h3><ul>
+<li>PostgreSQL persists sessions via SQLAlchemy; Redis is configured for cache.</li>
+<li>The frontend fetches YouTube tutorials directly; the backend schedules Google Calendar events.</li></ul></div>
+<div class="card"><h3><i class="dot" style="background:#94a3b8"></i>Browser capabilities</h3><ul>
+<li>Mock interviews use the Web Speech API: recognition for answers, synthesis for speech output.</li></ul></div>
+</div>
+<footer>Evidence pinned to <code>github.com/Rishabh-Devadiga/Saarthi.AI</code> @ <code>6a179cbb</code> (paths cited per layer; LLM fallback reflects the working tree). Open with <code>?theme=light</code> or <code>?theme=dark</code> to fix the theme.</footer>
+</div>
+<script>(function(){var b=document.getElementById('themeBtn');function cur(){return document.documentElement.getAttribute('data-theme');}b.addEventListener('click',function(){var n=cur()==='light'?'dark':'light';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem('saarthi-arch-theme',n);}catch(_){}});try{var p=new URLSearchParams(location.search).get('theme');if(p==='light'||p==='dark'){document.documentElement.setAttribute('data-theme',p);}}catch(_){}})();</script>
+</body>
+</html>

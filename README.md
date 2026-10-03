@@ -45,50 +45,9 @@ Saarthi.AI is not built as a single LLM prompt.
 
 It uses a collection of specialized agents and workflows coordinated by an orchestration layer.
 
-```text
-                         ┌──────────────────────┐
-                         │       Learner        │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │    FastAPI Backend   │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │  Domain Orchestrator │
-                         └──────────┬───────────┘
-                                    │
-              ┌─────────────────────┼─────────────────────┐
-              │                     │                     │
-              ▼                     ▼                     ▼
-      ┌───────────────┐     ┌───────────────┐     ┌───────────────┐
-      │ Intent Agent  │     │ Planner Agent │     │ Progress Agent│
-      └───────────────┘     └───────────────┘     └───────────────┘
-              │                     │                     │
-              └─────────────────────┼─────────────────────┘
-                                    │
-                       ┌────────────┴────────────┐
-                       │                         │
-                       ▼                         ▼
-                ┌───────────────┐        ┌───────────────┐
-                │ Feedback Agent│        │  Nudge Agent  │
-                └───────────────┘        └───────────────┘
-                       │                         │
-                       └────────────┬────────────┘
-                                    ▼
-                         ┌──────────────────────┐
-                         │    Domain Workflows  │
-                         └──────────┬───────────┘
-                                    │
-                 ┌──────────────────┼──────────────────┐
-                 │                  │                  │
-                 ▼                  ▼                  ▼
-          ┌────────────┐     ┌────────────┐     ┌────────────┐
-          │ PostgreSQL │     │ YouTube API│     │ Google APIs│
-          └────────────┘     └────────────┘     └────────────┘
-```
+**Architecture Diagram:** [Open interactive architecture diagram](.archify/architecture-saarthi-ai-20261003-120000/saarthi-ai.html)
+
+The diagram shows the high-level React frontend, FastAPI backend, CrewAI agents, Gemini → Groq LLM fallback, PostgreSQL database, and external API architecture.
 
 ---
 

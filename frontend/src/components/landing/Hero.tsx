@@ -2,9 +2,6 @@ import { ArrowRight } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { buttonVariants } from "@/components/common/buttonVariants";
-import { cn } from "@/utils/cn";
-
 const IMG_W = 1376;
 const IMG_H = 768;
 
@@ -31,8 +28,6 @@ const SPACE_LAYERS: SpaceLayer[] = [
   { box: [1180, 152, 1268, 212], depth: 0.45, drift: "drift-c", dur: "11s", dx: "8px", dy: "-6px", name: "rock-tr-small", rot: "2deg" },
   { box: [1188, 418, 1376, 662], depth: 0.9, drift: "drift-b", dur: "18s", dx: "5px", dy: "-4px", name: "rock-right", rot: "1deg" },
   { box: [0, 58, 142, 642], depth: 1, drift: "drift-b", dur: "20s", dx: "-3px", dy: "3px", name: "rock-left", rot: "0.6deg" },
-  { box: [548, 638, 718, 748], depth: 0.65, drift: "drift-a", dur: "14s", dx: "7px", dy: "-5px", name: "rock-bottom", rot: "-1.2deg" },
-  { box: [258, 588, 374, 704], depth: 0.5, drift: "drift-c", dur: "8s", dx: "0px", dy: "-8px", name: "gem", rot: "3deg" },
   { box: [946, 176, 992, 224], depth: 0.4, drift: "drift-a", dur: "7s", dx: "9px", dy: "8px", name: "frag-lime", rot: "5deg" },
   { box: [505, 220, 532, 258], depth: 0.3, drift: "drift-c", dur: "9s", dx: "-8px", dy: "7px", name: "frag-pink-1", rot: "-4deg" },
   { box: [556, 212, 602, 272], depth: 0.35, drift: "drift-b", dur: "10s", dx: "7px", dy: "-8px", name: "frag-rock-1", rot: "3deg" },
@@ -242,21 +237,20 @@ export function Hero() {
 
         <div className="mt-9 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
           <Link
-            className={cn(buttonVariants({ size: "large" }), "w-full sm:w-auto")}
+            className="cta-primary w-full sm:w-auto"
             onClick={handleStartJourney}
             to="/onboarding"
           >
-            Start your journey
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            <span className="cta-label">Start your journey</span>
+            <span className="cta-arrow" aria-hidden="true">
+              <ArrowRight className="h-4 w-4" />
+            </span>
           </Link>
-          <a
-            className={cn(
-              buttonVariants({ size: "large", variant: "secondary" }),
-              "w-full sm:w-auto",
-            )}
-            href="#features"
-          >
-            Explore Saarthi
+          <a className="cta-secondary w-full sm:w-auto" href="#features">
+            <span className="cta-label">Explore Saarthi</span>
+            <span className="cta-arrow cta-arrow-ghost" aria-hidden="true">
+              <ArrowRight className="h-4 w-4" />
+            </span>
           </a>
         </div>
 

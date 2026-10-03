@@ -203,6 +203,161 @@
     animation-name: drift-c;
   }
 
+  /* Reference-style CTA: dark pill, text left, white arrow tile right. */
+  .cta-primary {
+    display: inline-flex;
+    min-height: 3.5rem;
+    align-items: center;
+    gap: 1.25rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: linear-gradient(180deg, #171021 0%, #0b0614 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 18px 40px rgba(0, 0, 0, 0.45);
+    color: #f4f1fa;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    padding: 0.45rem 0.45rem 0.45rem 1.4rem;
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease,
+      border-color 200ms ease;
+  }
+
+  .cta-primary:hover {
+    transform: translateY(-2px) scale(1.015);
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      0 24px 48px rgba(0, 0, 0, 0.5);
+  }
+
+  .cta-primary:active {
+    transform: translateY(0) scale(0.985);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 10px 24px rgba(0, 0, 0, 0.45);
+  }
+
+  .cta-primary:focus-visible,
+  .cta-secondary:focus-visible {
+    outline: 2px solid #a78bfa;
+    outline-offset: 3px;
+  }
+
+  .cta-arrow {
+    display: inline-flex;
+    height: 2.6rem;
+    width: 2.6rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.65rem;
+    background: #f5f3fa;
+    color: #14092b;
+    transition:
+      transform 200ms ease,
+      background-color 200ms ease;
+  }
+
+  .cta-primary:hover .cta-arrow {
+    transform: translateX(3px);
+    background: #ffffff;
+  }
+
+  .cta-secondary {
+    display: inline-flex;
+    min-height: 3.5rem;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(8px);
+    color: #e9e4f5;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    padding: 0.45rem 0.45rem 0.45rem 1.4rem;
+    transition:
+      transform 200ms ease,
+      background-color 200ms ease,
+      border-color 200ms ease;
+  }
+
+  .cta-secondary:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.32);
+    background: rgba(255, 255, 255, 0.09);
+  }
+
+  .cta-secondary:active {
+    transform: translateY(0) scale(0.985);
+  }
+
+  .cta-arrow-ghost {
+    background: rgba(255, 255, 255, 0.12);
+    color: #f4f1fa;
+  }
+
+  .cta-secondary:hover .cta-arrow-ghost {
+    transform: translateX(3px);
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Compact navbar variant of the primary CTA: same dark body + white
+     arrow tile language, sized for the header. */
+  .cta-nav {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.9rem;
+    border-radius: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: linear-gradient(180deg, #171021 0%, #0b0614 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 12px 28px rgba(0, 0, 0, 0.4);
+    color: #f4f1fa;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    padding: 0.3rem 0.3rem 0.3rem 1.1rem;
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease,
+      border-color 200ms ease;
+  }
+
+  .cta-nav:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      0 16px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  .cta-nav:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .cta-nav:focus-visible {
+    outline: 2px solid #a78bfa;
+    outline-offset: 3px;
+  }
+
+  .cta-nav .cta-arrow {
+    height: 2.1rem;
+    width: 2.1rem;
+    border-radius: 0.55rem;
+  }
+
+  .cta-nav:hover .cta-arrow {
+    transform: translateX(2px);
+    background: #ffffff;
+  }
+
   .onboarding-range {
     height: 0.5rem;
     cursor: pointer;

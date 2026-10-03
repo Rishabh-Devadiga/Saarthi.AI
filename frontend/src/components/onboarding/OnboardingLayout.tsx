@@ -1,4 +1,4 @@
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
@@ -30,15 +30,13 @@ export function OnboardingLayout({
 
       <header className="relative border-b border-white/10 bg-[#0e0718]/70 backdrop-blur-xl">
         <div className="mx-auto flex h-18 w-[min(100%-2rem,1120px)] items-center justify-between">
-          <Link
-            aria-label="Return to Saarthi.AI home"
-            className="inline-flex items-center gap-2.5 font-semibold"
-            to="/"
-          >
-            <span className="flex h-9 w-9 items-center justify-center rounded-md bg-teal-400 text-[#06281f] shadow-[0_8px_24px_rgba(45,212,191,0.35)]">
-              <Sparkles className="h-5 w-5" aria-hidden="true" />
-            </span>
-            <span className="text-lg">Saarthi.AI</span>
+          <Link aria-label="Return to Saarthi.AI home" to="/">
+            <img
+              alt="Saarthi.AI"
+              className="h-8 w-auto"
+              draggable={false}
+              src="/images/logo.png"
+            />
           </Link>
           <Link
             className="inline-flex min-h-10 items-center gap-2 rounded-md px-3 text-sm font-medium text-slate-300 transition-colors hover:bg-white/8 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"

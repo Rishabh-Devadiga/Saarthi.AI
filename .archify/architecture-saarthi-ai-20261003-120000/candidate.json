@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Saarthi.AI System Architecture",
+    "output": ".archify/architecture-saarthi-ai-20261003-120000/saarthi-ai.html",
+    "quality_profile": "showcase",
+    "locale": "en",
+    "repository": {
+      "origin": "https://github.com/Rishabh-Devadiga/Saarthi.AI.git",
+      "revision": "6a179cbb3cace8aefe1b3eaf888791ed9508e35f"
+    }
+  },
+  "components": [
+    { "id": "user", "type": "external", "label": "Learner", "sublabel": "Browser", "pos": [60, 40], "size": [150, 64] },
+    { "id": "landing", "type": "frontend", "label": "Landing · Onboarding", "sublabel": "Home · intake flow", "pos": [60, 200], "size": [170, 64], "sources": [{ "path": "frontend/src/App.tsx", "line": 18, "end_line": 22 }] },
+    { "id": "workspace", "type": "frontend", "label": "Learning workspace", "sublabel": "Plan · mentor · quiz", "pos": [300, 200], "size": [190, 64], "sources": [{ "path": "frontend/src/App.tsx", "line": 24, "end_line": 29 }] },
+    { "id": "speech", "type": "external", "label": "Web Speech API", "sublabel": "mic + TTS", "pos": [560, 200], "size": [170, 64], "sources": [{ "path": "frontend/src/hooks/useSpeechRecognition.ts", "line": 55, "end_line": 63 }, { "path": "frontend/src/hooks/useSpeechSynthesis.ts", "line": 79, "end_line": 79 }, { "path": "frontend/src/components/interview/InterviewSession.tsx", "line": 53, "end_line": 53 }] },
+    { "id": "api", "type": "backend", "label": "FastAPI", "sublabel": "REST API", "pos": [60, 380], "size": [170, 64], "sources": [{ "path": "backend/api/routes/learning.py", "line": 182, "end_line": 186 }, { "path": "backend/api/routes/learning.py", "line": 216, "end_line": 226 }] },
+    { "id": "services", "type": "backend", "label": "Services · Workflows", "sublabel": "session · plan · quiz", "pos": [300, 380], "size": [190, 64], "sources": [{ "path": "backend/api/routes/learning.py", "line": 20, "end_line": 20 }, { "path": "backend/crew/crew_manager.py", "line": 67, "end_line": 67 }] },
+    { "id": "intent", "type": "backend", "label": "Intent Agent", "sublabel": "goal intake", "pos": [60, 580], "size": [150, 64], "sources": [{ "path": "backend/crew/learning_crew.py", "line": 72, "end_line": 72 }, { "path": "backend/agents/intent_agent.py", "line": 105, "end_line": 105 }] },
+    { "id": "planner", "type": "backend", "label": "Planner Agent", "sublabel": "roadmap", "pos": [235, 580], "size": [150, 64], "sources": [{ "path": "backend/crew/learning_crew.py", "line": 77, "end_line": 77 }] },
+    { "id": "progress", "type": "backend", "label": "Progress Agent", "sublabel": "tracking", "pos": [410, 580], "size": [150, 64], "sources": [{ "path": "backend/crew/learning_crew.py", "line": 82, "end_line": 82 }] },
+    { "id": "feedback", "type": "backend", "label": "Feedback Agent", "sublabel": "coaching", "pos": [585, 580], "size": [150, 64], "sources": [{ "path": "backend/crew/learning_crew.py", "line": 91, "end_line": 91 }] },
+    { "id": "nudge", "type": "backend", "label": "Nudge Agent", "sublabel": "reminders", "pos": [760, 580], "size": [150, 64], "sources": [{ "path": "backend/crew/learning_crew.py", "line": 104, "end_line": 104 }] },
+    { "id": "gemini", "type": "external", "label": "Gemini", "sublabel": "primary · keys 1-4", "pos": [390, 740], "size": [170, 64], "sources": [{ "path": "backend/core/llm.py", "line": 62, "end_line": 62 }, { "path": "backend/core/llm.py", "line": 268, "end_line": 268 }] },
+    { "id": "groq", "type": "external", "label": "Groq", "sublabel": "fallback · keys 1-3", "pos": [640, 740], "size": [170, 64], "sources": [{ "path": "backend/core/llm.py", "line": 156, "end_line": 156 }, { "path": "backend/core/llm.py", "line": 207, "end_line": 207 }, { "path": "backend/core/llm.py", "line": 294, "end_line": 304 }] },
+    { "id": "postgres", "type": "database", "label": "PostgreSQL", "sublabel": "SQLAlchemy", "pos": [1050, 380], "size": [150, 64], "sources": [{ "path": "backend/database/database.py", "line": 32, "end_line": 45 }] },
+    { "id": "redis", "type": "database", "label": "Redis", "sublabel": "cache · REDIS_URL", "pos": [1050, 520], "size": [150, 64], "sources": [{ "path": "backend/core/config.py", "line": 115, "end_line": 115 }] },
+    { "id": "youtube", "type": "external", "label": "YouTube API", "sublabel": "tutorial videos", "pos": [1050, 660], "size": [150, 64], "sources": [{ "path": "frontend/src/services/youtubeService.ts", "line": 204, "end_line": 218 }] },
+    { "id": "calendar", "type": "external", "label": "Google Calendar", "sublabel": "study schedule", "pos": [1050, 800], "size": [150, 64], "sources": [{ "path": "backend/services/google_calendar_service.py", "line": 90, "end_line": 90 }, { "path": "backend/api/routes/calendar.py", "line": 120, "end_line": 153 }] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Browser", "wraps": ["landing", "workspace", "speech"] },
+    { "kind": "region", "label": "Server · FastAPI + CrewAI", "wraps": ["api", "services", "intent", "planner", "progress", "feedback", "nudge"] }
+  ],
+  "connections": [
+    { "id": "user-to-landing", "from": "user", "to": "landing", "label": "uses" },
+    { "id": "landing-to-workspace", "from": "landing", "to": "workspace", "label": "onboards", "fromSide": "right", "toSide": "left", "labelDy": -18 },
+    { "id": "workspace-to-speech", "from": "workspace", "to": "speech", "label": "mic + TTS", "fromSide": "right", "toSide": "left", "labelDy": -16 },
+    { "id": "landing-to-api", "from": "landing", "to": "api", "label": "POST session + JSON", "fromSide": "bottom", "toSide": "top", "variant": "emphasis" },
+    { "id": "api-to-services", "from": "api", "to": "services", "label": "dispatch", "fromSide": "right", "toSide": "left" },
+    { "id": "services-to-intent", "from": "services", "to": "intent", "label": "run workflow", "fromSide": "bottom", "toSide": "top" },
+    { "id": "intent-to-planner", "from": "intent", "to": "planner" },
+    { "id": "planner-to-progress", "from": "planner", "to": "progress" },
+    { "id": "progress-to-feedback", "from": "progress", "to": "feedback" },
+    { "id": "feedback-to-nudge", "from": "feedback", "to": "nudge" },
+    { "id": "agents-to-gemini", "from": "planner", "to": "gemini", "label": "primary keys 1-4", "fromSide": "bottom", "toSide": "top" },
+    { "id": "gemini-to-groq", "from": "gemini", "to": "groq", "label": "failover keys 1-3", "variant": "dashed", "labelDy": -20 },
+    { "id": "services-to-postgres", "from": "services", "to": "postgres", "label": "SQL writes", "fromSide": "right", "toSide": "left" },
+    { "id": "services-to-redis", "from": "services", "to": "redis", "label": "cache", "variant": "dashed", "fromSide": "right", "toSide": "left", "via": [[980, 412], [980, 552]], "labelDy": -16 },
+    { "id": "services-to-youtube", "from": "services", "to": "youtube", "label": "videos", "variant": "dashed", "fromSide": "right", "toSide": "left", "via": [[980, 412], [980, 692]], "labelDy": -16 },
+    { "id": "services-to-calendar", "from": "services", "to": "calendar", "label": "schedule", "variant": "dashed", "fromSide": "right", "toSide": "left", "via": [[980, 412], [980, 832]], "labelDy": 20 }
+  ],
+  "cards": [
+    { "dot": "emerald", "title": "Request flow", "items": ["Browser → FastAPI → services → CrewAI agents run intent to nudge in order", "Agents call Gemini keys 1-4 first; Groq keys 1-3 only on exhaustion"] },
+    { "dot": "cyan", "title": "Data and external APIs", "items": ["PostgreSQL persists sessions via SQLAlchemy; Redis is configured for cache", "Frontend fetches YouTube tutorials directly; backend schedules Google Calendar events"] },
+    { "dot": "amber", "title": "Browser capabilities", "items": ["Mock interviews use the Web Speech API for recognition and speech output"] }
+  ]
+}

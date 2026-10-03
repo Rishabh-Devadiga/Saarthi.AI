@@ -14,7 +14,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from backend.core.api_key_rotation import load_api_keys
+from backend.core.api_key_rotation import load_api_keys, load_groq_keys
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 ENV_FILE = PROJECT_ROOT / ".env"
@@ -28,6 +28,10 @@ class Settings:
 
     gemini_api_key: str | None
     gemini_api_keys: tuple[str, ...] = ()
+    groq_api_key: str | None = None
+    groq_api_keys: tuple[str, ...] = ()
+    groq_model: str = "llama-3.3-70b-versatile"
+    groq_base_url: str = "https://api.groq.com/openai/v1"
     mock_mode: bool = False
     database_url: str | None = None
     redis_url: str | None = None
@@ -96,9 +100,16 @@ def get_settings() -> Settings:
         "YOUTUBE_API_KEY",
         legacy_name="YOUTUBE_API_KEY",
     )
+    groq_keys = load_groq_keys()
+    groq_model = _optional_env("GROQ_MODEL") or "llama-3.3-70b-versatile"
+    groq_base_url = _optional_env("GROQ_BASE_URL") or "https://api.groq.com/openai/v1"
     return Settings(
         gemini_api_key=gemini_keys[0].value if gemini_keys else None,
         gemini_api_keys=tuple(key.value for key in gemini_keys),
+        groq_api_key=groq_keys[0].value if groq_keys else None,
+        groq_api_keys=tuple(key.value for key in groq_keys),
+        groq_model=groq_model,
+        groq_base_url=groq_base_url,
         mock_mode=mock_mode,
         database_url=os.getenv("DATABASE_URL"),
         redis_url=os.getenv("REDIS_URL"),

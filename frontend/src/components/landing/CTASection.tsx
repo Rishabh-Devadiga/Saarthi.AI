@@ -1,4 +1,4 @@
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { buttonVariants } from "@/components/common/buttonVariants";
@@ -8,8 +8,14 @@ export function CTASection() {
   return (
     <section className="bg-[#0b1020] px-4 py-20 text-white sm:py-24">
       <div className="mx-auto max-w-4xl text-center">
-        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-md border border-blue-300/20 bg-blue-400/10 text-blue-300">
-          <Sparkles className="h-6 w-6" aria-hidden="true" />
+        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-md border border-blue-300/20 bg-blue-400/10">
+          <img
+            alt=""
+            aria-hidden="true"
+            className="h-7 w-7"
+            draggable={false}
+            src="/images/logo-mark.png"
+          />
         </span>
         <h2 className="mt-6 text-3xl font-bold tracking-normal sm:text-5xl">
           Start Your Learning Journey Today
