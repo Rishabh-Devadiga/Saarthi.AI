@@ -26,7 +26,27 @@ def _get_database_url() -> str:
         raise RuntimeError(
             "DATABASE_URL is required. Add it to your .env file or environment."
         )
-    return database_url
+    return _normalize_database_url(database_url)
+
+
+def _normalize_database_url(database_url: str) -> str:
+    """Normalize the database URL to the psycopg2 dialect SQLAlchemy uses.
+
+    Render supplies Postgres URLs as ``postgres://...``, which SQLAlchemy 2.x
+    does not accept, and a ``postgresql+psycopg://`` URL would require the
+    psycopg v3 driver, which this project does not install. Both cases are
+    mapped to plain ``postgresql://`` so the bundled psycopg2 driver is used.
+    Explicitly chosen third-party dialects (e.g. ``+asyncpg``) are left alone.
+    """
+
+    normalized_url = database_url.strip()
+    if normalized_url.startswith("postgres://"):
+        normalized_url = "postgresql://" + normalized_url[len("postgres://") :]
+    if normalized_url.startswith("postgresql+psycopg://"):
+        normalized_url = "postgresql://" + normalized_url[
+            len("postgresql+psycopg://") :
+        ]
+    return normalized_url
 
 
 def _create_engine(database_url: str) -> Engine:
