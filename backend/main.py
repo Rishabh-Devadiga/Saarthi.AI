@@ -40,6 +40,7 @@ app.add_middleware(
     "http://127.0.0.1:5174",
     "https://saarthi-ai-ochre.vercel.app",
     "https://saarthi-8fgf0fc9h-rishabh-devadigas-projects.vercel.app",
+    "https://saarthi-qkh8d8yxt-rishabh-devadigas-projects.vercel.app"
 ],
     allow_credentials=True,
     allow_methods=["*"],
