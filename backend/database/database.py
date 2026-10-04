@@ -30,22 +30,31 @@ def _get_database_url() -> str:
 
 
 def _normalize_database_url(database_url: str) -> str:
-    """Normalize the database URL to the psycopg2 dialect SQLAlchemy uses.
+    """Pin the database URL to the psycopg2 dialect SQLAlchemy must use.
 
-    Render supplies Postgres URLs as ``postgres://...``, which SQLAlchemy 2.x
-    does not accept, and a ``postgresql+psycopg://`` URL would require the
-    psycopg v3 driver, which this project does not install. Both cases are
-    mapped to plain ``postgresql://`` so the bundled psycopg2 driver is used.
-    Explicitly chosen third-party dialects (e.g. ``+asyncpg``) are left alone.
+    This project installs ``psycopg2-binary`` and nothing else, so the URL
+    must always resolve to the ``psycopg2`` DBAPI. Two traps are handled:
+
+    - Render supplies Postgres URLs as ``postgres://...``, which SQLAlchemy
+      does not accept at all.
+    - A bare ``postgresql://`` URL resolves to whatever default dialect the
+      installed SQLAlchemy version ships. SQLAlchemy 2.0 defaults to
+      psycopg2, but 2.1 changed the default to psycopg v3
+      (``sqlalchemy/dialects/postgresql/psycopg.py``), which is not
+      installed here and fails with ``ModuleNotFoundError: No module named
+      'psycopg'``.
+
+    Pinning ``postgresql+psycopg2://`` explicitly makes driver selection
+    deterministic on every SQLAlchemy version. Explicitly chosen
+    third-party dialects (e.g. ``+asyncpg``) are left alone.
     """
 
     normalized_url = database_url.strip()
-    if normalized_url.startswith("postgres://"):
-        normalized_url = "postgresql://" + normalized_url[len("postgres://") :]
-    if normalized_url.startswith("postgresql+psycopg://"):
-        normalized_url = "postgresql://" + normalized_url[
-            len("postgresql+psycopg://") :
-        ]
+    scheme, separator, rest = normalized_url.partition("://")
+    if not separator:
+        return normalized_url
+    if scheme in ("postgres", "postgresql", "postgresql+psycopg"):
+        return "postgresql+psycopg2://" + rest
     return normalized_url
 
 
