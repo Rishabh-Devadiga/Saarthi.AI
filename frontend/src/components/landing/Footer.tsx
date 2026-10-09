@@ -2,8 +2,16 @@ import { Github } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-[#070a12] text-slate-300">
-      <div className="mx-auto flex w-[min(100%-2rem,1180px)] flex-col gap-8 py-10 sm:flex-row sm:items-end sm:justify-between">
+    <footer className="relative isolate overflow-hidden bg-[#0b1020] text-slate-300">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_80%_at_50%_0%,rgba(59,130,246,0.14),transparent_70%),radial-gradient(ellipse_40%_60%_at_85%_100%,rgba(139,92,246,0.10),transparent_70%)]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent"
+      />
+      <div className="relative mx-auto flex w-[min(100%-2rem,1180px)] flex-col gap-8 py-10 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <img
             alt="Saarthi.AI"
@@ -11,9 +19,8 @@ export function Footer() {
             draggable={false}
             src="/images/logo.png"
           />
-          <p className="mt-3 text-sm">Built for Hack Better Than Me 2026</p>
-          <p className="mt-1 text-sm text-slate-500">
-            Team information coming soon
+          <p className="mt-3 max-w-xs text-sm leading-6 text-slate-400">
+            AI-powered personalized learning.
           </p>
         </div>
 
