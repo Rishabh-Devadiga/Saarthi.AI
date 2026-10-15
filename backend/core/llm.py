@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import logging
+import threading
+import time
 from functools import lru_cache
 from typing import Any
 
@@ -22,6 +24,13 @@ from backend.core.config import get_settings
 logger = logging.getLogger(__name__)
 
 GEMINI_FLASH_MODEL = "gemini/gemini-3.5-flash"
+# Consecutive slow server-side Gemini failures that open the circuit breaker.
+GEMINI_CIRCUIT_THRESHOLD = 2
+# Seconds to bypass Gemini entirely once the circuit opens.
+GEMINI_CIRCUIT_COOLDOWN_SECONDS = 180.0
+_gemini_circuit_lock = threading.Lock()
+_gemini_consecutive_failures = 0
+_gemini_circuit_open_until = 0.0
 RETRYABLE_GEMINI_MARKERS = (
     "resource_exhausted",
     "resource exhausted",
@@ -85,24 +94,81 @@ class RotatingGeminiLLM(BaseLLM):
         """Call Gemini, rotating only for quota, rate-limit, or server errors."""
 
         def call_with_key(api_key: str):
-            client = self._clients.get(api_key)
-            if client is None:
-                client = LLM(api_key=api_key, **self._client_options)
-                self._clients[api_key] = client
-            return client.call(
-                messages,
-                tools=tools,
-                callbacks=callbacks,
-                available_functions=available_functions,
-                from_task=from_task,
-                from_agent=from_agent,
-                response_model=response_model,
-            )
+            if _gemini_circuit_open():
+                raise _GeminiCircuitOpen()
+            try:
+                client = self._clients.get(api_key)
+                if client is None:
+                    client = LLM(api_key=api_key, **self._client_options)
+                    self._clients[api_key] = client
+                return client.call(
+                    messages,
+                    tools=tools,
+                    callbacks=callbacks,
+                    available_functions=available_functions,
+                    from_task=from_task,
+                    from_agent=from_agent,
+                    response_model=response_model,
+                )
+            except Exception as exc:
+                _record_gemini_attempt_failure(exc)
+                raise
 
-        return self._key_pool.execute(
+        result = self._key_pool.execute(
             call_with_key,
             is_retryable=is_retryable_gemini_error,
         )
+        _record_gemini_call_success()
+        return result
+
+
+class _GeminiCircuitOpen(RuntimeError):
+    """Raised instead of attempting Gemini while the circuit breaker is open.
+
+    Deliberately matches no retryable marker so key rotation and agent
+    retries stop immediately and the Groq fallback takes over.
+    """
+
+
+def _gemini_circuit_open() -> bool:
+    """Return whether Gemini attempts are currently bypassed."""
+
+    with _gemini_circuit_lock:
+        return time.monotonic() < _gemini_circuit_open_until
+
+
+def _record_gemini_attempt_failure(exc: Exception) -> None:
+    """Count one failed Gemini attempt toward the circuit breaker.
+
+    Only slow server-side failures (rate limits, 5xx, timeouts) count.
+    Instant deterministic errors such as bad requests never trip it.
+    """
+
+    if isinstance(exc, _GeminiCircuitOpen):
+        return
+    if not is_retryable_gemini_error(exc):
+        return
+    with _gemini_circuit_lock:
+        global _gemini_consecutive_failures, _gemini_circuit_open_until
+        _gemini_consecutive_failures += 1
+        if _gemini_consecutive_failures >= GEMINI_CIRCUIT_THRESHOLD:
+            _gemini_circuit_open_until = (
+                time.monotonic() + GEMINI_CIRCUIT_COOLDOWN_SECONDS
+            )
+            logger.warning(
+                "Gemini circuit opened after %s consecutive failures; "
+                "bypassing Gemini for %.0fs.",
+                _gemini_consecutive_failures,
+                GEMINI_CIRCUIT_COOLDOWN_SECONDS,
+            )
+
+
+def _record_gemini_call_success() -> None:
+    """Reset the circuit breaker after any successful Gemini call."""
+
+    with _gemini_circuit_lock:
+        global _gemini_consecutive_failures
+        _gemini_consecutive_failures = 0
 
 
 RETRYABLE_GROQ_MARKERS = (
@@ -249,6 +315,9 @@ class GeminiWithGroqFallbackLLM(BaseLLM):
             "from_agent": from_agent,
             "response_model": response_model,
         }
+        if self._groq is not None and _gemini_circuit_open():
+            logger.warning("Gemini circuit open; using Groq directly.")
+            return self._groq.call(messages, **call_kwargs)
         try:
             return self._gemini.call(messages, **call_kwargs)
         except Exception as gemini_error:

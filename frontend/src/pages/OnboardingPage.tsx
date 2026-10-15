@@ -22,8 +22,16 @@ import {
   isStepValid,
 } from "@/components/onboarding/validation";
 import { WizardNavigation } from "@/components/onboarding/WizardNavigation";
+import { useAuth } from "@/context/AuthContext";
 import { useSession } from "@/context/SessionContext";
 import { useStartLearningSession } from "@/hooks/useLearningApi";
+import { createRoadmap } from "@/api/roadmapsApi";
+import type { JsonValue, LearningSessionResponse } from "@/types/learning";
+import { setActiveRoadmap } from "@/utils/activeRoadmap";
+import {
+  guestRoadmapTitle,
+  saveGuestRoadmap,
+} from "@/utils/guestRoadmaps";
 
 const initialFormState: OnboardingFormState = {
   goal: "",
@@ -41,6 +49,7 @@ export function OnboardingPage() {
   const [submissionError, setSubmissionError] = useState<string | null>(null);
   const startLearningSession = useStartLearningSession();
   const { saveWorkflow } = useSession();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const today = getTodayInputValue();
   const canContinue = isStepValid(currentStep, formState, today);
@@ -108,13 +117,61 @@ export function OnboardingPage() {
       {
         onSuccess: (response) => {
           saveWorkflow(response.data);
-          navigate("/dashboard");
+          void persistNewRoadmap(response.data, formState.goal);
         },
         onError: (requestError) => {
           setSubmissionError(requestError.message);
         },
       }
     );
+  }
+
+  async function persistNewRoadmap(
+    workflow: LearningSessionResponse,
+    goal: string
+  ) {
+    const title = guestRoadmapTitle(
+      workflow.learning_plan?.learning_goal ?? goal
+    );
+    const session = workflow as unknown as Record<string, JsonValue>;
+    if (isAuthenticated) {
+      try {
+        const saved = await createRoadmap({
+          title,
+          goal: goal.trim() || null,
+          session,
+          resources: {},
+          progress: { completedTopics: {} },
+          quiz: [],
+        });
+        setActiveRoadmap({ id: String(saved.data.id), source: "server" });
+        navigate(`/learning-plan?roadmap=${saved.data.id}&source=server`);
+      } catch {
+        // Server save failed (e.g. expired session): keep the roadmap as a
+        // guest copy so the generated plan is never lost.
+        const guest = saveGuestRoadmap({
+          title,
+          goal: goal.trim() || null,
+          session,
+          resources: {},
+          completedTopics: {},
+          quizAttempts: [],
+        });
+        setActiveRoadmap({ id: guest.id, source: "guest" });
+        navigate(`/learning-plan?roadmap=${guest.id}&source=guest`);
+      }
+      return;
+    }
+    const guest = saveGuestRoadmap({
+      title,
+      goal: goal.trim() || null,
+      session,
+      resources: {},
+      completedTopics: {},
+      quizAttempts: [],
+    });
+    setActiveRoadmap({ id: guest.id, source: "guest" });
+    navigate(`/learning-plan?roadmap=${guest.id}&source=guest`);
   }
 
   if (startLearningSession.isPending) {

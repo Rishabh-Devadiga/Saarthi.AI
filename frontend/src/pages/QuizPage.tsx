@@ -15,7 +15,10 @@ import { QuizQuestionCard } from "@/components/quiz/QuizQuestionCard";
 import { QuizResults } from "@/components/quiz/QuizResults";
 import { useSession } from "@/context/SessionContext";
 import { useGenerateQuiz, useSubmitQuiz } from "@/hooks/useQuizApi";
+import { getRoadmap, updateRoadmap } from "@/api/roadmapsApi";
 import type { GeneratedQuiz, QuizSubmissionResult } from "@/types/quiz";
+import { getActiveRoadmap } from "@/utils/activeRoadmap";
+import { getGuestRoadmap, saveGuestRoadmap } from "@/utils/guestRoadmaps";
 
 const DEFAULT_DIFFICULTY = "Intermediate";
 const DEFAULT_QUESTION_COUNT = 5;
@@ -86,8 +89,40 @@ export function QuizPage() {
         selected_answers: selectedAnswers,
       });
       setResult(response.data);
+      void persistQuizAttempt(response.data);
     } catch {
       // Mutation state renders the API error.
+    }
+  }
+
+  async function persistQuizAttempt(result: QuizSubmissionResult) {
+    const active = getActiveRoadmap();
+    if (!active) {
+      return;
+    }
+    const attempt = {
+      topic: plan?.learning_goal ?? topics[0] ?? "General",
+      score: result.score,
+      total: result.total_questions,
+      takenAt: new Date().toISOString(),
+    };
+    try {
+      if (active.source === "server") {
+        const roadmapId = Number(active.id);
+        if (!Number.isInteger(roadmapId) || roadmapId <= 0) {
+          return;
+        }
+        const current = await getRoadmap(roadmapId);
+        const quiz = Array.isArray(current.data.quiz) ? current.data.quiz : [];
+        await updateRoadmap(roadmapId, { quiz: [...quiz, attempt] });
+        return;
+      }
+      const guest = getGuestRoadmap(active.id);
+      if (guest) {
+        saveGuestRoadmap({ ...guest, quizAttempts: [...guest.quizAttempts, attempt] });
+      }
+    } catch {
+      // Attempt persistence is best-effort; the result is already on screen.
     }
   }
 

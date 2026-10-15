@@ -24,6 +24,7 @@ class User(Base):
         index=True,
         nullable=True,
     )
+    password_hash: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),
@@ -50,6 +51,100 @@ class User(Base):
         back_populates="user",
         cascade="all, delete-orphan",
     )
+    auth_sessions: Mapped[list[AuthSession]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+    roadmaps: Mapped[list[Roadmap]] = relationship(
+        back_populates="user",
+        cascade="all, delete-orphan",
+    )
+
+
+class AuthSession(Base):
+    """Server-side record for an opaque bearer token session."""
+
+    __tablename__ = "auth_sessions"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"),
+        index=True,
+        nullable=False,
+    )
+    token_hash: Mapped[str] = mapped_column(
+        String(64),
+        unique=True,
+        index=True,
+        nullable=False,
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+    revoked: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False,
+    )
+
+    user: Mapped[User] = relationship(back_populates="auth_sessions")
+
+
+class Roadmap(Base):
+    """A saved learning roadmap: the restorable aggregate of one journey.
+
+    ``session_json`` holds the complete workflow response (intent, plan,
+    progress, feedback, and nudge reports). ``resources_json`` caches the
+    YouTube video metadata per topic so reopening never refetches.
+    ``progress_json`` stores the learner's completion map. Quiz, mentor, and
+    interview histories are stored alongside when available.
+    """
+
+    __tablename__ = "roadmaps"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    user_id: Mapped[int] = mapped_column(
+        ForeignKey("users.id", ondelete="CASCADE"),
+        index=True,
+        nullable=False,
+    )
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    goal: Mapped[str | None] = mapped_column(Text, nullable=True)
+    status: Mapped[str] = mapped_column(String(50), default="active", nullable=False)
+    guest_import_id: Mapped[str | None] = mapped_column(
+        String(128),
+        index=True,
+        nullable=True,
+    )
+    session_json: Mapped[dict[str, Any] | None] = mapped_column(JSON, nullable=True)
+    resources_json: Mapped[dict[str, Any]] = mapped_column(
+        JSON, default=dict, nullable=False
+    )
+    progress_json: Mapped[dict[str, Any]] = mapped_column(
+        JSON, default=dict, nullable=False
+    )
+    quiz_json: Mapped[list[Any]] = mapped_column(JSON, default=list, nullable=False)
+    mentor_json: Mapped[dict[str, Any] | None] = mapped_column(JSON, nullable=True)
+    interview_json: Mapped[dict[str, Any] | None] = mapped_column(JSON, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+
+    user: Mapped[User] = relationship(back_populates="roadmaps")
 
 
 class LearnerIntent(Base):

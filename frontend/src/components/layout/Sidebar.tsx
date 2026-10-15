@@ -2,6 +2,7 @@ import {
   BookOpen,
   ClipboardCheck,
   BriefcaseBusiness,
+  FolderOpen,
   GraduationCap,
   LayoutDashboard,
   MessageCircle,
@@ -15,6 +16,7 @@ import { SidebarItem } from "@/components/layout/SidebarItem";
 
 const sidebarItems = [
   { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
+  { label: "My Learning", to: "/my-learning", icon: FolderOpen },
   { label: "Learning Plan", to: "/learning-plan", icon: BookOpen },
   { label: "Quiz", to: "/quiz", icon: ClipboardCheck },
   { label: "AI Mentor", to: "/mentor", icon: MessagesSquare },

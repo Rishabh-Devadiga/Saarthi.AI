@@ -9,9 +9,12 @@ import { FeedbackNudgesPage } from "@/pages/FeedbackNudgesPage";
 import { HomePage } from "@/pages/HomePage";
 import { LearningPlanPage } from "@/pages/LearningPlanPage";
 import { MockInterviewPage } from "@/pages/MockInterviewPage";
+import { MyLearningPage } from "@/pages/MyLearningPage";
 import { OnboardingPage } from "@/pages/OnboardingPage";
 import { ProgressPage } from "@/pages/ProgressPage";
 import { QuizPage } from "@/pages/QuizPage";
+import { SignInPage } from "@/pages/SignInPage";
+import { SignUpPage } from "@/pages/SignUpPage";
 
 export default function App() {
   return (
@@ -19,8 +22,11 @@ export default function App() {
       <Route element={<AppLayout />}>
         <Route index element={<HomePage />} />
         <Route path="onboarding" element={<OnboardingPage />} />
+        <Route path="signin" element={<SignInPage />} />
+        <Route path="signup" element={<SignUpPage />} />
         <Route path="chat" element={<ChatPage />} />
         <Route path="dashboard" element={<DashboardPage />} />
+        <Route path="my-learning" element={<MyLearningPage />} />
         <Route path="learning-plan" element={<LearningPlanPage />} />
         <Route path="progress" element={<ProgressPage />} />
         <Route path="quiz" element={<QuizPage />} />

@@ -9,15 +9,19 @@ from __future__ import annotations
 
 import logging
 from collections.abc import Sequence
+from datetime import datetime
+from typing import Any
 
 from backend.database import crud
 from backend.database.crud import PersistenceError
 from backend.database.models import (
+    AuthSession,
     FeedbackHistory,
     LearnerIntent as LearnerIntentRecord,
     LearningPlan as LearningPlanRecord,
     NudgeHistory,
     Progress,
+    Roadmap as RoadmapRecord,
     User,
 )
 from backend.schemas.feedback import FeedbackReport
@@ -181,6 +185,110 @@ class PersistenceService:
 
         logger.info("Retrieving nudge history for user_id=%s.", user_id)
         return crud.get_nudge_history(user_id)
+
+    def set_user_password(self, user_id: int, password_hash: str) -> User | None:
+        """Store a password hash for a user."""
+
+        logger.info("Setting password for user_id=%s.", user_id)
+        return crud.set_user_password(user_id, password_hash)
+
+    def create_auth_session(
+        self,
+        *,
+        user_id: int,
+        token_hash: str,
+        expires_at: datetime,
+    ) -> AuthSession:
+        """Persist a session record for an issued bearer token."""
+
+        logger.info("Creating auth session for user_id=%s.", user_id)
+        return crud.create_auth_session(
+            user_id=user_id,
+            token_hash=token_hash,
+            expires_at=expires_at,
+        )
+
+    def get_auth_session(self, token_hash: str) -> AuthSession | None:
+        """Return a session record by token hash."""
+
+        return crud.get_auth_session(token_hash)
+
+    def revoke_auth_session(self, token_hash: str) -> bool:
+        """Revoke one session by token hash."""
+
+        logger.info("Revoking an auth session.")
+        return crud.revoke_auth_session(token_hash)
+
+    def prune_auth_sessions(self, reference: datetime) -> int:
+        """Delete expired or revoked sessions."""
+
+        return crud.delete_expired_auth_sessions(reference)
+
+    def create_roadmap(
+        self,
+        *,
+        user_id: int,
+        title: str,
+        goal: str | None = None,
+        status: str = "active",
+        guest_import_id: str | None = None,
+        session_json: dict | None = None,
+        resources_json: dict | None = None,
+        progress_json: dict | None = None,
+        quiz_json: list | None = None,
+        mentor_json: dict | None = None,
+        interview_json: dict | None = None,
+    ) -> RoadmapRecord:
+        """Save a learning roadmap for a user."""
+
+        logger.info("Saving roadmap for user_id=%s.", user_id)
+        return crud.create_roadmap(
+            user_id=user_id,
+            title=title,
+            goal=goal,
+            status=status,
+            guest_import_id=guest_import_id,
+            session_json=session_json,
+            resources_json=resources_json,
+            progress_json=progress_json,
+            quiz_json=quiz_json,
+            mentor_json=mentor_json,
+            interview_json=interview_json,
+        )
+
+    def get_roadmap(self, roadmap_id: int) -> RoadmapRecord | None:
+        """Return a roadmap by id."""
+
+        return crud.get_roadmap_by_id(roadmap_id)
+
+    def get_roadmap_by_import_id(
+        self, user_id: int, guest_import_id: str
+    ) -> RoadmapRecord | None:
+        """Return a roadmap imported from a guest session, if any."""
+
+        return crud.get_roadmap_by_import_id(user_id, guest_import_id)
+
+    def list_roadmaps(self, user_id: int) -> Sequence[RoadmapRecord]:
+        """Return all roadmaps owned by a user."""
+
+        logger.info("Retrieving roadmaps for user_id=%s.", user_id)
+        return crud.list_roadmaps(user_id)
+
+    def update_roadmap(
+        self,
+        roadmap_id: int,
+        **fields: Any,
+    ) -> RoadmapRecord | None:
+        """Update roadmap fields and return the refreshed record."""
+
+        logger.info("Updating roadmap_id=%s.", roadmap_id)
+        return crud.update_roadmap(roadmap_id, **fields)
+
+    def delete_roadmap(self, roadmap_id: int) -> bool:
+        """Delete a roadmap by id."""
+
+        logger.info("Deleting roadmap_id=%s.", roadmap_id)
+        return crud.delete_roadmap(roadmap_id)
 
     def _validate_complete_intent(self, intent: LearnerIntent) -> None:
         """Ensure intent has all non-null fields required by the database table."""

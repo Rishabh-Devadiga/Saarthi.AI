@@ -291,13 +291,22 @@ function EmptyDashboardState() {
         Generate a learning plan from the chat page, then come back here to see
         your goal, progress, feedback, and nudges in one place.
       </p>
-      <Link
-        className="blue-pill mt-6 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-black text-white"
-        to="/chat"
-      >
-        Start in Chat
-        <ArrowRight className="h-4 w-4" aria-hidden="true" />
-      </Link>
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <Link
+          className="blue-pill inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-black text-white"
+          to="/chat"
+        >
+          Start in Chat
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </Link>
+        <Link
+          className="glass-control inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-black text-slate-700"
+          to="/my-learning"
+        >
+          My Learning
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </Link>
+      </div>
     </section>
   );
 }

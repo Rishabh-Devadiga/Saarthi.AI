@@ -21,11 +21,13 @@ def main() -> int:
     try:
         from backend.database.database import Base, engine
         from backend.database.models import (  # noqa: F401
+            AuthSession,
             FeedbackHistory,
             LearnerIntent,
             LearningPlan,
             NudgeHistory,
             Progress,
+            Roadmap,
             User,
         )
     except RuntimeError as exc:
@@ -40,6 +42,7 @@ def main() -> int:
 
     try:
         Base.metadata.create_all(bind=engine)
+        _ensure_user_password_column(engine)
     except Exception as exc:
         print("Database table creation failed.")
         print("Check PostgreSQL availability, permissions, and DATABASE_URL.")
@@ -48,6 +51,29 @@ def main() -> int:
 
     print("Database tables created successfully.")
     return 0
+
+
+def _ensure_user_password_column(engine) -> None:
+    """Add users.password_hash on databases created before auth existed.
+
+    ``create_all`` never alters existing tables, so deployments with an
+    older schema need this idempotent column migration.
+    """
+
+    from sqlalchemy import inspect, text
+
+    inspector = inspect(engine)
+    columns = {column["name"] for column in inspector.get_columns("users")}
+    if "password_hash" in columns:
+        return
+    statement = (
+        "ALTER TABLE users ADD COLUMN password_hash TEXT"
+        if engine.dialect.name == "sqlite"
+        else "ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash TEXT"
+    )
+    with engine.begin() as connection:
+        connection.execute(text(statement))
+    print("Added users.password_hash column for authentication.")
 
 
 if __name__ == "__main__":

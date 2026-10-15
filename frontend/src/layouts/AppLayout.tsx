@@ -23,7 +23,12 @@ export function AppLayout() {
   const searchValue = isLearningPlan ? searchParams.get("q") ?? "" : "";
   const nudge = state.nudges;
 
-  if (location.pathname === "/" || location.pathname === "/onboarding") {
+  if (
+    location.pathname === "/" ||
+    location.pathname === "/onboarding" ||
+    location.pathname === "/signin" ||
+    location.pathname === "/signup"
+  ) {
     return <Outlet />;
   }
 
