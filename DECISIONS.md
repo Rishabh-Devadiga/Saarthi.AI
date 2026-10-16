@@ -130,3 +130,78 @@ existing persistence hook, so nothing writes them yet.
 it (large refactor of working features).
 **Trade-offs:** Roadmap restore covers plan/resources/progress/quiz; mentor
 and interview restart fresh per session. Documented, not silently dropped.
+
+## DEC-011: Gemini circuit breaker for 503 storms
+
+**Context:** Measured a full generation at 360.3s against the 180s frontend
+timeout. Backend logs showed each agent stage burning ~25s per failed Gemini
+attempt across all 4 keys before Groq was ever tried.
+**Decision:** Count consecutive server-side Gemini failures process-wide
+(`backend/core/llm.py`); after 2, skip remaining Gemini attempts and bypass
+Gemini for 180s via a non-retryable `_GeminiCircuitOpen` sentinel. Any success
+resets. Instant errors (400s) never count.
+**Alternatives:** Raising the timeout (masks the problem, burns quota);
+async job + polling (large redesign of the generation contract).
+**Trade-offs:** A short healthy blip of 2 failures diverts one workflow to
+Groq, which is verified-compatible; cooldown expiry re-probes Gemini
+automatically. Observed storm workflow completed in 76.88s with the breaker.
+
+## DEC-012: Duplicate-email signup shows a sign-in path, not a raw error
+
+**Context:** `409 email_taken` surfaced as a generic "API request failed"
+alert with no next step.
+**Decision:** `SignUpPage` branches on `ApiRequestError.errorCode ===
+"email_taken"` and renders a dedicated notice with a link to `/signin`.
+**Alternatives:** Generic message only (user dead-ends); auto-redirect to
+signin (loses form context and surprises).
+**Trade-offs:** One code-specific branch in the page; all other errors keep
+the generic alert path.
+
+## DEC-013: Navigation and redirects run in effects, never during render
+
+**Context:** Auth pages called `navigate()` in the render body, triggering
+React's "update while rendering another component" warning.
+**Decision:** Redirect-on-authenticated moved into `useEffect`; render returns
+null while redirecting.
+**Alternatives:** `<Navigate>` element (equivalent, but the effect keeps the
+existing imperative style consistent across both pages).
+**Trade-offs:** One extra null render; no behavioral change.
+
+## DEC-014: Failed server save falls back to a guest-local copy
+
+**Context:** If roadmap persistence fails after a minutes-long generation
+(e.g. expired token → 401), the plan existed only in memory and was lost.
+**Decision:** `OnboardingPage` catches server-save failure and saves the same
+snapshot to the guest store, navigating to the guest roadmap URL instead.
+**Alternatives:** Error screen with retry (user still risks losing work on a
+dead session); silent drop (data loss).
+**Trade-offs:** An authenticated user can briefly hold a guest copy; the
+My Learning import flow already reunites it with the account.
+
+## DEC-015: Expired sessions clear state without forced navigation
+
+**Context:** A global 401 → `/signin` redirect wiped in-progress forms (e.g.
+a wrong-password message) and yanked users mid-flow.
+**Decision:** The `UNAUTHORIZED_EVENT` handler only clears auth/session
+storage; each surface reacts appropriately (forms keep errors, `MyLearning`
+redirects itself, roadmap pages show restore errors, sign-out reloads to `/`).
+**Alternatives:** Allow-listing non-redirect endpoints (fragile, grows with
+every route).
+**Trade-offs:** A freshly expired background session no longer announces
+itself until the next auth-gated view; acceptable versus destroying input.
+
+## DEC-016: Restore gates video fetching; progress is synthesized if absent
+
+**Context:** Two restore defects found by test: (1) on reload, the plan
+arrives from `sessionStorage` before the roadmap fetch returns, so unseeded
+topics refetched from YouTube; (2) toggling topics is a no-op when a restored
+snapshot lacks a progress report (reducer requires one).
+**Decision:** `LearningPlanPage` blocks the fetch effect until restore settles
+(`roadmapReadyRef`) and always reseeds from the fetched snapshot;
+`buildSessionStateFromSnapshot` synthesizes a minimal progress report from
+plan phases when none exists.
+**Alternatives:** Persisting videos into session state (duplicates the
+roadmap store); disabling toggles without a report (breaks progress on
+restored roadmaps).
+**Trade-offs:** One extra cheap `GET /roadmaps/:id` per mount with a param;
+synthesized progress starts at 0% by construction.

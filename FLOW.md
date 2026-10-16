@@ -46,17 +46,25 @@ flowchart TD
     C --> D[Token in localStorage; /auth/me restores login on refresh]
     D --> E[Generate via /onboarding as usual]
     E --> F[Frontend POSTs snapshot to /roadmaps]
-    F --> G[/learning-plan?roadmap=id&source=server]
-    G --> H[Topic toggles PATCH /roadmaps/id progress;\nquiz submissions append to quiz history]
-    H --> I[User opens /my-learning: GET /roadmaps]
-    I --> J[Open restores exact snapshot + cached videos]
-    J --> K[Optional: DELETE /roadmaps/id]
-    L[Navbar account menu] --> M[POST /auth/signout revokes token]
+    F --> G{Server save succeeds?}
+    G -- Yes --> H[/learning-plan?roadmap=id&source=server]
+    G -- No --> H2[Same snapshot saved as guest copy]
+    H2 --> H3[/learning-plan?roadmap=gid&source=guest]
+    H --> I[Topic toggles PATCH /roadmaps/id progress;\nquiz submissions append to quiz history]
+    H3 --> I
+    I --> J[User opens /my-learning: GET /roadmaps]
+    J --> K[Open restores exact snapshot + cached videos]
+    K --> L[Optional: DELETE /roadmaps/id]
+    M[Navbar account menu] --> N[POST /auth/signout revokes token]
 ```
 
 Sign-in failures always return 401 `invalid_credentials` without revealing
 whether the email or password was wrong. Duplicate registration returns 409
-`email_taken`.
+`email_taken`, rendered as a dedicated notice with a link to `/signin`.
+Expired sessions clear local state without forced navigation: forms keep
+their errors, `MyLearning` redirects itself, and roadmap pages show restore
+errors; sign-out additionally reloads to `/` so no in-memory session bleeds
+across local users.
 
 ## Guest-to-account migration without regeneration
 
@@ -82,9 +90,12 @@ flowchart TD
     B -- No --> C[Fresh generation: POST /learning/session\nthen save snapshot]
     B -- Yes --> D[GET /roadmaps/id or guest store read]
     D --> E[SESSION_RESTORE into SessionContext]
-    E --> F[Seed YouTube cache from saved resources]
+    E --> F[Reseed cache from snapshot;\nfetch effect waits for restore]
     F --> G[Render; fetch only uncached topics]
 ```
+
+Restored snapshots without a progress report get a minimal one synthesized
+from plan phases (0%, first phase current) so topic toggles keep working.
 
 ## Authentication, token validation, ownership checks
 
@@ -124,7 +135,7 @@ flowchart LR
     end
     subgraph CrewAI
         AG[Intent → Planner → Progress → Feedback → Nudge]
-        LLM[Gemini primary · Groq fallback]
+        LLM[Gemini primary · Groq fallback\n503 circuit breaker]
     end
     subgraph Data
         PG[(PostgreSQL:\nusers · auth_sessions\nroadmaps + workflow tables)]
@@ -148,3 +159,13 @@ before deciding what to request, and merges fresh results back into the same
 store. Reopen and refresh therefore render cached cards with zero
 `googleapis.com/youtube` calls unless the learner presses **Refresh
 resources** or a genuinely new topic appears.
+
+## Failure behavior (observed)
+
+During a Gemini 503 storm, a full generation measured **360.3s** (past the
+180s frontend timeout) because every agent stage retried all 4 keys at
+~25s per attempt before Groq was tried. The circuit breaker in
+`backend/core/llm.py` trips after 2 consecutive server-side failures,
+bypasses Gemini for 180s via a non-retryable sentinel, and routes straight
+to Groq; a storm-hit workflow then completed in **76.88s**. The breaker and
+its unit checks live in `backend/scripts/test_llm_fallback.py`.
