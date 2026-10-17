@@ -205,3 +205,48 @@ roadmap store); disabling toggles without a report (breaks progress on
 restored roadmaps).
 **Trade-offs:** One extra cheap `GET /roadmaps/:id` per mount with a param;
 synthesized progress starts at 0% by construction.
+
+## DEC-017: Production frontend `VITE_API_BASE_URL` must point to the backend service
+
+**Context:** The deployed frontend at `https://saarthi-ai-ochre.vercel.app/signin`
+reported HTTP 404 on `POST /auth/signin`. The request was reaching a different
+Vercel host (`saarthi-ai-kc1*.vercel.app`) that does not serve the FastAPI auth
+routes, instead of the actual backend (Railway per the deployment diagram in
+`README.md`). `VITE_API_BASE_URL` had been set to that wrong host in the Vercel
+project environment.
+**Decision:** `VITE_API_BASE_URL` in the Vercel frontend project must point to
+the deployed backend service (the Railway FastAPI host, e.g.
+`https://<railway-backend-domain>`), never to a Vercel/frontend host or to
+`localhost`. It is set in the deployment platform, never committed to Git, and
+the frontend code reads it at build time via `import.meta.env.VITE_API_BASE_URL`
+(`frontend/src/api/apiClient.ts`). The backend route prefixes (`/auth/*`,
+`/roadmaps/*`) are already registered correctly in `backend/api/router.py` and
+require no code change.
+**Alternatives:** Changing the frontend source to a hard-coded URL (breaks
+local dev and environment parity); adding duplicate/mismatched endpoints on the
+backend (masks the config error and creates drift); suppressing the 404 (hides
+the misconfiguration).
+**Trade-offs:** Requires access to the Vercel project settings and a frontend
+redeploy after the env var is corrected. The exact production backend host is
+not stored in the repo; it must be obtained from the Railway/Vercel dashboards
+and verified against the deployed `/auth/signin` endpoint before declaring the
+incident resolved.
+
+## DEC-018: Client-side API errors are classified into actionable user messages
+
+**Context:** The axios response interceptor surfaced every failure as
+`API request failed: <message>`, so a missing route showed the unhelpful raw
+text `Request failed with status code 404`, and an unreachable backend showed
+the raw transport error. Users could not tell whether the sign-in service was
+down, misconfigured, or rejecting credentials.
+**Decision:** `frontend/src/api/apiClient.ts` classifies errors before surfacing
+them: a network-level failure (no response) reports that the authentication
+service is unavailable and to retry later; an HTTP 404 reports that the sign-in
+endpoint is not available and the service may be misconfigured; all other
+statuses use the server-provided `message` when present. The `ApiRequestError`
+still carries `errorCode` (server `error_code`) and `statusCode` so callers such
+as `SignUpPage` (DEC-012, `email_taken`) and 401 handling continue to work.
+**Alternatives:** One generic message for every failure (user dead-ends);
+returning raw Axios messages (unhelpful for 404/network failures).
+**Trade-offs:** Messages are service-agnostic wording; the exact remediation
+(e.g. contact support) is phrased as guidance rather than a promise.

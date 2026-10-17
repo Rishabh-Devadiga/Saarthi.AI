@@ -67,14 +67,51 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
+function classifyApiError(error: AxiosError): {
+  statusCode: number | null;
+  message: string;
+} {
+  const status = error.response?.status ?? null;
+
+  // The backend could not be reached at all (DNS, TLS, refused connection, etc.).
+  if (error.response === undefined) {
+    return {
+      statusCode: null,
+      message:
+        "The authentication service is unavailable right now. Please check your connection and try again later.",
+    };
+  }
+
+  // The route does not exist on the backend (e.g. a misconfigured or stale
+  // deployment). Surface an actionable hint instead of a raw status code.
+  if (status === 404) {
+    return {
+      statusCode: 404,
+      message:
+        "The sign-in endpoint is not available. The authentication service may be misconfigured; please contact support.",
+    };
+  }
+
+  const responseData = error.response?.data as ApiErrorResponse | undefined;
+  if (
+    responseData &&
+    typeof responseData === "object" &&
+    "message" in responseData
+  ) {
+    return { statusCode: status, message: String(responseData.message) };
+  }
+
+  return {
+    statusCode: status,
+    message: error.message || "Unexpected API error",
+  };
+}
+
 apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
+    const { statusCode, message } = classifyApiError(error);
     const responseData = error.response?.data as ApiErrorResponse | undefined;
-    const message =
-      responseData && typeof responseData === "object" && "message" in responseData
-        ? responseData.message
-        : error.message || "Unexpected API error";
 
     if (error.response?.status === 401) {
       setStoredAuthToken(null);
@@ -82,10 +119,10 @@ apiClient.interceptors.response.use(
     }
 
     return Promise.reject(
-      new ApiRequestError(`API request failed: ${message}`, {
+      new ApiRequestError(message, {
         cause: error,
         errorCode: responseData?.error_code ?? null,
-        statusCode: error.response?.status ?? null,
+        statusCode,
       })
     );
   }

@@ -15,6 +15,30 @@ python -m backend.scripts.create_tables   # creates tables + users.password_hash
 authentication existed. No environment variables were added; sessions use
 opaque bearer tokens, so no signing secret is required.
 
+### Production configuration — frontend base URL
+
+The frontend reads its backend base URL at build time from
+`VITE_API_BASE_URL` (`frontend/src/api/apiClient.ts`). In production this must
+point to the deployed backend service (the Railway FastAPI host), **not** to a
+Vercel/frontend host and not to `localhost`:
+
+```env
+VITE_API_BASE_URL=https://<railway-backend-domain>
+```
+
+It is set in the Vercel project settings and never committed to Git. If it
+points at the wrong host, every auth request (signup, signin, signout, `/me`)
+and every roadmap request fails with HTTP 404 because that host does not serve
+the `/auth/*` or `/roadmaps/*` routes. Correcting it requires a frontend
+redeploy; verify the deployed `POST /auth/signin` endpoint afterward before
+declaring the incident resolved.
+
+Backend production environment variables (set in Railway, never committed):
+`DATABASE_URL`, `GEMINI_API_KEY_1..4` (at least one required unless
+`MOCK_MODE=true`), `GROQ_API_KEY_1..4`, `GROQ_MODEL`, `GROQ_BASE_URL`,
+`REDIS_URL`, `YOUTUBE_API_KEY_1..4`, `GOOGLE_CLIENT_ID`,
+`GOOGLE_CLIENT_SECRET`.
+
 ## Guest journey — generate, save locally, reopen without regeneration
 
 ```mermaid
