@@ -250,3 +250,30 @@ as `SignUpPage` (DEC-012, `email_taken`) and 401 handling continue to work.
 returning raw Axios messages (unhelpful for 404/network failures).
 **Trade-offs:** Messages are service-agnostic wording; the exact remediation
 (e.g. contact support) is phrased as guidance rather than a promise.
+
+## DEC-019: Production database schema initialization is idempotent and self-healing
+
+**Context:** The deployed Render backend returned HTTP 500 on
+``POST /auth/signup`` with ``psycopg2.errors.UndefinedTable: relation "users"
+does not exist``. The production PostgreSQL database had been provisioned, but
+the application schema (``users``, ``auth_sessions``, ``roadmaps``, and the
+other workflow tables) had never been initialized against it. No migration
+framework (Alembic) is in use; ``backend/scripts/create_tables.py`` is the
+established process.
+**Decision:** ``create_tables.py`` is refactored so its work is exposed as the
+importable, idempotent ``ensure_schema()``: ``Base.metadata.create_all`` only
+creates tables that are still missing, and the ``users.password_hash`` column
+patch uses PostgreSQL ``ADD COLUMN IF NOT EXISTS``. Running it against an
+existing production database never drops or alters data. Additionally,
+``backend/main.py`` runs ``ensure_schema()`` inside the FastAPI ``lifespan``
+startup hook, so every deploy self-heals missing tables without a manual step.
+The script is also safe to run explicitly on Render's production database via
+the Render shell/one-off command using the production ``DATABASE_URL``.
+**Alternatives:** Adopting Alembic (heavy for this schema); relying solely on a
+manual one-off command (easy to forget, so future deploys can regress); running
+``create_all`` unconditionally without the ``IF NOT EXISTS`` column patch
+(fails on databases that predate the auth column).
+**Trade-offs:** Startup schema initialization adds a small DB round-trip on
+every deploy and assumes the connecting role has ``CREATE`` privilege on the
+target schema (Render's provisioned role does). Additive-only changes are
+supported; any future destructive schema change needs a real migration plan.

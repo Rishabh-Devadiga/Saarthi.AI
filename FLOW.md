@@ -15,6 +15,48 @@ python -m backend.scripts.create_tables   # creates tables + users.password_hash
 authentication existed. No environment variables were added; sessions use
 opaque bearer tokens, so no signing secret is required.
 
+### Production deployment — database initialization (Render)
+
+The production Render backend connects to a provisioned PostgreSQL database via
+``DATABASE_URL``, but Render does **not** initialize the application schema.
+Before signup/signin/roadmap endpoints work, the tables must exist in the
+production database:
+
+```bash
+# Run once against Render's production database (Render shell / one-off).
+# Use the production DATABASE_URL; never hard-code credentials.
+DATABASE_URL=<render-production-database-url> MOCK_MODE=false \
+  python -m backend.scripts.create_tables
+```
+
+The command is idempotent: ``create_all`` only creates tables that are still
+missing, and ``users.password_hash`` is added with ``ADD COLUMN IF NOT EXISTS``.
+It never drops or alters existing data, so it is safe to re-run.
+
+Future deploys are additionally self-healing: ``backend/main.py`` runs
+``ensure_schema()`` inside the FastAPI ``lifespan`` startup hook, so any table
+that is still missing (e.g. a freshly provisioned Render database) is created
+automatically when the backend starts. No separate migration step is required
+going forward, though running the explicit command above is still the
+recommended way to initialize a brand-new production database before first
+traffic.
+
+**Verification after initialization** — connect to the production database and
+confirm the required tables and columns exist (do not expose credentials in
+output):
+
+```sql
+\dt                     -- lists users, auth_sessions, roadmaps, learner_intents,
+                        -- learning_plans, progress, feedback_history, nudge_history
+\d users                -- confirms users.password_hash column exists
+```
+
+Backend production environment variables (set in Render, never committed):
+``DATABASE_URL``, ``GEMINI_API_KEY_1..4`` (at least one required unless
+``MOCK_MODE=true``), ``GROQ_API_KEY_1..4``, ``GROQ_MODEL``, ``GROQ_BASE_URL``,
+``REDIS_URL``, ``YOUTUBE_API_KEY_1..4``, ``GOOGLE_CLIENT_ID``,
+``GOOGLE_CLIENT_SECRET``.
+
 ### Production configuration — frontend base URL
 
 The frontend reads its backend base URL at build time from

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 import sys
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.exceptions import RequestValidationError
@@ -13,6 +14,7 @@ from fastapi.responses import JSONResponse
 
 from backend.api.router import api_router
 from backend.api.schemas.common import ErrorResponse
+from backend.scripts.create_tables import ensure_schema
 from backend.utils.console import configure_utf8_output
 
 
@@ -25,10 +27,31 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Ensure the database schema exists before the app starts serving.
+
+    ``ensure_schema`` is idempotent (``create_all`` only adds missing tables;
+    the password-hash column patch uses ``IF NOT EXISTS``) and never deletes
+    data, so it is safe to run on every deploy against an existing production
+    database. This prevents ``relation "users" does not exist`` 500s when a
+    fresh Render database is provisioned but the schema has not been
+    initialized yet.
+    """
+
+    try:
+        ensure_schema()
+    except Exception as exc:  # pragma: no cover - defensive startup guard
+        logger.exception("Startup schema initialization failed: %s", exc)
+    yield
+
+
 app = FastAPI(
     title="AI-Learning-Agent API",
     description="Backend foundation for the AI-powered personal learning agent.",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 app.add_middleware(
