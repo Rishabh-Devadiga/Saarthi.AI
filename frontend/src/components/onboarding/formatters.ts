@@ -33,7 +33,7 @@ function normalizeGoal(value: string): string {
     : withoutPrefix;
 }
 
-function formatTargetDate(value: string): string {
+export function formatTargetDate(value: string): string {
   const [year, month, day] = value.split("-").map(Number);
   return new Intl.DateTimeFormat("en-GB", {
     day: "numeric",

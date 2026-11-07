@@ -1,98 +1,72 @@
-import {
-  BellRing,
-  Bot,
-  BrainCircuit,
-  CalendarDays,
-  ChartNoAxesCombined,
-  ClipboardCheck,
-  Mic,
-  Youtube,
-} from "lucide-react";
-
-import { FeatureCard } from "@/components/landing/FeatureCard";
-
-const features = [
+const capabilities = [
   {
-    title: "AI Learning Planner",
+    title: "AI learning planner",
     description:
-      "Creates a personalized, milestone-based learning roadmap based on your goal, current skill level, schedule, and target deadline.",
-    icon: BrainCircuit,
-    tone: "blue" as const,
+      "A personalized, milestone-based roadmap built from your goal, current skill level, schedule, and target deadline.",
   },
   {
-    title: "Progress Tracking",
+    title: "Progress tracking",
     description:
-      "Monitor completion, milestones, estimated completion date, upcoming tasks, and overall learning progress in real time.",
-    icon: ChartNoAxesCombined,
-    tone: "emerald" as const,
+      "Completion, milestones, estimated completion date, upcoming tasks, and overall learning progress, tracked in real time.",
   },
   {
-    title: "AI Mentor",
+    title: "AI mentor",
     description:
-      "Chat with an AI mentor for concept explanations, doubt solving, study guidance, and personalized learning support.",
-    icon: Bot,
-    tone: "violet" as const,
+      "Concept explanations, doubt solving, study guidance, and personalized support while you work.",
   },
   {
-    title: "Quiz & Knowledge Checks",
+    title: "Quizzes and knowledge checks",
     description:
-      "Generate AI-powered quizzes to assess your understanding and identify concepts that need revision.",
-    icon: ClipboardCheck,
-    tone: "amber" as const,
+      "AI-generated quizzes that assess your understanding and identify concepts that need revision.",
   },
   {
-    title: "Mock Interview",
+    title: "Mock interviews",
     description:
-      "Practice AI-powered mock interviews with voice interaction, instant evaluation, and detailed performance feedback.",
-    icon: Mic,
-    tone: "rose" as const,
+      "Practice interviews with voice interaction, instant evaluation, and detailed performance feedback.",
   },
   {
-    title: "Smart Feedback & Nudges",
+    title: "Feedback and nudges",
     description:
-      "Receive personalized feedback, actionable recommendations, and intelligent nudges to stay on track.",
-    icon: BellRing,
-    tone: "cyan" as const,
+      "Personalized feedback, actionable recommendations, and intelligent nudges that keep the next step visible.",
   },
   {
-    title: "YouTube Learning Resources",
+    title: "YouTube learning resources",
     description:
-      "Access curated YouTube learning resources for every topic, complete with estimated learning time based on real video durations.",
-    icon: Youtube,
-    tone: "rose" as const,
+      "Curated resources for every topic, with estimated learning time based on real video durations.",
   },
   {
-    title: "Google Calendar Integration",
+    title: "Google Calendar integration",
     description:
-      "Sync your learning roadmap with Google Calendar to schedule study sessions and stay accountable.",
-    icon: CalendarDays,
-    tone: "blue" as const,
+      "Sync the roadmap to your calendar so study sessions are scheduled and visible.",
   },
 ];
 
+/**
+ * Capabilities as hairline rows, not cards: title on the left column,
+ * the work on the right, one idea a row. All eight capabilities the page
+ * had, kept in the product's own nouns.
+ */
 export function FeatureGrid() {
   return (
     <section
-      className="scroll-mt-20 border-b border-slate-200 bg-slate-50 py-20 sm:py-24"
+      className="scroll-mt-24 py-[var(--section-gap)]"
       id="features"
     >
-      <div className="mx-auto w-[min(100%-2rem,1180px)]">
+      <div className="mx-auto w-[min(100%-2rem,74rem)]">
         <div className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase text-blue-700">
-            One companion, complete support
-          </p>
-          <h2 className="mt-3 text-3xl font-bold tracking-normal text-slate-950 sm:text-4xl">
-            Everything you need to keep learning forward
-          </h2>
-          <p className="mt-4 text-base leading-7 text-slate-600">
-            Saarthi.AI connects planning, progress, coaching, and accountability
-            into one clear learning experience.
+          <h2>everything saarthi carries</h2>
+          <p className="mt-4 text-lg text-ink-2">
+            planning, progress, coaching, and accountability, connected into
+            one clear learning experience.
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature) => (
-            <FeatureCard key={feature.title} {...feature} />
+        <div className="mt-12">
+          {capabilities.map((capability) => (
+            <article className="l-row" key={capability.title}>
+              <h3>{capability.title}</h3>
+              <p className="max-w-xl text-ink-2">{capability.description}</p>
+            </article>
           ))}
         </div>
       </div>

@@ -2,14 +2,13 @@ import { ArrowRight, LogOut, Menu, UserRound, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { Button } from "@/components/common/Button";
 import { cn } from "@/utils/cn";
 import { useAuth } from "@/context/AuthContext";
 
 const navigationItems = [
-  { label: "How it works", href: "#how-it-works" },
-  { label: "Features", href: "#features" },
-  { label: "About", href: "#about" },
+  { label: "how it works", href: "#how-it-works" },
+  { label: "capabilities", href: "#features" },
+  { label: "faq", href: "#faq" },
 ];
 
 export function Navbar() {
@@ -26,132 +25,124 @@ export function Navbar() {
   }, []);
 
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300",
-        isScrolled || isOpen
-          ? "border-b border-white/10 bg-[#070b16]/85 backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent",
-      )}
-    >
-      <div className="flex h-18 w-full items-center justify-between px-5 sm:px-8 lg:px-12">
+    <header className={cn("l-nav", (isScrolled || isOpen) && "is-scrolled")}>
+      <div className="mx-auto flex h-16 w-[min(100%-2rem,74rem)] items-center justify-between gap-6">
         <Link aria-label="Saarthi.AI home" className="shrink-0" to="/">
           <img
             alt="Saarthi.AI"
-            className="h-8 w-auto"
+            className="h-7 w-auto"
             draggable={false}
             src="/images/logo.png"
           />
         </Link>
 
-        <nav
-          aria-label="Landing page navigation"
-          className="hidden items-center gap-1 md:flex"
-        >
-          {navigationItems.map((item) => (
-            <a
-              className="rounded-md px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/8 hover:text-white"
-              href={item.href}
-              key={item.href}
-            >
-              {item.label}
-            </a>
-          ))}
-          <Link
-            className="rounded-md px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/8 hover:text-white"
-            to="/my-learning"
+        <div className="flex items-center gap-6">
+          <nav
+            aria-label="Landing page navigation"
+            className="hidden items-center gap-6 lg:flex"
           >
-            My Learning
-          </Link>
-          {isAuthenticated ? (
-            <div className="relative ml-3">
-              <button
-                aria-expanded={isAccountOpen}
-                aria-label="Account menu"
-                className="inline-flex min-h-10 items-center gap-2 rounded-md border border-white/15 bg-white/5 px-3 text-sm font-semibold text-white transition-colors hover:bg-white/10"
-                onClick={() => setIsAccountOpen((current) => !current)}
-                type="button"
-              >
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-xs font-bold">
-                  {(user?.name ?? "S").charAt(0).toUpperCase()}
-                </span>
-                <span className="max-w-28 truncate">{user?.name ?? "Account"}</span>
-              </button>
-              {isAccountOpen ? (
-                <div className="absolute right-0 top-full z-50 mt-2 w-52 overflow-hidden rounded-md border border-white/10 bg-[#0b1020] shadow-xl">
-                  <Link
-                    className="flex items-center gap-2 px-4 py-3 text-sm font-medium text-slate-200 transition-colors hover:bg-white/8"
-                    onClick={() => setIsAccountOpen(false)}
-                    to="/my-learning"
-                  >
-                    <UserRound className="h-4 w-4" aria-hidden="true" />
-                    My Learning
-                  </Link>
-                  <button
-                    className="flex w-full items-center gap-2 px-4 py-3 text-left text-sm font-medium text-slate-200 transition-colors hover:bg-white/8"
-                    onClick={() => {
-                      setIsAccountOpen(false);
-                      void signOut();
-                    }}
-                    type="button"
-                  >
-                    <LogOut className="h-4 w-4" aria-hidden="true" />
-                    Sign out
-                  </button>
-                </div>
-              ) : null}
-            </div>
-          ) : (
-            <>
-              <Link
-                className="rounded-md px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/8 hover:text-white"
-                to="/signin"
-              >
-                Sign in
-              </Link>
-              <Link className="cta-nav ml-2 shrink-0" to="/signup">
-                <span className="cta-label">Sign up</span>
-                <span className="cta-arrow" aria-hidden="true">
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </span>
-              </Link>
-            </>
-          )}
-          <Link className="cta-nav ml-2 shrink-0" to="/onboarding">
-            <span className="cta-label">Start learning</span>
-            <span className="cta-arrow" aria-hidden="true">
-              <ArrowRight className="h-3.5 w-3.5" />
-            </span>
-          </Link>
-        </nav>
+            {navigationItems.map((item) => (
+              <a className="l-navlink" href={item.href} key={item.href}>
+                {item.label}
+              </a>
+            ))}
+            <Link className="l-navlink" to="/my-learning">
+              my learning
+            </Link>
+          </nav>
 
-        <Button
-          aria-controls="mobile-navigation"
-          aria-expanded={isOpen}
-          aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-          className="md:hidden"
-          onClick={() => setIsOpen((current) => !current)}
-          size="icon"
-          variant="secondary"
-        >
-          {isOpen ? (
-            <X className="h-5 w-5" aria-hidden="true" />
-          ) : (
-            <Menu className="h-5 w-5" aria-hidden="true" />
-          )}
-        </Button>
+          <div className="flex items-center gap-2">
+            {isAuthenticated ? (
+              <div className="relative hidden md:block">
+                <button
+                  aria-expanded={isAccountOpen}
+                  aria-label="Account menu"
+                  className="l-pill l-pill-ghost h-10 px-3 text-sm"
+                  onClick={() => setIsAccountOpen((current) => !current)}
+                  type="button"
+                >
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-paper-3 font-[family-name:var(--font-outlier)] text-xs text-ink-2">
+                    {(user?.name ?? "S").charAt(0).toUpperCase()}
+                  </span>
+                  <span className="max-w-28 truncate font-normal">
+                    {user?.name ?? "Account"}
+                  </span>
+                </button>
+                {isAccountOpen ? (
+                  <div className="l-well absolute right-0 top-full z-50 mt-2 w-44 py-1">
+                    <Link
+                      className="flex items-center gap-2 px-3 py-2.5 text-sm text-ink-2 transition-colors hover:text-ink"
+                      onClick={() => setIsAccountOpen(false)}
+                      to="/my-learning"
+                    >
+                      <UserRound className="h-4 w-4" aria-hidden="true" />
+                      my learning
+                    </Link>
+                    <button
+                      className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm text-ink-2 transition-colors hover:text-ink"
+                      onClick={() => {
+                        setIsAccountOpen(false);
+                        void signOut();
+                      }}
+                      type="button"
+                    >
+                      <LogOut className="h-4 w-4" aria-hidden="true" />
+                      sign out
+                    </button>
+                  </div>
+                ) : null}
+              </div>
+            ) : (
+              <>
+                <Link
+                  className="l-navlink hidden sm:inline-flex"
+                  to="/signin"
+                >
+                  sign in
+                </Link>
+                <Link
+                  className="l-navlink ml-2 hidden lg:inline-flex"
+                  to="/signup"
+                >
+                  sign up
+                </Link>
+              </>
+            )}
+            <Link
+              className="l-pill l-pill-primary h-11 px-4 text-sm"
+              to="/onboarding"
+            >
+              start learning
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+            <button
+              aria-controls="mobile-navigation"
+              aria-expanded={isOpen}
+              aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+              className="l-pill l-pill-ghost h-10 w-10 px-0 md:hidden"
+              onClick={() => setIsOpen((current) => !current)}
+              type="button"
+            >
+              {isOpen ? (
+                <X className="h-5 w-5" aria-hidden="true" />
+              ) : (
+                <Menu className="h-5 w-5" aria-hidden="true" />
+              )}
+            </button>
+          </div>
+        </div>
       </div>
 
       {isOpen ? (
         <nav
           aria-label="Mobile landing page navigation"
-          className="border-t border-white/10 bg-[#070b16]/95 px-4 py-4 backdrop-blur-xl md:hidden"
+          className="border-t border-rule bg-paper px-4 py-4 md:hidden"
           id="mobile-navigation"
         >
           <div className="mx-auto flex w-full max-w-lg flex-col gap-1">
             {navigationItems.map((item) => (
               <a
-                className="rounded-md px-4 py-3 text-sm font-medium text-slate-200 transition-colors hover:bg-white/8"
+                className="rounded-card px-4 py-3 text-sm text-ink-2 transition-colors hover:text-ink"
                 href={item.href}
                 key={item.href}
                 onClick={() => setIsOpen(false)}
@@ -160,55 +151,53 @@ export function Navbar() {
               </a>
             ))}
             <Link
-              className="rounded-md px-4 py-3 text-sm font-medium text-slate-200 transition-colors hover:bg-white/8"
+              className="rounded-card px-4 py-3 text-sm text-ink-2 transition-colors hover:text-ink"
               onClick={() => setIsOpen(false)}
               to="/my-learning"
             >
-              My Learning
+              my learning
             </Link>
             {isAuthenticated ? (
               <>
-                <span className="px-4 py-3 text-sm font-semibold text-slate-400">
+                <span className="px-4 py-3 text-sm text-muted">
                   Signed in as {user?.name ?? "learner"}
                 </span>
                 <button
-                  className="rounded-md px-4 py-3 text-left text-sm font-medium text-slate-200 transition-colors hover:bg-white/8"
+                  className="rounded-card px-4 py-3 text-left text-sm text-ink-2 transition-colors hover:text-ink"
                   onClick={() => {
                     setIsOpen(false);
                     void signOut();
                   }}
                   type="button"
                 >
-                  Sign out
+                  sign out
                 </button>
               </>
             ) : (
               <>
                 <Link
-                  className="rounded-md px-4 py-3 text-sm font-medium text-slate-200 transition-colors hover:bg-white/8"
+                  className="rounded-card px-4 py-3 text-sm text-ink-2 transition-colors hover:text-ink"
                   onClick={() => setIsOpen(false)}
                   to="/signin"
                 >
-                  Sign in
+                  sign in
                 </Link>
                 <Link
-                  className="rounded-md px-4 py-3 text-sm font-medium text-slate-200 transition-colors hover:bg-white/8"
+                  className="rounded-card px-4 py-3 text-sm text-ink-2 transition-colors hover:text-ink"
                   onClick={() => setIsOpen(false)}
                   to="/signup"
                 >
-                  Sign up
+                  sign up
                 </Link>
               </>
             )}
             <Link
-              className="cta-nav mt-3 w-full justify-between"
+              className="l-pill l-pill-primary mt-3 w-full justify-between"
               onClick={() => setIsOpen(false)}
               to="/onboarding"
             >
-              <span className="cta-label">Start learning</span>
-              <span className="cta-arrow" aria-hidden="true">
-                <ArrowRight className="h-3.5 w-3.5" />
-              </span>
+              start learning
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
         </nav>

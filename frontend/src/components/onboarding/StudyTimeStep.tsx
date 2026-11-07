@@ -15,17 +15,15 @@ export function StudyTimeStep({ onChange, value }: StudyTimeStepProps) {
     <div>
       <StepHeader
         description="Choose a sustainable daily commitment. Saarthi will shape the roadmap around the time you can consistently protect."
-        icon={Clock3}
-        step={3}
         title="How much time can you commit?"
       />
 
-      <div className="mt-10 rounded-md border border-white/12 bg-black/10 p-5 sm:p-7">
+      <div className="l-well mt-8 p-5 sm:p-7">
         <div className="text-center" aria-live="polite">
-          <p className="text-4xl font-bold text-white sm:text-5xl">
+          <p className="font-[family-name:var(--font-outlier)] text-4xl text-ink sm:text-5xl">
             {formatStudyTime(value)}
           </p>
-          <p className="mt-2 text-sm text-slate-400">every day</p>
+          <p className="l-caption mt-2">every day</p>
         </div>
 
         <label className="sr-only" htmlFor="study-time">
@@ -42,16 +40,21 @@ export function StudyTimeStep({ onChange, value }: StudyTimeStepProps) {
           type="range"
           value={value}
         />
-        <div className="mt-3 flex justify-between text-xs font-medium text-slate-500">
+        <div className="l-readout mt-3 flex justify-between">
           <span>30 mins</span>
           <span>6 hours</span>
         </div>
       </div>
 
-      <div className="mt-5 flex items-start gap-3 rounded-md border border-emerald-300/15 bg-emerald-400/8 p-4 text-sm leading-6 text-emerald-100">
-        <Clock3 className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-        Consistency matters more than choosing the largest number. Pick a pace
-        you can maintain.
+      <div className="mt-5 flex items-start gap-3">
+        <Clock3
+          className="mt-0.5 h-4 w-4 shrink-0 text-muted"
+          aria-hidden="true"
+        />
+        <p className="text-sm leading-6 text-ink-2">
+          Consistency matters more than choosing the largest number. Pick a
+          pace you can maintain.
+        </p>
       </div>
     </div>
   );

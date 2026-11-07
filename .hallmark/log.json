@@ -1,0 +1,21 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "full",
+  "theme": "Lumen (deal 1/3, seed redesign-saarthi-onboarding-flow-69e5·7edd8ee7·2026-11-07·r0)",
+  "genre": "atmospheric",
+  "scope": "two pages: / and /onboarding",
+  "shape": "sign-up anatomy: the conversion page laid out the way the product opens",
+  "axes": "dark/roman-serif/warm",
+  "hero": "Settled: the five-answer diagram beside the head, one accented verb",
+  "nav": "edge bar, lowercase links, brass start-learning pill, account state kept",
+  "footer": "a mast over the links",
+  "imagery": "product captures of the real workspace seeded with a sample roadmap + one key-art band",
+  "entry": "full-scope redesign of the landing and the five-step wizard on the Lumen system; kept-wire record acked (links 17/18, fields 1/1, handlers 111/112, headings 6/22), render tier clear of reflex findings, DESIGN.md locked from tokens.css",
+  "fingerprint": "saarthi-ai · lumen · two-page redesign · 2026-11-07",
+  "sections": "hero, the product at work, capabilities (eight hairline rows), key-art band, faq, close band, footer mast",
+  "signature": "the five-answer path, ruled in brass",
+  "prompt": "Redesign the Saarthi.AI landing page and five-step onboarding with Hallmark (theme Lumen): premium AI-education hero, capabilities showcase, Agentic AI value, improved nav/footer, all functionality preserved (auth, guest mode, validation copy verbatim, no backend changes).",
+  "date": "2026-11-07"
+ }
+]

@@ -1,21 +1,21 @@
-import { Benefits } from "@/components/landing/Benefits";
 import { CTASection } from "@/components/landing/CTASection";
 import { FAQ } from "@/components/landing/FAQ";
 import { FeatureGrid } from "@/components/landing/FeatureGrid";
 import { Footer } from "@/components/landing/Footer";
 import { Hero } from "@/components/landing/Hero";
-import { HowItWorks } from "@/components/landing/HowItWorks";
+import { KeyArtBand } from "@/components/landing/KeyArtBand";
 import { Navbar } from "@/components/landing/Navbar";
+import { ProductSection } from "@/components/landing/ProductSection";
 
 export function HomePage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="lumen">
       <Navbar />
       <main>
         <Hero />
+        <ProductSection />
         <FeatureGrid />
-        <HowItWorks />
-        <Benefits />
+        <KeyArtBand />
         <FAQ />
         <CTASection />
       </main>

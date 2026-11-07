@@ -1,7 +1,7 @@
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
-import { Button } from "@/components/common/Button";
 import type { WizardStep } from "@/components/onboarding/types";
+import { cn } from "@/utils/cn";
 
 type WizardNavigationProps = {
   canContinue: boolean;
@@ -19,37 +19,29 @@ export function WizardNavigation({
   onSubmit,
 }: WizardNavigationProps) {
   const isFinalStep = currentStep === 5;
+  const label = isFinalStep ? "build my learning plan" : "continue";
 
   return (
-    <footer className="flex flex-col-reverse gap-3 border-t border-white/10 bg-black/10 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-      <Button
-        className={currentStep === 1 ? "invisible" : ""}
+    <footer className="flex flex-col-reverse gap-3 border-t border-rule px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+      <button
+        className={cn("l-pill l-pill-ghost", currentStep === 1 ? "invisible" : "")}
         disabled={currentStep === 1}
         onClick={onBack}
-        variant="secondary"
+        type="button"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-        Back
-      </Button>
+        back
+      </button>
 
-      <Button
-        className="w-full sm:w-auto"
+      <button
+        className="l-pill l-pill-primary w-full sm:w-auto"
         disabled={!canContinue}
         onClick={isFinalStep ? onSubmit : onNext}
-        size="large"
+        type="button"
       >
-        {isFinalStep ? (
-          <>
-            Build my learning plan
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </>
-        ) : (
-          <>
-            Continue
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </>
-        )}
-      </Button>
+        {label}
+        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+      </button>
     </footer>
   );
 }

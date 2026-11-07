@@ -226,6 +226,31 @@ store. Reopen and refresh therefore render cached cards with zero
 `googleapis.com/youtube` calls unless the learner presses **Refresh
 resources** or a genuinely new topic appears.
 
+## Design system — what the Lumen redesign changed (frontend only)
+
+The landing page (`/`) and the onboarding wizard (`/onboarding`) are rendered
+with the Hallmark Lumen system: a violet-black paper ground, roman-serif
+lowercase heads with one rose-accented verb, mono readouts for measured figures,
+a warm brass control accent, and hairline rules instead of shadows. The system
+is scoped to `.lumen` shells (`frontend/src/styles/globals.css`); tokens live in
+`frontend/src/styles/tokens.css`; the locked rules are in `DESIGN.md` at the
+repo root, and the redesign's stamps, waivers, and kept-content records sit at
+the top of `globals.css`. Every other route keeps the legacy base: `AppLayout`
+early-returns for `/`, `/onboarding`, `/signin`, `/signup`, so workspace pages
+(dashboard, chat, quiz, interview, calendar) must not move.
+
+Frontend terms in the redesigned surfaces: the wizard's progress path and the
+hero diagram share the five-answer vocabulary (goal, level, study time,
+deadline, preferences); the LoadingScreen reads the five answers back in mono
+with the deadline humanized (`formatTargetDate`); errors render as `.l-alert`
+and validation notes as `.l-field-note`; controls are `.l-pill` (brass primary /
+hairline ghost) and choices are `.l-choice` wells. Behavior is unchanged from
+the pre-redesign flows described above — the wizard still posts to
+`POST /learning/session`, guest submissions still save to
+`saarthi-guest-roadmaps-v1` and navigate with `source=guest`, authed
+submissions save via `POST /roadmaps` and navigate with `source=server`, and
+`frontend/src/components/onboarding/validation.ts` is byte-identical.
+
 ## Failure behavior (observed)
 
 During a Gemini 503 storm, a full generation measured **360.3s** (past the

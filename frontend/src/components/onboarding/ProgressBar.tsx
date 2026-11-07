@@ -1,69 +1,66 @@
-import { Check } from "lucide-react";
-
 import type { WizardStep } from "@/components/onboarding/types";
 import { cn } from "@/utils/cn";
 
-const stepLabels = ["Goal", "Level", "Study time", "Deadline", "Preferences"];
+const stepLabels = ["goal", "level", "study time", "deadline", "preferences"];
 
+/**
+ * The path: five nodes on a hairline, the current node brass — the same
+ * five-answer signature the landing hero draws. Labels read in mono,
+ * lowercase; the readout line announces position.
+ */
 export function ProgressBar({ currentStep }: { currentStep: WizardStep }) {
-  const progress = ((currentStep - 1) / (stepLabels.length - 1)) * 100;
-
   return (
-    <div aria-label={`Step ${currentStep} of 5`} className="w-full">
-      <div className="mb-3 flex items-center justify-between">
-        <p className="text-sm font-semibold text-white">
-          Build your learning profile
-        </p>
-        <p className="text-xs font-medium text-slate-400">
-          Step {currentStep} of 5
-        </p>
+    <nav aria-label={`Step ${currentStep} of 5`} className="w-full">
+      <div className="flex items-baseline justify-between gap-4">
+        <p className="l-caption">build your learning profile</p>
+        <p className="l-readout">{`step ${currentStep} of 5`}</p>
       </div>
 
-      <div className="relative">
-        <div className="absolute left-[10%] right-[10%] top-4 h-0.5 bg-white/10">
-          <div
-            className="h-full bg-blue-500 transition-[width] duration-300"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-        <ol className="relative grid grid-cols-5">
-          {stepLabels.map((label, index) => {
-            const stepNumber = index + 1;
-            const isComplete = stepNumber < currentStep;
-            const isCurrent = stepNumber === currentStep;
+      <ol className="mt-6 flex items-start justify-between">
+        {stepLabels.map((label, index) => {
+          const number = index + 1;
+          const isDone = number < currentStep;
+          const isCurrent = number === currentStep;
+          const isLast = index === stepLabels.length - 1;
+          const isSeen = isDone || isCurrent;
 
-            return (
-              <li className="flex min-w-0 flex-col items-center" key={label}>
+          return (
+            <li
+              aria-current={isCurrent ? "step" : undefined}
+              className="flex items-start"
+              key={label}
+            >
+              <div className="flex flex-col items-center gap-2">
                 <span
-                  aria-current={isCurrent ? "step" : undefined}
+                  aria-hidden="true"
                   className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-full border text-xs font-bold transition-colors",
-                    isComplete
-                      ? "border-blue-500 bg-blue-500 text-white"
-                      : isCurrent
-                        ? "border-blue-400 bg-[#12182a] text-blue-300"
-                        : "border-white/15 bg-[#0c1120] text-slate-500"
+                    "l-path-node",
+                    isCurrent && "is-active",
+                    isDone && "is-done",
                   )}
-                >
-                  {isComplete ? (
-                    <Check className="h-4 w-4" aria-hidden="true" />
-                  ) : (
-                    stepNumber
-                  )}
-                </span>
+                />
                 <span
                   className={cn(
-                    "mt-2 hidden truncate px-1 text-center text-xs sm:block",
-                    isCurrent ? "font-semibold text-white" : "text-slate-500"
+                    "hidden sm:block",
+                    isSeen ? "l-readout text-ink" : "l-readout",
                   )}
                 >
                   {label}
                 </span>
-              </li>
-            );
-          })}
-        </ol>
-      </div>
-    </div>
+              </div>
+              {isLast ? null : (
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    "mt-[4px] h-px w-8 sm:w-14",
+                    isDone ? "bg-rule-2" : "bg-rule",
+                  )}
+                />
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
   );
 }

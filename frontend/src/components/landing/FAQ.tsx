@@ -14,41 +14,37 @@ const questions = [
     answer:
       "Yes. Your current session is stored in the browser so the dashboard, learning plan, progress, and feedback views remain available.",
   },
+  {
+    question: "Do I need an account to start?",
+    answer:
+      "No. Guest learners complete the same five steps and get the same roadmap — guest plans are saved in this browser. An account keeps your learning history across devices.",
+  },
 ];
 
 export function FAQ() {
   return (
-    <section
-      className="scroll-mt-20 bg-white py-20 sm:py-24"
-      id="faq"
-    >
-      <div className="mx-auto grid w-[min(100%-2rem,1000px)] gap-10 lg:grid-cols-[0.7fr_1.3fr]">
+    <section className="scroll-mt-24 py-[var(--section-gap)]" id="faq">
+      <div className="mx-auto grid w-[min(100%-2rem,60rem)] gap-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
         <div>
-          <p className="text-sm font-semibold uppercase text-blue-700">FAQ</p>
-          <h2 className="mt-3 text-3xl font-bold tracking-normal text-slate-950 sm:text-4xl">
-            A few useful answers
-          </h2>
-          <p className="mt-4 text-base leading-7 text-slate-600">
-            Saarthi.AI keeps the path into your learning workflow simple and
-            intentional.
+          <h2>answers before you start</h2>
+          <p className="l-caption mt-4">
+            the path into your learning workflow stays simple and intentional.
           </p>
         </div>
 
-        <div className="divide-y divide-slate-200 border-y border-slate-200">
+        <div className="border-b border-rule">
           {questions.map((item) => (
-            <details className="group py-5" key={item.question}>
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-slate-950">
+            <details className="group border-t border-rule" key={item.question}>
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-ink [&::-webkit-details-marker]:hidden">
                 {item.question}
                 <span
                   aria-hidden="true"
-                  className="text-xl font-normal text-blue-600 transition-transform group-open:rotate-45"
+                  className="l-readout transition-transform duration-200 group-open:rotate-45"
                 >
                   +
                 </span>
               </summary>
-              <p className="max-w-2xl pt-3 text-sm leading-6 text-slate-600">
-                {item.answer}
-              </p>
+              <p className="max-w-2xl pb-6 text-ink-2">{item.answer}</p>
             </details>
           ))}
         </div>

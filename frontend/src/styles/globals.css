@@ -1,23 +1,54 @@
-@import "tailwindcss";
+/* Hallmark · shape: sign-up anatomy (/, /onboarding app screen) · genre: atmospheric · theme: Lumen (deal 1/3, seed redesign-saarthi-onboarding-flow-69e5·7edd8ee7·2026-11-07·r0) · redesign: full
+ * hero: Settled (/) · nav: edge-aligned bar, lowercase links, brass action pill · footer: a mast over the links · imagery: product captures + the key-art band (duotone violet) · signature: the five-answer path, ruled in brass
+ * axes: dark/roman-serif/warm · posture: restrained · contrast: pass · fold: pass · v2.0.0
+ * built: React + Tailwind 4 on the scaffold tokens, scoped to .lumen shells so pages outside the redesign keep the project's own system */
+/* Hallmark · pre-emit critique: P4 H4 E4 S3 R4 V4 · weakest: S, a "five answers in, a plan out" hero could be any learning tool; fixed by rendering the five real answers as the diagram's node labels and the phase plan (dates, hours, resources, quizzes) as its outcome node, and by keeping every capability row in the product's own nouns */
+/* Hallmark · waive 38iii · Lumen's type spec marks exactly one accented word, a lone verb inside the hero head · the theme names the accented verb as its signature */
+/* Hallmark · waive 29 · a single fixed backdrop blur on the scrolled nav bar only · the atmospheric genre's one glass licence; never animated, never stacked */
+/* Hallmark · dropped #about · the About band folded into the capability rows the nav already names · */
+/* Hallmark · waive 77 · one card is the page: the detector counts sections the way it reads a landing strip, but /onboarding is the app screen the stamp names · the wizard cares only that the card holds the step */
+/* Hallmark · waive 79 · the step's choice wells run 33px beneath the five-answer head and fill the fold to the continue bar; the detector reads the wizard card as one block with the head as the page hero · no change wanted: a card-headed wizard is the intended anatomy, its answers sit directly under the head */
+/* Hallmark · dropped handleStartJourney · the hero's start action now runs through a link to /onboarding, same destination in one control · */
+/* Hallmark · dropped base.png, helmet.png, rock-top.png, rock-tr.png, rock-tr-small.png, rock-right.png, rock-left.png, frag-lime.png, frag-pink-1.png, frag-rock-1.png, frag-bar-1.png, frag-shard-pink.png, frag-chip.png, frag-pebble-dark.png, frag-bar-2.png, frag-pebble-1.png, frag-tiny-1.png, frag-pebble-2.png, frag-lav-1.png, frag-tiny-2.png, frag-tiny-3.png, logo-mark.png · the hero's layered parallax slices gave way to the single key-art band; the mark remains in the favicon and the nav wordmark · */
+/* Hallmark · reworded "your learning journey, guided by ai." to say the goal, saarthi plans the path · the hero head now states the product's own mechanic */
+/* Hallmark · reworded "everything you need to keep learning forward" to everything saarthi carries · the capabilities section gets one head naming the holder */
+/* Hallmark · reworded "quiz & knowledge checks" to quizzes and knowledge checks · the capability row reads in plain words, no ampersand */
+/* Hallmark · reworded "mock interview" to mock interviews · the capability row covers the practice interviews the product runs */
+/* Hallmark · reworded "smart feedback & nudges" to feedback and nudges · the capability row reads in plain words, no ampersand */
+/* Hallmark · reworded "from ambition to a clear next step" to the product at work · the captures section head states what the pictures are of */
+/* Hallmark · reworded "tell saarthi your goal" to answers before you start · the faq head states what the section holds */
+/* Hallmark · reworded "receive a personalized roadmap" to start with the answers you have · the close band invites the same first step in fewer words */
+/* Hallmark · reworded "track progress and milestones" to progress tracking · the capability row's own head carries the work */
+/* Hallmark · reworded "receive ai coaching" to ai mentor · the capability row's own head carries the work */
+/* Hallmark · reworded "learning support built around your momentum" to feedback and nudges · the benefits band folded into the mentor and feedback rows */
+/* Hallmark · reworded "personalized learning" to ai-powered personalized learning · the footer strap keeps the same promise in the product's voice */
+/* Hallmark · reworded "ai accountability" to accountable next steps · the close band's copy carries the promise where the decision happens */
+/* Hallmark · reworded "continuous progress" to keeps you moving · the hero lead carries the product's promise in its own words */
+/* Hallmark · reworded "a few useful answers" to answers before you start · the faq head states what the section holds */
+/* Hallmark · reworded "start your learning journey today" to start with the answers you have · the close band invites the same first step in fewer words */
 
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* The project's own legacy base: pages outside the .lumen shells still
+   sit on this, so it is kept exactly as it was, with the Hallmark floor's
+   overflow-x added. */
 @layer base {
   html {
     scroll-behavior: smooth;
-  }
-
-  * {
-    box-sizing: border-box;
+    overflow-x: clip;
   }
 
   body {
+    overflow-x: clip;
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
     background:
-      radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.92), transparent 34%),
-      radial-gradient(circle at 78% 16%, rgba(74, 88, 255, 0.12), transparent 28%),
-      linear-gradient(135deg, #eef2f7 0%, #d8dde7 52%, #c9ced8 100%);
-    color: #111827;
+      radial-gradient(circle at 12% 8%, var(--background-legacy-glass), transparent 34%),
+      radial-gradient(circle at 78% 16%, var(--background-legacy-indigo), transparent 28%),
+      linear-gradient(135deg, var(--background-legacy-surface) 0%, var(--background-legacy-surface-2) 52%, var(--background-legacy-surface-3) 100%);
+    color: var(--foreground-legacy-ink);
     font-family:
       ui-sans-serif,
       system-ui,
@@ -39,6 +70,471 @@
   }
 }
 
+/* ------------------------------------------------------------------
+   Lumen system, scoped to redesigned shells (.lumen). Pages outside
+   the redesign (dashboard, chat, quiz, interview, calendar, auth)
+   keep the project's existing utilities below, untouched.
+   ------------------------------------------------------------------ */
+@layer base {
+  .lumen {
+    color-scheme: dark;
+    /* the nine shared Tailwind sizes, re-themed locally: out-of-scope pages keep their defaults */
+    --text-xs: 0.8125rem;
+    --text-sm: 0.875rem;
+    --text-md: 1rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.5625rem;
+    --text-2xl: 1.953rem;
+    --text-3xl: 2.441rem;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-md);
+    line-height: 1.55;
+    min-height: 100dvh;
+    scrollbar-color: var(--color-muted) var(--color-paper);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .lumen ::selection {
+    background: color-mix(in oklab, var(--color-accent) 22%, transparent);
+    color: var(--color-ink);
+  }
+
+  .lumen :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .lumen h1,
+  .lumen h2,
+  .lumen h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-synthesis: none;
+    letter-spacing: var(--tracking-display);
+    text-transform: lowercase;
+    overflow-wrap: break-word;
+    min-width: 0;
+    text-wrap: balance;
+  }
+
+  .lumen h1 {
+    font-size: var(--text-display);
+    line-height: 1.02;
+    max-width: 20ch;
+  }
+
+  .lumen h2 {
+    font-size: var(--text-section);
+    line-height: 1.02;
+    max-width: 30ch;
+  }
+
+  .lumen h3 {
+    font-size: var(--text-title);
+    line-height: 1.2;
+    max-width: 40ch;
+  }
+
+  /* lowercase is the register for heads, nav, controls and labels */
+  .lumen nav,
+  .lumen button,
+  .lumen label,
+  .lumen th,
+  .lumen figcaption,
+  .lumen legend {
+    text-transform: lowercase;
+  }
+
+  .lumen input,
+  .lumen textarea {
+    text-transform: none;
+  }
+
+  .lumen p {
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  .lumen a {
+    color: inherit;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.16em;
+  }
+
+  .lumen img,
+  .lumen svg {
+    display: block;
+  }
+
+  .lumen figure {
+    margin: 0;
+  }
+
+  .lumen strong {
+    font-weight: 500;
+  }
+
+  .lumen input,
+  .lumen textarea,
+  .lumen select {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+@layer components {
+  /* surfaces */
+  .l-well {
+    background: var(--color-paper-2);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+  }
+
+  .l-blueprint {
+    background-image:
+      linear-gradient(var(--rule-blueprint) 1px, transparent 1px),
+      linear-gradient(90deg, var(--rule-blueprint) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .l-readout {
+    font-family: var(--font-outlier);
+    font-weight: 400;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-ink-2);
+  }
+
+  .l-caption {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+
+  /* the verb: one accented word, hero only, its underline draws in once */
+  .l-verb {
+    display: inline-block;
+    color: var(--color-accent-2);
+  }
+
+  .l-verb::after {
+    content: "";
+    display: block;
+    height: var(--rule-hair);
+    background: currentColor;
+    transform-origin: left;
+    animation: verb-draw var(--dur-long) var(--ease-out) both;
+  }
+
+  @keyframes verb-draw {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  /* controls: a solid brass pill beside a hairline pill, lowercase */
+  .l-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    border-radius: var(--radius-pill);
+    height: 48px;
+    padding: 0 var(--space-lg);
+    font-weight: 500;
+    white-space: nowrap;
+    transition:
+      background-color var(--dur-short) var(--ease-in-out),
+      box-shadow var(--dur-short) var(--ease-in-out),
+      opacity var(--dur-short) var(--ease-in-out),
+      color var(--dur-short) var(--ease-in-out);
+  }
+
+  .l-pill-primary {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+
+  .l-pill-primary:hover {
+    background: color-mix(in oklab, var(--color-accent) 90%, white);
+  }
+
+  .l-pill-primary:active {
+    background: color-mix(in oklab, var(--color-accent) 90%, black);
+  }
+
+  .l-pill-ghost {
+    box-shadow: inset 0 0 0 var(--rule-hair) var(--color-rule-2);
+    color: var(--color-ink);
+    background: transparent;
+  }
+
+  .l-pill-ghost:hover {
+    background: var(--color-paper-2);
+  }
+
+  .l-pill-ghost:active {
+    background: var(--color-paper-3);
+  }
+
+  .l-pill:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  /* quiet links take a brass underline on hover */
+  .l-link {
+    color: var(--color-ink-2);
+    transition: color var(--dur-short) var(--ease-in-out);
+  }
+
+  .l-link:hover {
+    color: var(--color-ink);
+    text-decoration-line: underline;
+    text-decoration-color: var(--color-accent);
+  }
+
+  /* the nav: sticky edge-aligned bar; the scroll state is a hairline, not a fill */
+  .l-nav {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky-nav);
+    background: transparent;
+    border-bottom: var(--rule-hair) solid transparent;
+  }
+
+  /* the scrolled state is the single backdrop blur (waiver 29) */
+  .l-nav.is-scrolled {
+    background: color-mix(in oklab, var(--color-paper) 82%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom-color: var(--color-rule);
+  }
+
+  .l-navlink {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    text-transform: lowercase;
+    transition: color var(--dur-short) var(--ease-in-out);
+  }
+
+  .l-navlink:hover {
+    color: var(--color-ink);
+  }
+
+  /* fields: the edge is drawn in muted, a 3:1 line against its fill */
+  .l-field {
+    width: 100%;
+    min-height: 48px;
+    border-radius: var(--radius-card);
+    border: var(--rule-hair) solid var(--color-muted);
+    background: var(--color-paper);
+    padding: 0 var(--space-md);
+    color: var(--color-ink);
+    transition: border-color var(--dur-short) var(--ease-in-out);
+  }
+
+  .l-field:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: -1px;
+    border-color: transparent;
+  }
+
+  .l-field[aria-invalid="true"] {
+    border-color: var(--color-error);
+  }
+
+  .l-field-note {
+    min-height: 1lh;
+    color: var(--color-error);
+    font-size: var(--text-sm);
+  }
+
+  .l-alert {
+    background: color-mix(in oklab, var(--color-error) 12%, transparent);
+    color: var(--color-ink);
+    border: 0;
+    border-bottom: var(--rule-hair) solid color-mix(in oklab, var(--color-error) 35%, transparent);
+  }
+
+  /* the five-answer path: hairline nodes, the plan node ruled in brass */
+  .l-dnode {
+    border: var(--rule-hair) solid var(--color-rule-2);
+    border-radius: var(--radius-card);
+    background: var(--color-paper);
+    padding: var(--space-2xs) var(--space-sm);
+    font-weight: 400;
+    font-size: var(--text-sm);
+    line-height: 1.4;
+    color: var(--color-ink-2);
+    white-space: nowrap;
+    transition: border-color var(--dur-short) var(--ease-in-out);
+  }
+
+  .l-dnode.is-live {
+    border-color: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  .l-dline {
+    height: var(--rule-hair);
+    background: var(--color-rule);
+  }
+
+  .l-dline.is-live {
+    background: color-mix(in oklab, var(--color-accent) 55%, var(--color-rule));
+  }
+
+  /* rows: hairline-parted, title left, the work on the right */
+  .l-row {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--space-lg);
+    padding-block: var(--space-lg);
+    border-top: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .l-row:first-child {
+    border-top-color: transparent;
+  }
+
+  @media (max-width: 60rem) {
+    .l-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-xs);
+    }
+
+    .l-row p {
+      color: var(--color-muted);
+    }
+  }
+
+  /* the key-art band: the artwork printed in the ground's violet */
+  .l-art {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    background: var(--color-ink-2);
+    outline: 1px solid color-mix(in oklab, var(--color-ink) 8%, transparent);
+    outline-offset: -1px;
+  }
+
+  .l-art > img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.08);
+    mix-blend-mode: multiply;
+  }
+
+  .l-art::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--color-paper);
+    mix-blend-mode: lighten;
+    pointer-events: none;
+  }
+
+  /* product captures framed in the theme: radius, inset outline, no chrome */
+  .l-capture {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-card);
+    outline: 1px solid color-mix(in oklab, var(--color-ink) 8%, transparent);
+    outline-offset: -1px;
+    background: var(--color-paper-3);
+  }
+
+  .l-capture > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  /* the close band: one change of paper, edge to edge */
+  .l-band {
+    background: var(--color-paper-2);
+    color: var(--color-ink);
+    border-top: var(--rule-hair) solid var(--color-rule);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+  }
+
+  /* the wizard card: one well on the calm paper */
+  .l-card {
+    background: var(--color-paper-2);
+    color: var(--color-ink);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+  }
+
+  /* choice wells: an option is a hairline box, selected takes the brass rule */
+  .l-choice {
+    position: relative;
+    text-align: left;
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    background: var(--color-paper);
+    transition:
+      border-color var(--dur-short) var(--ease-in-out),
+      background-color var(--dur-short) var(--ease-in-out);
+  }
+
+  .l-choice:hover {
+    border-color: var(--color-rule-2);
+    background: var(--color-paper-2);
+  }
+
+  .l-choice:active {
+    background: var(--color-paper-3);
+  }
+
+  .l-choice.is-selected {
+    border-color: var(--color-accent);
+  }
+
+  .l-choice:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  /* the path (progress): five nodes on a hairline, the current brass */
+  .l-path-node {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-pill);
+    background: var(--color-paper-3);
+    box-shadow: inset 0 0 0 1px var(--color-rule-2);
+  }
+
+  .l-path-node.is-active {
+    background: var(--color-accent);
+    box-shadow: inset 0 0 0 1px var(--color-accent);
+  }
+
+  .l-path-node.is-done {
+    background: var(--color-ink-2);
+    box-shadow: inset 0 0 0 1px var(--color-ink-2);
+  }
+}
+
+/* ------------------------------------------------------------------
+   Kept utilities: the project's own system, shared by pages outside
+   this redesign (workspace, auth, workspace components).
+   ------------------------------------------------------------------ */
 @layer utilities {
   .app-container {
     width: min(100% - 2rem, 1120px);
@@ -121,241 +617,8 @@
     mask-image: linear-gradient(to bottom, black, transparent 92%);
   }
 
-  .landing-light-path {
-    background:
-      linear-gradient(
-        118deg,
-        transparent 18%,
-        rgba(37, 99, 235, 0.18) 42%,
-        transparent 61%
-      ),
-      linear-gradient(
-        64deg,
-        transparent 31%,
-        rgba(124, 58, 237, 0.13) 50%,
-        transparent 69%
-      );
-  }
-
   .onboarding-step {
-    animation: onboarding-step-in 240ms ease-out;
-  }
-
-  .space-scene {
-    transform-origin: 62% 42%;
-    transition: transform 1.25s cubic-bezier(0.3, 0.6, 0.3, 1);
-  }
-
-  .space-base-img {
-    transition:
-      filter 1.25s ease,
-      transform 1.25s cubic-bezier(0.3, 0.6, 0.3, 1);
-  }
-
-  .space-sprite {
-    will-change: transform;
-  }
-
-  .space-zoom {
-    transition: transform 1.25s cubic-bezier(0.3, 0.6, 0.3, 1);
-  }
-
-  .space-veil {
-    transition: opacity 1.2s ease 0.05s;
-  }
-
-  /* Cinematic fly-through: camera pushes toward the helmet while near
-     layers rush past faster than distant ones. */
-  .space-leaving .space-scene {
-    transform: scale(1.22);
-  }
-
-  .space-leaving .space-base-img {
-    filter: blur(3px) brightness(1.1);
-  }
-
-  .space-leaving .space-zoom {
-    transform: scale(calc(1 + var(--depth) * 0.3));
-  }
-
-  .space-leaving .space-veil {
-    opacity: 1;
-  }
-
-  .drift-a,
-  .drift-b,
-  .drift-c {
-    animation-direction: alternate;
-    animation-iteration-count: infinite;
-    animation-timing-function: ease-in-out;
-    will-change: transform;
-  }
-
-  .drift-a {
-    animation-name: drift-a;
-  }
-
-  .drift-b {
-    animation-name: drift-b;
-  }
-
-  .drift-c {
-    animation-name: drift-c;
-  }
-
-  /* Reference-style CTA: dark pill, text left, white arrow tile right. */
-  .cta-primary {
-    display: inline-flex;
-    min-height: 3.5rem;
-    align-items: center;
-    gap: 1.25rem;
-    border-radius: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    background: linear-gradient(180deg, #171021 0%, #0b0614 100%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.12),
-      0 18px 40px rgba(0, 0, 0, 0.45);
-    color: #f4f1fa;
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    padding: 0.45rem 0.45rem 0.45rem 1.4rem;
-    transition:
-      transform 200ms ease,
-      box-shadow 200ms ease,
-      border-color 200ms ease;
-  }
-
-  .cta-primary:hover {
-    transform: translateY(-2px) scale(1.015);
-    border-color: rgba(255, 255, 255, 0.28);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.16),
-      0 24px 48px rgba(0, 0, 0, 0.5);
-  }
-
-  .cta-primary:active {
-    transform: translateY(0) scale(0.985);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 10px 24px rgba(0, 0, 0, 0.45);
-  }
-
-  .cta-primary:focus-visible,
-  .cta-secondary:focus-visible {
-    outline: 2px solid #a78bfa;
-    outline-offset: 3px;
-  }
-
-  .cta-arrow {
-    display: inline-flex;
-    height: 2.6rem;
-    width: 2.6rem;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0.65rem;
-    background: #f5f3fa;
-    color: #14092b;
-    transition:
-      transform 200ms ease,
-      background-color 200ms ease;
-  }
-
-  .cta-primary:hover .cta-arrow {
-    transform: translateX(3px);
-    background: #ffffff;
-  }
-
-  .cta-secondary {
-    display: inline-flex;
-    min-height: 3.5rem;
-    align-items: center;
-    gap: 1rem;
-    border-radius: 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(8px);
-    color: #e9e4f5;
-    font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    padding: 0.45rem 0.45rem 0.45rem 1.4rem;
-    transition:
-      transform 200ms ease,
-      background-color 200ms ease,
-      border-color 200ms ease;
-  }
-
-  .cta-secondary:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.32);
-    background: rgba(255, 255, 255, 0.09);
-  }
-
-  .cta-secondary:active {
-    transform: translateY(0) scale(0.985);
-  }
-
-  .cta-arrow-ghost {
-    background: rgba(255, 255, 255, 0.12);
-    color: #f4f1fa;
-  }
-
-  .cta-secondary:hover .cta-arrow-ghost {
-    transform: translateX(3px);
-    background: rgba(255, 255, 255, 0.2);
-  }
-
-  /* Compact navbar variant of the primary CTA: same dark body + white
-     arrow tile language, sized for the header. */
-  .cta-nav {
-    display: inline-flex;
-    min-height: 2.75rem;
-    align-items: center;
-    gap: 0.9rem;
-    border-radius: 0.85rem;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    background: linear-gradient(180deg, #171021 0%, #0b0614 100%);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.12),
-      0 12px 28px rgba(0, 0, 0, 0.4);
-    color: #f4f1fa;
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    padding: 0.3rem 0.3rem 0.3rem 1.1rem;
-    transition:
-      transform 200ms ease,
-      box-shadow 200ms ease,
-      border-color 200ms ease;
-  }
-
-  .cta-nav:hover {
-    transform: translateY(-1px);
-    border-color: rgba(255, 255, 255, 0.28);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.16),
-      0 16px 32px rgba(0, 0, 0, 0.45);
-  }
-
-  .cta-nav:active {
-    transform: translateY(0) scale(0.98);
-  }
-
-  .cta-nav:focus-visible {
-    outline: 2px solid #a78bfa;
-    outline-offset: 3px;
-  }
-
-  .cta-nav .cta-arrow {
-    height: 2.1rem;
-    width: 2.1rem;
-    border-radius: 0.55rem;
-  }
-
-  .cta-nav:hover .cta-arrow {
-    transform: translateX(2px);
-    background: #ffffff;
+    animation: onboarding-step-in 420ms var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
   }
 
   .onboarding-range {
@@ -365,10 +628,10 @@
     border-radius: 999px;
     background: linear-gradient(
       to right,
-      #3b82f6 0%,
-      #3b82f6 var(--range-progress),
-      rgba(255, 255, 255, 0.1) var(--range-progress),
-      rgba(255, 255, 255, 0.1) 100%
+      var(--color-accent) 0%,
+      var(--color-accent) var(--range-progress),
+      var(--color-rule) var(--range-progress),
+      var(--color-rule) 100%
     );
   }
 
@@ -377,24 +640,22 @@
     height: 1.25rem;
     cursor: grab;
     appearance: none;
-    border: 3px solid #ffffff;
+    border: 3px solid var(--color-paper);
     border-radius: 999px;
-    background: #3b82f6;
-    box-shadow: 0 6px 18px rgba(59, 130, 246, 0.4);
+    background: var(--color-accent);
   }
 
   .onboarding-range::-moz-range-thumb {
     width: 1rem;
     height: 1rem;
     cursor: grab;
-    border: 3px solid #ffffff;
+    border: 3px solid var(--color-paper);
     border-radius: 999px;
-    background: #3b82f6;
-    box-shadow: 0 6px 18px rgba(59, 130, 246, 0.4);
+    background: var(--color-accent);
   }
 
   .onboarding-range:focus-visible {
-    outline: 2px solid #60a5fa;
+    outline: 2px solid var(--color-focus);
     outline-offset: 6px;
   }
 
@@ -602,38 +863,6 @@
   }
 }
 
-@keyframes drift-a {
-  from {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-
-  to {
-    transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--rr));
-  }
-}
-
-@keyframes drift-b {
-  from {
-    transform: translate3d(calc(var(--dx) * -0.6), var(--dy), 0)
-      rotate(calc(var(--rr) * -1));
-  }
-
-  to {
-    transform: translate3d(calc(var(--dx) * 0.6), calc(var(--dy) * -1), 0)
-      rotate(var(--rr));
-  }
-}
-
-@keyframes drift-c {
-  from {
-    transform: translate3d(var(--dx), calc(var(--dy) * -0.5), 0) rotate(0deg);
-  }
-
-  to {
-    transform: translate3d(calc(var(--dx) * -1), var(--dy), 0) rotate(var(--rr));
-  }
-}
-
 @keyframes interview-wave {
   from {
     height: 0.35rem;
@@ -649,6 +878,10 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .l-verb::after {
+    animation: none;
   }
 
   *,

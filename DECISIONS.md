@@ -277,3 +277,59 @@ manual one-off command (easy to forget, so future deploys can regress); running
 every deploy and assumes the connecting role has ``CREATE`` privilege on the
 target schema (Render's provisioned role does). Additive-only changes are
 supported; any future destructive schema change needs a real migration plan.
+
+## DEC-020: Two-surface Lumen redesign scoped with a `.lumen` shell and a locked design record
+
+**Context:** The landing page (`/`) and the five-step onboarding wizard
+(`/onboarding`) are the product's first impressions, but they had drifted from
+the rest of the app into a collage of Space-shell visual clichés — purple-to-blue
+gradients, glass cards, hard shadows, and an uppercase landing-register that no
+other surface shares. A Hallmark sweep of the whole codebase still reported most
+of its findings on those two pages. A full design migration of every workspace
+page was out of budget and beyond the risk the product could absorb in one
+change; only the two conversion surfaces were in scope for a redesign.
+**Decision:** The two pages were fully redesigned inside Hallmark's Lumen theme
+(genre atmospheric): a violet-black paper ground (`--color-paper: oklch(12.5% 0.027 290)`), roman-serif lowercase display heads ("Instrument Serif", one
+rose-accented verb), mono readouts for measured figures ("Geist Mono", tabular
+nums), a warm brass control accent, and hairline rules instead of shadows. The
+landing is rebuilt around the product's own mechanic — the five answers
+(goal, level, time, deadline, preferences) drawn as a brass-ruled path in the
+hero and re-used as the wizard's progress vocabulary — followed by capability
+rows, a duotone key-art band, an FAQ, and a close band restated as a statement
+with three entries across. The onboarding wizard is a single card-headed app
+screen: a five-node path progress, numbered choice wells (`role="radio"`
+buttons), a slider with a live mono read-back well, a date field with helper
+copy (`aria-describedby`), a preference pill set, and a LoadingScreen that reads
+the five answers back in mono with the deadline humanized through the newly
+exported `formatTargetDate`. All token definitions live in
+``frontend/src/styles/tokens.css``; the Lumen system is scoped to ``.lumen``
+shells in ``frontend/src/styles/globals.css``, and ``AppLayout`` keeps calling
+its legacy base for every other route, so workspace pages render untouched.
+Functionality was preserved and recorded: the sweep's kept-gate acknowledged
+links 17/18 (``#about`` dropped on record), fields 1/1, handlers 111/112
+(``handleStartJourney`` dropped on record — the CTA links to ``/onboarding``),
+figures 1/1, and 16 reworded headings recorded in the `globals.css` stamp block.
+``frontend/src/components/onboarding/validation.ts`` is byte-identical; no
+handler logic, route, field, or API integration changed. The render tier
+finished with zero reflex findings across both pages, four acknowledgements are
+recorded as stamp waivers (gate 38iii lone-rose-verb, gate 29 nav backdrop blur,
+gate 77 section-count heuristic misapplied to an app screen, gate 79 wizard-hero
+detection artifact), and the locked system is written to ``DESIGN.md`` at the
+repo root with the run logged in ``.hallmark/log.json``.
+**Alternatives:** Reskinning the whole app in one pass (too large a blast
+radius for a two-person cadence); keeping the old hero's layered parallax
+slices (dropped and recorded — the key-art band carries the imagery); a light
+theme variant (the atmospheric genre deal selected this seed's dark axes; a
+light Lumen would be a new theme deal, not a tweak).
+**Trade-offs:** Two design dialects coexist until the next page migrates —
+`.lumen` shells on the two redesigned surfaces, the project's legacy utility
+base elsewhere — so the codebase carries both token sets for a while. The
+sweep's inherited out-of-scope findings stay untouched on purpose and are
+recorded in the stamp as debt, not fixed here: `.dark-workspace` purple-to-blue
+gradients, pure ``#ffffff`` legacy text utilities, the ``interview-wave`` height
+keyframes, and the ``.page-heading``/`.glass-panel` colour literals. The
+dropped parallax assets (``frontend/public/images/space/*`` and
+``logo-mark.png``) and three unused legacy landing files
+(``FeatureCard``, ``Benefits``, ``HowItWorks``) remain on disk, unreferenced and
+lint-flagged, for a later cleanup commit. The production bundle keeps the
+pre-existing >500 kB chunk warning.

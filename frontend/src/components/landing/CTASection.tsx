@@ -1,36 +1,38 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import { buttonVariants } from "@/components/common/buttonVariants";
-import { cn } from "@/utils/cn";
-
+/**
+ * The close band: one change of paper, edge to edge. The statement is the
+ * page's last big voice; beneath its hairline, the three ways in stand
+ * across the band: the owner's start, the returning learner's sign in,
+ * and the honest guest note.
+ */
 export function CTASection() {
   return (
-    <section className="bg-[#0b1020] px-4 py-20 text-white sm:py-24">
-      <div className="mx-auto max-w-4xl text-center">
-        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-md border border-blue-300/20 bg-blue-400/10">
-          <img
-            alt=""
-            aria-hidden="true"
-            className="h-7 w-7"
-            draggable={false}
-            src="/images/logo-mark.png"
-          />
-        </span>
-        <h2 className="mt-6 text-3xl font-bold tracking-normal sm:text-5xl">
-          Start Your Learning Journey Today
-        </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-300">
-          Turn your goal into a practical roadmap, then keep moving with clear
-          progress, adaptive feedback, and accountable next steps.
+    <section className="l-band">
+      <div className="mx-auto w-[min(100%-2rem,74rem)] py-[var(--section-gap)]">
+        <h2>start with the answers you have</h2>
+        <p className="mt-5 max-w-xl text-lg text-ink-2">
+          turn your goal into a practical roadmap, then keep moving with
+          clear progress, adaptive feedback, and accountable next steps.
         </p>
-        <Link
-          className={cn(buttonVariants({ size: "large" }), "mt-8")}
-          to="/onboarding"
-        >
-          Generate My Learning Plan
-          <ArrowRight className="h-4 w-4" aria-hidden="true" />
-        </Link>
+
+        <div className="mt-12 grid gap-6 border-t border-rule pt-10 sm:grid-cols-3 sm:items-start sm:gap-8">
+          <div>
+            <Link className="l-pill l-pill-primary" to="/onboarding">
+              generate my learning plan
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+          <div className="sm:justify-self-center">
+            <Link className="l-pill l-pill-ghost" to="/signin">
+              sign in
+            </Link>
+          </div>
+          <p className="l-caption max-w-xs sm:justify-self-end sm:text-right">
+            no account needed: guest plans are saved in this browser.
+          </p>
+        </div>
       </div>
     </section>
   );

@@ -1,35 +1,49 @@
 import { Github } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function Footer() {
   return (
-    <footer className="relative isolate overflow-hidden bg-[#0b1020] text-slate-300">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_55%_80%_at_50%_0%,rgba(59,130,246,0.14),transparent_70%),radial-gradient(ellipse_40%_60%_at_85%_100%,rgba(139,92,246,0.10),transparent_70%)]"
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent"
-      />
-      <div className="relative mx-auto flex w-[min(100%-2rem,1180px)] flex-col gap-8 py-10 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <img
-            alt="Saarthi.AI"
-            className="h-7 w-auto"
-            draggable={false}
-            src="/images/logo.png"
-          />
-          <p className="mt-3 max-w-xs text-sm leading-6 text-slate-400">
+    <footer>
+      <div className="mx-auto w-[min(100%-2rem,74rem)] py-[var(--section-gap-l)]">
+        <p className="font-display text-display-s lowercase tracking-display">
+          saarthi.ai
+        </p>
+
+        <div className="mt-10 flex flex-col gap-8 border-t border-rule pt-10 sm:flex-row sm:items-end sm:justify-between">
+          <p className="l-caption max-w-xs">
             AI-powered personalized learning.
           </p>
+          <nav
+            aria-label="Footer navigation"
+            className="flex flex-col gap-2 text-sm sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-x-8 sm:gap-y-2"
+          >
+            <a className="l-link" href="#how-it-works">
+              how it works
+            </a>
+            <a className="l-link" href="#features">
+              capabilities
+            </a>
+            <a className="l-link" href="#faq">
+              faq
+            </a>
+            <Link className="l-link" to="/my-learning">
+              my learning
+            </Link>
+            <Link className="l-link" to="/signin">
+              sign in
+            </Link>
+            <Link className="l-link" to="/signup">
+              sign up
+            </Link>
+          </nav>
         </div>
 
-        <div className="flex flex-col gap-3 text-sm sm:items-end">
-          <span className="inline-flex items-center gap-2 text-slate-400">
+        <div className="mt-10 flex flex-col gap-3 border-t border-rule pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <span className="inline-flex items-center gap-2 text-muted">
             <Github className="h-4 w-4" aria-hidden="true" />
             GitHub repository coming soon
           </span>
-          <p className="text-slate-500">
+          <p className="text-muted">
             Copyright 2026 Saarthi.AI. All rights reserved.
           </p>
         </div>

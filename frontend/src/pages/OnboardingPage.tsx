@@ -175,14 +175,14 @@ export function OnboardingPage() {
   }
 
   if (startLearningSession.isPending) {
-    return <LoadingScreen />;
+    return <LoadingScreen formState={formState} />;
   }
 
   return (
     <OnboardingLayout currentStep={currentStep}>
       {submissionError ? (
         <div
-          className="flex items-start gap-3 border-b border-rose-300/15 bg-rose-400/10 px-5 py-4 text-sm text-rose-100 sm:px-8"
+          className="l-alert flex items-start gap-3 px-5 py-4 text-sm sm:px-8"
           role="alert"
         >
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
@@ -232,7 +232,7 @@ export function OnboardingPage() {
       </div>
 
       {currentStep === 5 ? (
-        <p className="px-5 pb-1 pt-2 text-center text-sm font-semibold tracking-wide text-teal-200 sm:px-8">
+        <p className="l-caption px-5 pb-2 pt-2 text-center sm:px-8">
           Your journey starts here.
         </p>
       ) : null}
