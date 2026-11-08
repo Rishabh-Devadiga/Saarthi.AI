@@ -21,9 +21,9 @@ export function ProductSection() {
     <section className="scroll-mt-24 pt-[var(--section-gap)]" id="how-it-works">
       <div className="mx-auto w-[min(100%-2rem,74rem)]">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:items-end">
-          <h2>the product at work</h2>
+          <h2>The Product at Work</h2>
           <p className="max-w-md text-lg text-ink-2 lg:justify-self-end lg:text-right">
-            captures of the real workspace, running a sample roadmap from the
+            Captures of the real workspace, running a sample roadmap from the
             five answers.
           </p>
         </div>

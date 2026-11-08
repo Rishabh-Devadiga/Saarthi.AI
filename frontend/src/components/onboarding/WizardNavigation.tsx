@@ -19,7 +19,7 @@ export function WizardNavigation({
   onSubmit,
 }: WizardNavigationProps) {
   const isFinalStep = currentStep === 5;
-  const label = isFinalStep ? "build my learning plan" : "continue";
+  const label = isFinalStep ? "Build My Learning Plan" : "Continue";
 
   return (
     <footer className="flex flex-col-reverse gap-3 border-t border-rule px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8">
@@ -30,7 +30,7 @@ export function WizardNavigation({
         type="button"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-        back
+        Back
       </button>
 
       <button

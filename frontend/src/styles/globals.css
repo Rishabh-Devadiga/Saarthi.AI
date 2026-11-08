@@ -33,6 +33,7 @@
 /* Hallmark · content sections breathe on one shared top gap (pt-only, --section-gap) and the hero carries no bottom pad · no doubled 288px slabs between neighbours */
 /* Hallmark · reworded "Your journey starts here." to your journey starts here. · the wizard caption takes the page's lowercase register */
 /* Hallmark · swapped the loading stages' three periods for the true ellipsis "…" · F2 wants the typographic character; the stage lines are prose */
+/* Hallmark · owner register pass: heads, section titles, nav labels and CTA controls take Title Case, body copy takes sentence case · the lowercase transform is lifted from h1-h3, nav, button and .l-navlink — copy sets its own case · mono readouts (eyebrows, captions, field labels, path labels, capture captions) remain lowercase */
 
 @import "tailwindcss";
 @import "./tokens.css";
@@ -125,7 +126,6 @@
     font-weight: 400;
     font-synthesis: none;
     letter-spacing: var(--tracking-display);
-    text-transform: lowercase;
     overflow-wrap: break-word;
     min-width: 0;
     text-wrap: balance;
@@ -149,9 +149,8 @@
     max-width: 40ch;
   }
 
-  /* lowercase is the register for heads, nav, controls and labels */
-  .lumen nav,
-  .lumen button,
+  /* the small register stays lowercase: field labels, table heads, captions;
+     heads, nav and controls set their own case in copy */
   .lumen label,
   .lumen th,
   .lumen figcaption,
@@ -246,7 +245,7 @@
     }
   }
 
-  /* controls: a solid brass pill beside a hairline pill, lowercase */
+  /* controls: a solid brass pill beside a hairline pill, Title Case */
   .l-pill {
     display: inline-flex;
     align-items: center;
@@ -338,7 +337,6 @@
     color: var(--color-muted);
     font-size: var(--text-sm);
     font-weight: 400;
-    text-transform: lowercase;
     transition: color var(--dur-short) var(--ease-in-out);
   }
 

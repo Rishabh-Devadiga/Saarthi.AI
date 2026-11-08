@@ -26,7 +26,7 @@ export function FAQ() {
     <section className="scroll-mt-24 pt-[var(--section-gap)]" id="faq">
       <div className="mx-auto grid w-[min(100%-2rem,60rem)] gap-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
         <div>
-          <h2>answers before you start</h2>
+          <h2>Answers Before You Start</h2>
           <p className="l-caption mt-4">
             the path into your learning workflow stays simple and intentional.
           </p>

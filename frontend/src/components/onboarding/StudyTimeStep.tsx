@@ -15,7 +15,7 @@ export function StudyTimeStep({ onChange, value }: StudyTimeStepProps) {
     <div>
       <StepHeader
         description="Choose a sustainable daily commitment. Saarthi will shape the roadmap around the time you can consistently protect."
-        title="How much time can you commit?"
+        title="How Much Time Can You Commit?"
       />
 
       <div className="l-well mt-8 p-5 sm:p-7">

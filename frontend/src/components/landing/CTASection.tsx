@@ -11,22 +11,22 @@ export function CTASection() {
   return (
     <section className="l-band">
       <div className="mx-auto w-[min(100%-2rem,74rem)] py-[var(--section-gap)]">
-        <h2>start with the answers you have</h2>
+        <h2>Start with the Answers You Have</h2>
         <p className="mt-5 max-w-xl text-lg text-ink-2">
-          turn your goal into a practical roadmap, then keep moving with
+          Turn your goal into a practical roadmap, then keep moving with
           clear progress, adaptive feedback, and accountable next steps.
         </p>
 
         <div className="mt-12 grid gap-6 border-t border-rule pt-10 sm:grid-cols-3 sm:items-start sm:gap-8">
           <div>
             <Link className="l-pill l-pill-primary" to="/onboarding">
-              generate my learning plan
+              Generate My Learning Plan
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
           <div className="sm:justify-self-center">
             <Link className="l-pill l-pill-ghost" to="/signin">
-              sign in
+              Sign In
             </Link>
           </div>
           <p className="l-caption max-w-xs sm:justify-self-end sm:text-right">

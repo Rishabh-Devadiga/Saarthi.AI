@@ -8,15 +8,15 @@ const PATH_QUESTIONS = ["goal", "level", "time", "deadline", "preferences"];
 const ROADMAP_TERMS = [
   {
     word: "phased",
-    line: "a plan broken into phases sized to the time you can give",
+    line: "A plan broken into phases sized to the time you can give",
   },
   {
     word: "dated",
-    line: "every phase lands between today and your deadline",
+    line: "Every phase lands between today and your deadline",
   },
   {
     word: "checked",
-    line: "quizzes and reviews confirm you are moving",
+    line: "Quizzes and reviews confirm you are moving",
   },
 ];
 
@@ -34,21 +34,21 @@ export function Hero() {
         <div>
           <p className="l-readout">an agentic learning companion</p>
           <h1 className="mt-5">
-            say the goal, saarthi <span className="l-verb">plans</span> the
-            path
+            Say the Goal, Saarthi <span className="l-verb">Plans</span> the
+            Path
           </h1>
           <p className="mt-6 max-w-xl text-lg text-pretty text-ink-2">
-            five answers about you become a phased roadmap that keeps you
+            Five answers about you become a phased roadmap that keeps you
             moving.
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link className="l-pill l-pill-primary" to="/onboarding">
-              start your first roadmap
+              Start Your First Roadmap
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <a className="l-link py-2 pr-3" href="#features">
-              see it at work
+              See It at Work
             </a>
           </div>
           <p className="l-caption mt-5">no account needed to start.</p>

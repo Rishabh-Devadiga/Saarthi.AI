@@ -6,9 +6,9 @@ import { cn } from "@/utils/cn";
 import { useAuth } from "@/context/AuthContext";
 
 const navigationItems = [
-  { label: "how it works", href: "#how-it-works" },
-  { label: "capabilities", href: "#features" },
-  { label: "faq", href: "#faq" },
+  { label: "How It Works", href: "#how-it-works" },
+  { label: "Capabilities", href: "#features" },
+  { label: "FAQ", href: "#faq" },
 ];
 
 export function Navbar() {
@@ -47,7 +47,7 @@ export function Navbar() {
               </a>
             ))}
             <Link className="l-navlink" to="/my-learning">
-              my learning
+              My Learning
             </Link>
           </nav>
 
@@ -76,7 +76,7 @@ export function Navbar() {
                       to="/my-learning"
                     >
                       <UserRound className="h-4 w-4" aria-hidden="true" />
-                      my learning
+                      My Learning
                     </Link>
                     <button
                       className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm text-ink-2 transition-colors hover:text-ink"
@@ -87,7 +87,7 @@ export function Navbar() {
                       type="button"
                     >
                       <LogOut className="h-4 w-4" aria-hidden="true" />
-                      sign out
+                      Sign Out
                     </button>
                   </div>
                 ) : null}
@@ -98,13 +98,13 @@ export function Navbar() {
                   className="l-navlink hidden sm:inline-flex"
                   to="/signin"
                 >
-                  sign in
+                  Sign In
                 </Link>
                 <Link
                   className="l-navlink ml-2 hidden lg:inline-flex"
                   to="/signup"
                 >
-                  sign up
+                  Sign Up
                 </Link>
               </>
             )}
@@ -112,7 +112,7 @@ export function Navbar() {
               className="l-pill l-pill-primary h-11 px-4 text-sm"
               to="/onboarding"
             >
-              start learning
+              Start Learning
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             <button
@@ -155,7 +155,7 @@ export function Navbar() {
               onClick={() => setIsOpen(false)}
               to="/my-learning"
             >
-              my learning
+              My Learning
             </Link>
             {isAuthenticated ? (
               <>
@@ -170,7 +170,7 @@ export function Navbar() {
                   }}
                   type="button"
                 >
-                  sign out
+                  Sign Out
                 </button>
               </>
             ) : (
@@ -180,14 +180,14 @@ export function Navbar() {
                   onClick={() => setIsOpen(false)}
                   to="/signin"
                 >
-                  sign in
+                  Sign In
                 </Link>
                 <Link
                   className="rounded-card px-4 py-3 text-sm text-ink-2 transition-colors hover:text-ink"
                   onClick={() => setIsOpen(false)}
                   to="/signup"
                 >
-                  sign up
+                  Sign Up
                 </Link>
               </>
             )}
@@ -196,7 +196,7 @@ export function Navbar() {
               onClick={() => setIsOpen(false)}
               to="/onboarding"
             >
-              start learning
+              Start Learning
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>

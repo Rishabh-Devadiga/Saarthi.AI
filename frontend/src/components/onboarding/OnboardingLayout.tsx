@@ -32,7 +32,7 @@ export function OnboardingLayout({
             to="/"
           >
             <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden sm:inline">back to home</span>
+            <span className="hidden sm:inline">Back to Home</span>
           </Link>
         </div>
       </header>

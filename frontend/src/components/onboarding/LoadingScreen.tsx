@@ -51,7 +51,7 @@ export function LoadingScreen({ formState }: LoadingScreenProps) {
       <div className="w-full max-w-xl py-10">
         <p className="l-readout">five answers in</p>
         <h1 className="mt-4 text-3xl sm:text-4xl">
-          saarthi is building your path
+          Saarthi Is Building Your Path
         </h1>
         <p className="l-caption mt-3">
           your five answers become a personalized learning workflow.

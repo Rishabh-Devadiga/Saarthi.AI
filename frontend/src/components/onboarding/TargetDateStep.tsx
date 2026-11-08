@@ -19,7 +19,7 @@ export function TargetDateStep({
     <div>
       <StepHeader
         description="Set the date you want to reach your goal. You can adjust your pace later as your learning journey evolves."
-        title="What are you working toward?"
+        title="What Are You Working Toward?"
       />
 
       <div className="mt-8">

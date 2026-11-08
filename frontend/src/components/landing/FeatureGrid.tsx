@@ -1,41 +1,41 @@
 const capabilities = [
   {
-    title: "AI learning planner",
+    title: "AI Learning Planner",
     description:
       "A personalized, milestone-based roadmap built from your goal, current skill level, schedule, and target deadline.",
   },
   {
-    title: "Progress tracking",
+    title: "Progress Tracking",
     description:
       "Completion, milestones, estimated completion date, upcoming tasks, and overall learning progress, tracked in real time.",
   },
   {
-    title: "AI mentor",
+    title: "AI Mentor",
     description:
       "Concept explanations, doubt solving, study guidance, and personalized support while you work.",
   },
   {
-    title: "Quizzes and knowledge checks",
+    title: "Quizzes and Knowledge Checks",
     description:
       "AI-generated quizzes that assess your understanding and identify concepts that need revision.",
   },
   {
-    title: "Mock interviews",
+    title: "Mock Interviews",
     description:
       "Practice interviews with voice interaction, instant evaluation, and detailed performance feedback.",
   },
   {
-    title: "Feedback and nudges",
+    title: "Feedback and Nudges",
     description:
       "Personalized feedback, actionable recommendations, and intelligent nudges that keep the next step visible.",
   },
   {
-    title: "YouTube learning resources",
+    title: "YouTube Learning Resources",
     description:
       "Curated resources for every topic, with estimated learning time based on real video durations.",
   },
   {
-    title: "Google Calendar integration",
+    title: "Google Calendar Integration",
     description:
       "Sync the roadmap to your calendar so study sessions are scheduled and visible.",
   },
@@ -51,9 +51,9 @@ export function FeatureGrid() {
     <section className="scroll-mt-24 pt-[var(--section-gap)]" id="features">
       <div className="mx-auto w-[min(100%-2rem,74rem)]">
         <div className="max-w-2xl">
-          <h2>everything saarthi carries</h2>
+          <h2>Everything Saarthi Carries</h2>
           <p className="mt-4 text-lg text-ink-2">
-            planning, progress, coaching, and accountability, connected into
+            Planning, progress, coaching, and accountability, connected into
             one clear learning experience.
           </p>
         </div>

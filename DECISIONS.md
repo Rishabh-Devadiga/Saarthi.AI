@@ -374,3 +374,39 @@ designed second voice, not filler. Eight new stamp lines extend the
 recorded out-of-scope debt (``InterviewResults``, ``TypingIndicator``,
 ``LearningPlanPage``, ``MyLearningPage``), and the >500 kB chunk warning
 remains pre-existing.
+
+## DEC-022: Display copy moves to Title Case; the lowercase register is scoped to the mono lanes
+
+**Context:** The owner asked the locked Lumen register to change. Until this
+pass every head, nav link, control and label rendered through a CSS
+``text-transform: lowercase`` (``h1-h3``, ``nav/button/label/th/figcaption/
+legend`` and ``.l-navlink``), whatever its source strings said. The brief:
+main headings, section titles, navigation labels and CTA buttons in
+consistent Title Case; body copy in sentence case; small technical labels and
+decorative microcopy stay lowercase where appropriate; hierarchy, spacing,
+aesthetic and functionality unchanged.
+**Decision:** The transforms are lifted — from the ``.lumen`` heading rule,
+from ``nav`` and ``button`` in the element register rule, and from
+``.l-navlink`` — so copy sets its own case; ``label``, ``th``, ``figcaption``
+and ``legend`` keep the small lowercase register. Head strings are
+hand-titled (minor words lowercase, verbs and brands capitalized), body
+paragraphs are capitalized as sentences, and three mono lanes stay lowercase
+deliberately: ``l-readout`` (the eyebrow, "five answers in", "roadmap out",
+the roadmap legend cells, capture captions, wizard path labels), ``.l-caption``
+(microcopy notes like "no account needed to start." and "your journey starts
+here."), and field labels/dividers. The wizard choice wells now render as
+typed ("Become a Data Scientist", "Beginner"), the accordion FAQ questions
+stay sentence case, and validation messages were already sentence case. No
+routes, handlers, payloads or styles other than the removed transforms
+changed — the kept-gate recorded links 18/18, fields 1/1, handlers 111/111,
+headings 14/14, figures 1/1, with ``192 FAIL / 0 REFLEX`` unchanged.
+**Alternatives:** A Tailwind ``capitalize`` transform on heads (Title-Cases
+every word mechanically, wrong for "the"/"with" and acronyms like FAQ);
+per-component transform overrides (scatters the register instead of owning it
+once in the Lumen layer); leaving the wizard wells lowercase (a different
+product voice inside the Title Case shells).
+**Trade-offs:** Every display string now carries its case in source, so
+future copy edits must hand-title; the hero's lone accented verb stays
+"Plans" under the recorded 38iii waiver; the mono lanes' lowercase is now an
+explicit design decision rather than a page-wide transform, so both registers
+must be respected in future copy.

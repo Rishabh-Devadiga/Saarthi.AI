@@ -25,7 +25,7 @@ export function GoalStep({ error, onChange, value }: GoalStepProps) {
     <div>
       <StepHeader
         description="Choose a popular path or describe the outcome you want Saarthi.AI to help you reach."
-        title="What do you want to learn?"
+        title="What Do You Want to Learn?"
       />
 
       <div

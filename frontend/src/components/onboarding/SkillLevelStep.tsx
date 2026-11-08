@@ -37,7 +37,7 @@ export function SkillLevelStep({
     <div>
       <StepHeader
         description="Your starting point helps Saarthi choose the right depth, pacing, and sequence."
-        title="Where are you starting from?"
+        title="Where Are You Starting From?"
       />
 
       <div

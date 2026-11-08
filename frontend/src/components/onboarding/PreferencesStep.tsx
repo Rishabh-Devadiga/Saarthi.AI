@@ -45,7 +45,7 @@ export function PreferencesStep({
     <div>
       <StepHeader
         description="Select every format that helps you stay engaged. Saarthi will include these preferences in your learning profile."
-        title="How do you prefer to learn?"
+        title="How Do You Prefer to Learn?"
       />
 
       <div

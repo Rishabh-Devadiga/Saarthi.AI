@@ -18,22 +18,22 @@ export function Footer() {
             className="flex flex-col gap-2 text-sm sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-x-8 sm:gap-y-2"
           >
             <a className="l-link" href="#how-it-works">
-              how it works
+              How It Works
             </a>
             <a className="l-link" href="#features">
-              capabilities
+              Capabilities
             </a>
             <a className="l-link" href="#faq">
-              faq
+              FAQ
             </a>
             <Link className="l-link" to="/my-learning">
-              my learning
+              My Learning
             </Link>
             <Link className="l-link" to="/signin">
-              sign in
+              Sign In
             </Link>
             <Link className="l-link" to="/signup">
-              sign up
+              Sign Up
             </Link>
           </nav>
         </div>
