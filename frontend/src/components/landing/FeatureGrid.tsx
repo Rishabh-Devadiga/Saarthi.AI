@@ -48,10 +48,7 @@ const capabilities = [
  */
 export function FeatureGrid() {
   return (
-    <section
-      className="scroll-mt-24 py-[var(--section-gap)]"
-      id="features"
-    >
+    <section className="scroll-mt-24 pt-[var(--section-gap)]" id="features">
       <div className="mx-auto w-[min(100%-2rem,74rem)]">
         <div className="max-w-2xl">
           <h2>everything saarthi carries</h2>

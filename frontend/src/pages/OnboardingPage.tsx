@@ -233,7 +233,7 @@ export function OnboardingPage() {
 
       {currentStep === 5 ? (
         <p className="l-caption px-5 pb-2 pt-2 text-center sm:px-8">
-          Your journey starts here.
+          your journey starts here.
         </p>
       ) : null}
       <WizardNavigation

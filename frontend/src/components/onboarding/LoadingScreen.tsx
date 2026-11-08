@@ -6,11 +6,11 @@ import type { OnboardingFormState } from "@/components/onboarding/types";
 import { cn } from "@/utils/cn";
 
 const loadingStages = [
-  "Understanding your learning goal...",
-  "Building your personalized roadmap...",
-  "Tracking milestones...",
-  "Preparing AI feedback...",
-  "Almost ready...",
+  "Understanding your learning goal…",
+  "Building your personalized roadmap…",
+  "Tracking milestones…",
+  "Preparing AI feedback…",
+  "Almost ready…",
 ];
 
 type LoadingScreenProps = {

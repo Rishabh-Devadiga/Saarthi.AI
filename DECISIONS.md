@@ -333,3 +333,44 @@ dropped parallax assets (``frontend/public/images/space/*`` and
 (``FeatureCard``, ``Benefits``, ``HowItWorks``) remain on disk, unreferenced and
 lint-flagged, for a later cleanup commit. The production bundle keeps the
 pre-existing >500 kB chunk warning.
+
+## DEC-021: The hero artifact and one shared gap rhythm replace the decorative band
+
+**Context:** The locked Lumen system (``DEC-020``) shipped with a hero whose
+right panel floated its readout over centered pill stacks in a dead grid, a
+duotone space-illustration band between sections, disabled pills shaded brass
+at 55% opacity, and wizard progress hairlines that stopped short of the next
+node. The owner's polish brief asked for a meaningful hero visual, removal of
+the decorative illustration, typographic and layout precision, and a production
+pass across all five wizard steps with functionality preserved.
+**Decision:** The hero's right panel is rebuilt as the intake-to-outcome
+artifact the page already speaks: the five numbered answer chips in the same
+split the wizard uses (``sm:grid-cols-2``, the fifth spanning both — the shape
+of GoalStep's radiogroup), one aria-hidden brass rail node, and a ``dl`` legend
+reading ``phased`` / ``dated`` / ``checked`` in the product's own vocabulary —
+real text, unwrapped from ``role="img"`` so screen readers read it.
+``#how-it-works`` moves from the hero panel to the product-at-work captures
+(the old anchor landed on content already in view; the dropped ``id="product"``
+was unreferenced), so "how it works" now scrolls to the captures section.
+``KeyArtBand`` and its ``.l-art`` duotone CSS are deleted; content sections
+breathe on one shared top-only ``--section-gap`` rhythm instead of stacked
+top-and-bottom pads. The wizard path becomes equal ``flex-1`` cells with
+absolute node-to-node hairlines that land centre to centre at any width and
+any label length, and disabled pills read neutral (``paper-3``/muted) rather
+than muddy brass. The step-5 caption takes the page's lowercase register and
+the loading stages use the true typographic ellipsis. No wiring changed — the
+kept-gate recorded links 18/18, fields 1/1, handlers 111/111, headings 14/14,
+figures 1/1 against the before-record, with ``192 FAIL / 0 REFLEX`` unchanged
+(all inherited out-of-scope debt).
+**Alternatives:** Replacing the illustration with another decorative image
+(the owner ruled it out — the product's captures carry the visual experience);
+keeping the anchor inside the hero panel (it scrolled nowhere, so the nav item
+was honest only by accident); opacity-based disabled states (brass at 55%
+reads muddy brown over dark paper).
+**Trade-offs:** The render tier counts the artifact's copy as "text blocks
+before the hero's actions" — accepted, because the artifact is the hero's
+designed second voice, not filler. Eight new stamp lines extend the
+``globals.css`` header record. The other four F2 ellipsis flags stay as
+recorded out-of-scope debt (``InterviewResults``, ``TypingIndicator``,
+``LearningPlanPage``, ``MyLearningPage``), and the >500 kB chunk warning
+remains pre-existing.

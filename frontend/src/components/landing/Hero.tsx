@@ -1,18 +1,36 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import { cn } from "@/utils/cn";
+
 const PATH_QUESTIONS = ["goal", "level", "time", "deadline", "preferences"];
 
+const ROADMAP_TERMS = [
+  {
+    word: "phased",
+    line: "a plan broken into phases sized to the time you can give",
+  },
+  {
+    word: "dated",
+    line: "every phase lands between today and your deadline",
+  },
+  {
+    word: "checked",
+    line: "quizzes and reviews confirm you are moving",
+  },
+];
+
 /**
- * Settled hero: the head on the left columns, the five-answer diagram on
- * the right. The diagram is the signature — the five answers the wizard
- * collects, ruled into the roadmap that comes out. No parallax machinery;
- * the one motion is the verb's underline draw (.l-verb).
+ * Settled hero: the head on the left columns, the intake-to-outcome
+ * artifact on the right. The five answers the wizard collects feed one
+ * brass node and become the roadmap's three promises — phased, dated,
+ * checked. The copy is real text (never a role="img" plate) so screen
+ * readers read it; the one motion is the verb's underline draw (.l-verb).
  */
 export function Hero() {
   return (
     <section className="relative">
-      <div className="mx-auto grid w-[min(100%-2rem,74rem)] items-center gap-14 pb-[var(--section-gap)] pt-36 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-20 lg:pt-44">
+      <div className="mx-auto grid w-[min(100%-2rem,74rem)] items-center gap-14 pt-36 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-20 lg:pt-44">
         <div>
           <p className="l-readout">an agentic learning companion</p>
           <h1 className="mt-5">
@@ -36,36 +54,46 @@ export function Hero() {
           <p className="l-caption mt-5">no account needed to start.</p>
         </div>
 
-        <div
-          aria-label="how the five answers become a roadmap"
-          className="l-well l-blueprint scroll-mt-28 p-6 sm:p-9"
-          id="how-it-works"
-          role="img"
-        >
-          <p className="l-readout">five answers in</p>
-          <div className="mt-5 grid justify-items-center">
+        <div className="l-well l-blueprint flex flex-col p-6 sm:p-8">
+          <div className="flex items-baseline justify-between gap-4">
+            <p className="l-readout">five answers in</p>
+            <p className="l-readout text-accent">roadmap out</p>
+          </div>
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
             {PATH_QUESTIONS.map((question, index) => (
-              <div className="grid justify-items-center" key={question}>
-                <span className="l-dnode grid w-44 grid-cols-[1.5rem_minmax(0,1fr)] items-baseline gap-2 sm:w-48">
-                  <span className="l-readout">{`0${index + 1}`}</span>
-                  <span>{question}</span>
-                </span>
-                {index < PATH_QUESTIONS.length - 1 ? (
-                  <span aria-hidden="true" className="h-4 w-px bg-rule sm:h-5" />
-                ) : null}
-              </div>
+              <p
+                className={cn(
+                  "l-dnode flex min-h-11 items-baseline gap-3",
+                  index === PATH_QUESTIONS.length - 1 && "sm:col-span-2",
+                )}
+                key={question}
+              >
+                <span className="l-readout shrink-0">{`0${index + 1}`}</span>
+                <span>{question}</span>
+              </p>
             ))}
           </div>
-          <div className="l-dnode is-live mt-5 flex flex-col items-center gap-1 px-5 py-3 text-center">
-            <span>the roadmap</span>
-            <span className="l-readout flex items-center gap-2">
-              <span>phased</span>
-              <span aria-hidden="true" className="h-3 w-px bg-rule-2" />
-              <span>dated</span>
-              <span aria-hidden="true" className="h-3 w-px bg-rule-2" />
-              <span>checked</span>
-            </span>
+
+          <div aria-hidden="true" className="my-8 flex items-center gap-4">
+            <span className="h-px flex-1 bg-rule" />
+            <span className="h-2.5 w-2.5 rounded-full bg-accent" />
+            <span className="h-px flex-1 bg-rule" />
           </div>
+
+          <p className="l-readout">the roadmap</p>
+          <dl className="mt-3">
+            {ROADMAP_TERMS.map((term) => (
+              <div className="border-t border-rule py-4" key={term.word}>
+                <div className="grid items-baseline gap-1 sm:grid-cols-[6rem_minmax(0,1fr)] sm:gap-5">
+                  <dt className="l-readout text-ink">{term.word}</dt>
+                  <dd className="max-w-[26rem] text-sm text-ink-2">
+                    {term.line}
+                  </dd>
+                </div>
+              </div>
+            ))}
+          </dl>
         </div>
       </div>
     </section>

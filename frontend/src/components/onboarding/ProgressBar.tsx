@@ -5,8 +5,9 @@ const stepLabels = ["goal", "level", "study time", "deadline", "preferences"];
 
 /**
  * The path: five nodes on a hairline, the current node brass — the same
- * five-answer signature the landing hero draws. Labels read in mono,
- * lowercase; the readout line announces position.
+ * five-answer signature the landing hero draws. Every cell is one equal
+ * `flex-1` share (`justify-between` gone), so the hairline between two
+ * nodes always runs centre to centre, at any width and any label length.
  */
 export function ProgressBar({ currentStep }: { currentStep: WizardStep }) {
   return (
@@ -16,47 +17,45 @@ export function ProgressBar({ currentStep }: { currentStep: WizardStep }) {
         <p className="l-readout">{`step ${currentStep} of 5`}</p>
       </div>
 
-      <ol className="mt-6 flex items-start justify-between">
+      <ol className="mt-6 flex w-full items-start">
         {stepLabels.map((label, index) => {
           const number = index + 1;
           const isDone = number < currentStep;
           const isCurrent = number === currentStep;
-          const isLast = index === stepLabels.length - 1;
+          const isLast = number === stepLabels.length;
           const isSeen = isDone || isCurrent;
 
           return (
             <li
               aria-current={isCurrent ? "step" : undefined}
-              className="flex items-start"
+              className="relative flex flex-1 flex-col items-center"
               key={label}
             >
-              <div className="flex flex-col items-center gap-2">
-                <span
-                  aria-hidden="true"
-                  className={cn(
-                    "l-path-node",
-                    isCurrent && "is-active",
-                    isDone && "is-done",
-                  )}
-                />
-                <span
-                  className={cn(
-                    "hidden sm:block",
-                    isSeen ? "l-readout text-ink" : "l-readout",
-                  )}
-                >
-                  {label}
-                </span>
-              </div>
               {isLast ? null : (
                 <span
                   aria-hidden="true"
                   className={cn(
-                    "mt-[4px] h-px w-8 sm:w-14",
+                    "absolute left-[calc(50%+5px)] right-[calc(-50%+5px)] top-[4.5px] h-px",
                     isDone ? "bg-rule-2" : "bg-rule",
                   )}
                 />
               )}
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "l-path-node",
+                  isCurrent && "is-active",
+                  isDone && "is-done",
+                )}
+              />
+              <span
+                className={cn(
+                  "mt-2 hidden sm:block",
+                  isSeen ? "l-readout text-ink" : "l-readout",
+                )}
+              >
+                {label}
+              </span>
             </li>
           );
         })}

@@ -18,7 +18,7 @@ const captures = [
  */
 export function ProductSection() {
   return (
-    <section className="scroll-mt-24 py-[var(--section-gap)]" id="product">
+    <section className="scroll-mt-24 pt-[var(--section-gap)]" id="how-it-works">
       <div className="mx-auto w-[min(100%-2rem,74rem)]">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:items-end">
           <h2>the product at work</h2>
