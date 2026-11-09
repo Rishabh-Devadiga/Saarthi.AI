@@ -1,8 +1,8 @@
-import { AlertTriangle, Sparkles } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import { useEffect, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { Button } from "@/components/common/Button";
+import { Navbar } from "@/components/landing/Navbar";
 import { useAuth } from "@/context/AuthContext";
 
 export function SignInPage() {
@@ -44,42 +44,34 @@ export function SignInPage() {
   }
 
   return (
-    <div className="relative isolate min-h-screen overflow-hidden bg-[#080b14] text-white">
-      <div className="landing-grid absolute inset-0 -z-20 opacity-25" />
-      <div className="landing-light-path absolute inset-0 -z-10" />
-      <div className="relative mx-auto flex min-h-screen w-[min(100%-2rem,560px)] flex-col items-center justify-center py-10">
-        <Link
-          aria-label="Return to Saarthi.AI home"
-          className="mb-6 inline-flex items-center gap-2.5 font-semibold"
-          to="/"
-        >
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-blue-500 shadow-[0_8px_24px_rgba(59,130,246,0.35)]">
-            <Sparkles className="h-5 w-5" aria-hidden="true" />
-          </span>
-          <span className="text-lg">Saarthi.AI</span>
-        </Link>
-      <div className="w-full rounded-[24px] border border-white/12 bg-white/8 p-6 shadow-[0_30px_100px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-8">
-        <h1 className="text-2xl font-bold text-white">Welcome back</h1>
-        <p className="mt-2 text-sm leading-6 text-slate-300">
+    <div className="lumen">
+      <Navbar />
+      <main className="l-enter mx-auto flex min-h-[calc(100dvh-4rem)] w-full min-w-0 max-w-md flex-col justify-center px-4 pb-12 pt-10">
+        <h1 className="text-(length:var(--text-2xl))">Welcome back</h1>
+        <p className="mt-3 text-ink-2">
           Sign in to open your saved learning roadmaps.
         </p>
-        {formError ? (
-          <div
-            className="mt-4 flex items-start gap-3 rounded-md border border-rose-300/20 bg-rose-400/10 p-3 text-sm text-rose-100"
-            role="alert"
-          >
-            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-            <span>{formError}</span>
-          </div>
-        ) : null}
-        <form className="mt-6 space-y-4" onSubmit={(event) => void handleSubmit(event)}>
-          <div>
-            <label className="block text-sm font-semibold text-slate-200" htmlFor="signin-email">
-              Email
+        <form
+          className="l-well mt-8 w-full p-6 sm:p-8"
+          onSubmit={(event) => void handleSubmit(event)}
+        >
+          {formError ? (
+            <div className="l-alert flex items-start gap-3 p-4 text-sm" role="alert">
+              <AlertTriangle
+                className="mt-0.5 h-4 w-4 shrink-0"
+                aria-hidden="true"
+              />
+              <span>{formError}</span>
+            </div>
+          ) : null}
+          <div className={formError ? "mt-6" : ""}>
+            <label className="block text-sm text-ink-2" htmlFor="signin-email">
+              email
             </label>
             <input
+              aria-invalid={formError ? true : undefined}
               autoComplete="email"
-              className="mt-2 min-h-12 w-full rounded-md border border-white/12 bg-black/15 px-4 text-base text-white outline-none transition-colors placeholder:text-slate-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
+              className="l-field mt-2 w-full text-base placeholder:text-muted"
               id="signin-email"
               onChange={(event) => setEmail(event.target.value)}
               placeholder="you@example.com"
@@ -87,13 +79,14 @@ export function SignInPage() {
               value={email}
             />
           </div>
-          <div>
-            <label className="block text-sm font-semibold text-slate-200" htmlFor="signin-password">
-              Password
+          <div className="mt-5">
+            <label className="block text-sm text-ink-2" htmlFor="signin-password">
+              password
             </label>
             <input
+              aria-invalid={formError ? true : undefined}
               autoComplete="current-password"
-              className="mt-2 min-h-12 w-full rounded-md border border-white/12 bg-black/15 px-4 text-base text-white outline-none transition-colors placeholder:text-slate-600 focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20"
+              className="l-field mt-2 w-full text-base placeholder:text-muted"
               id="signin-password"
               onChange={(event) => setPassword(event.target.value)}
               placeholder="Your password"
@@ -101,24 +94,27 @@ export function SignInPage() {
               value={password}
             />
           </div>
-          <Button className="w-full" disabled={isSubmitting} size="large" type="submit">
+          <button
+            className="l-pill l-pill-primary mt-7 w-full"
+            disabled={isSubmitting}
+            type="submit"
+          >
             {isSubmitting ? "Signing in..." : "Sign in"}
-          </Button>
+          </button>
         </form>
-        <p className="mt-5 text-center text-sm text-slate-400">
+        <p className="mt-8 text-sm text-ink-2">
           New to Saarthi?{" "}
-          <Link className="font-semibold text-blue-300 hover:text-blue-200" to="/signup">
+          <Link className="l-link font-medium" to="/signup">
             Create an account
           </Link>
         </p>
-        <p className="mt-2 text-center text-sm text-slate-400">
+        <p className="mt-2 text-sm text-ink-2">
           Just exploring?{" "}
-          <Link className="font-semibold text-blue-300 hover:text-blue-200" to="/onboarding">
+          <Link className="l-link font-medium" to="/onboarding">
             Continue as guest
           </Link>
         </p>
-        </div>
-      </div>
+      </main>
     </div>
   );
 }

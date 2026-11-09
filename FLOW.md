@@ -260,3 +260,55 @@ During a Gemini 503 storm, a full generation measured **360.3s** (past the
 bypasses Gemini for 180s via a non-retryable sentinel, and routes straight
 to Groq; a storm-hit workflow then completed in **76.88s**. The breaker and
 its unit checks live in `backend/scripts/test_llm_fallback.py`.
+
+## Production outage runbook — sign-in / sign-up returning 500 `signin_failed` or `signup_failed`
+
+**Symptom:** `POST /auth/signin` and `POST /auth/signup` return 500; `GET /health`
+returns 500 `database_unavailable`; `/` and `/docs` still return 200. The
+application is up; the database is not.
+
+**Root cause:** The production Render backend (`https://saarthi-ai-kcx1.onrender.com`)
+runs a free Render Postgres. Free Render Postgres databases expire 30 days after
+creation, are inaccessible during a 14-day grace window, and are deleted with
+all data afterwards. Instant `SELECT 1` failures (~100 ms) fit an expired or
+suspended instance. The local shell cannot reach the production Render DB;
+diagnosis happens through the public HTTP endpoints `/health`,
+`/auth/signin`, `/auth/signup` only.
+
+**What the fix does (code side, deployed):** `backend/api/routes/auth.py` now
+distinguishes a connection-level outage from a logic failure. A database
+outage returns 503 `database_unavailable` with
+`"The service is temporarily unavailable. Please try again in a few minutes."`;
+the frontend (`apiClient.ts` → `classifyApiError`) renders the same message
+even without a JSON envelope. Non-outage failures keep the existing 500 /
+401 / 200 / 201 shapes byte-identical. No destructive DB change; fixes are
+idempotent.
+
+**Owner action (Render Dashboard — required to restore service):**
+1. Open the Render Dashboard → the `saarthi-ai-kcx1` Postgres database.
+2. If inside the 14-day grace window: upgrade the database to a paid compute
+   plan. The instance becomes reachable again and existing data is preserved.
+3. If past the grace window (database deleted): provision a new paid Postgres
+   instance, set `DATABASE_URL` on the backend service, redeploy, then run
+   the idempotent schema initialization against the new database:
+
+   ```bash
+   DATABASE_URL=<new-render-production-database-url> MOCK_MODE=false \
+     python -m backend.scripts.create_tables
+   ```
+
+   `create_all` only creates missing tables and adds
+   `users.password_hash` with `ADD COLUMN IF NOT EXISTS`; nothing is dropped
+   or altered, so existing data is never at risk. `backend/main.py` also runs
+   `ensure_schema()` inside the FastAPI `lifespan` startup hook, so missing
+   tables self-heal on every start.
+
+**Verification after restore:** `GET /health` → 200 `{"database": "connected"}`;
+`POST /auth/signin` with a nonexistent throwaway email → 401
+`invalid_credentials` (lookup works); real credentials → 200. Redeploy the
+frontend if `VITE_API_BASE_URL` points at the wrong host.
+
+**Do not:** run `python -m backend.scripts.create_tables` against the expired
+production DATABASE_URL from a local shell (unreachable); chase inherited
+base-layer `FAIL`s (`.page-heading`, `.glass-panel`) — out of scope; or make
+any destructive database change.

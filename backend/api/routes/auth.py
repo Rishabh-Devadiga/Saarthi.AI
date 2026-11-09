@@ -8,9 +8,11 @@ from datetime import datetime, timedelta, timezone
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.concurrency import run_in_threadpool
 from pydantic import BaseModel, ConfigDict, Field
+from sqlalchemy.exc import OperationalError, TimeoutError as PoolTimeoutError
 
 from backend.api.schemas.common import SuccessResponse
 from backend.core import security
+from backend.database.crud import PersistenceError
 from backend.database.models import User
 from backend.services.persistence_service import PersistenceService
 
@@ -73,6 +75,30 @@ def _auth_failed(message: str) -> HTTPException:
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail={"message": message, "error_code": "invalid_credentials"},
     )
+
+
+def _database_unavailable() -> HTTPException:
+    """Return a 503 for a connection-level failure on the persistence layer."""
+
+    return HTTPException(
+        status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+        detail={
+            "message": "The service is temporarily unavailable. Please try again in a few minutes.",
+            "error_code": "database_unavailable",
+        },
+    )
+
+
+def _is_database_outage(exc: PersistenceError) -> bool:
+    """Return whether a persistence failure is an infrastructure outage.
+
+    ``get_db_session`` chains the original SQLAlchemy error as ``__cause__``.
+    ``OperationalError`` and pool ``TimeoutError`` mean the database could not
+    be reached or its connection pool was exhausted; retrying later is the
+    remedy, so the client gets a 503 instead of a generic 500.
+    """
+
+    return isinstance(exc.__cause__, (OperationalError, PoolTimeoutError))
 
 
 async def get_current_user(
@@ -189,6 +215,15 @@ async def sign_up(
         auth = await run_in_threadpool(_register)
     except HTTPException:
         raise
+    except PersistenceError as exc:
+        if _is_database_outage(exc):
+            logger.exception("Sign-up database outage.")
+            raise _database_unavailable() from exc
+        logger.exception("Sign-up persistence failure.")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail={"message": "Sign up failed.", "error_code": "signup_failed"},
+        ) from exc
     except Exception as exc:
         logger.exception("Sign-up persistence failure.")
         raise HTTPException(
@@ -227,6 +262,15 @@ async def sign_in(
         auth = await run_in_threadpool(_authenticate)
     except HTTPException:
         raise
+    except PersistenceError as exc:
+        if _is_database_outage(exc):
+            logger.exception("Sign-in database outage.")
+            raise _database_unavailable() from exc
+        logger.exception("Sign-in persistence failure.")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail={"message": "Sign in failed.", "error_code": "signin_failed"},
+        ) from exc
     except Exception as exc:
         logger.exception("Sign-in persistence failure.")
         raise HTTPException(

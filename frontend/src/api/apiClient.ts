@@ -92,6 +92,18 @@ function classifyApiError(error: AxiosError): {
     };
   }
 
+  // The backend is reachable but its database is not (e.g. an infrastructure
+  // outage). Retrying with different credentials cannot help, so report it
+  // as temporarily unavailable even when no API error envelope is returned
+  // by an edge proxy.
+  if (status === 503) {
+    return {
+      statusCode: 503,
+      message:
+        "The service is temporarily unavailable. Please try again in a few minutes.",
+    };
+  }
+
   const responseData = error.response?.data as ApiErrorResponse | undefined;
   if (
     responseData &&
