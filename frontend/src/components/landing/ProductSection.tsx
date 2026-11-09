@@ -1,20 +1,20 @@
 const captures = [
   {
     src: "/images/capture-dashboard-desktop.png",
-    alt: "The dashboard: progress at 36 percent, four of nine topics completed, and today's recommended next step.",
+    alt: "The dashboard: active workspace with topics completed, quiz average, mock interviews, study streak, and today's goal.",
     caption: "progress tracking",
   },
   {
-    src: "/images/capture-mentor-desktop.png",
-    alt: "The AI mentor's chat, with prompt suggestions to explain concepts or test understanding.",
-    caption: "the ai mentor",
+    src: "/images/capture-interview-desktop.png",
+    alt: "The mock interview: AI interviewer and candidate mats with a live question, recording controls, and a live transcript.",
+    caption: "the mock interview",
   },
 ];
 
 /**
  * The product at work: captures of the real workspace, running the sample
  * roadmap seeded for this build — the roadmap view large, progress and the
- * mentor beside it. No mockups; the product is the picture.
+ * mock interview beside it. No mockups; the product is the picture.
  */
 export function ProductSection() {
   return (
@@ -32,7 +32,7 @@ export function ProductSection() {
           <figure className="m-0 grid gap-3">
             <div className="l-capture aspect-[16/10]">
               <img
-                alt="The learning plan view: a three-phase roadmap for learning Python, with subject, skill level, target completion, and daily study time."
+                alt="The learning plan view: phase 01 of a roadmap with topics, estimated times, and video tutorials."
                 src="/images/capture-plan-desktop.png"
               />
             </div>
