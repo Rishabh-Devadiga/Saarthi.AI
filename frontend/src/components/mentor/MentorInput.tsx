@@ -8,8 +8,6 @@ import {
 } from "lucide-react";
 import { useState, type KeyboardEvent } from "react";
 
-import { Button } from "@/components/common/Button";
-
 const QUICK_ACTIONS = [
   { label: "Explain Simply", prompt: "Explain this simply.", icon: Lightbulb },
   { label: "Give Example", prompt: "Give me a practical example.", icon: Sparkles },
@@ -47,17 +45,17 @@ export function MentorInput({ disabled, onSend }: MentorInputProps) {
   }
 
   return (
-    <div className="border-t border-slate-200 bg-white/95 px-3 py-3 backdrop-blur sm:px-5">
+    <div className="border-t border-rule-2 px-3 py-3 sm:px-5">
       <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
         {QUICK_ACTIONS.map(({ icon: Icon, label, prompt }) => (
           <button
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 disabled:opacity-50"
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-rule-2 bg-paper px-3 py-1.5 text-xs text-ink-2 transition-colors hover:border-accent hover:text-ink disabled:cursor-not-allowed disabled:opacity-50"
             disabled={disabled}
             key={label}
             onClick={() => onSend(prompt)}
             type="button"
           >
-            <Icon className="h-3.5 w-3.5" aria-hidden="true" />
+            <Icon className="h-3.5 w-3.5 text-muted" aria-hidden="true" />
             {label}
           </button>
         ))}
@@ -65,22 +63,23 @@ export function MentorInput({ disabled, onSend }: MentorInputProps) {
       <div className="flex items-end gap-3">
         <textarea
           aria-label="Message AI Mentor"
-          className="min-h-12 max-h-36 flex-1 resize-y rounded-md border border-slate-300 bg-white px-4 py-3 text-sm leading-6 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 disabled:bg-slate-50"
+          className="l-field max-h-36 min-h-12 flex-1 resize-none px-4 py-3 text-sm leading-6 placeholder:text-muted"
           disabled={disabled}
           onChange={(event) => setMessage(event.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask anything about your roadmap or learning..."
+          placeholder="Ask anything about your roadmap or learning…"
           rows={1}
           value={message}
         />
-        <Button
+        <button
           aria-label="Send message"
+          className="l-pill l-pill-primary h-11 w-11 px-0"
           disabled={disabled || !message.trim()}
           onClick={submitMessage}
-          size="icon"
+          type="button"
         >
           <Send className="h-4 w-4" aria-hidden="true" />
-        </Button>
+        </button>
       </div>
     </div>
   );

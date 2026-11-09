@@ -20,8 +20,8 @@ export function InterviewTimer({ startedAt }: InterviewTimerProps) {
   }, [startedAt]);
 
   return (
-    <div className="inline-flex h-11 items-center gap-2 rounded-md border border-white/10 bg-white/[0.05] px-4 font-mono text-sm font-bold text-white">
-      <Clock3 className="h-4 w-4 text-blue-400" aria-hidden="true" />
+    <div className="l-readout inline-flex h-11 w-max items-center gap-2 rounded-[var(--radius-card)] border border-rule-2 bg-paper px-4">
+      <Clock3 className="h-4 w-4 text-accent" aria-hidden="true" />
       {formatElapsedTime(elapsedSeconds)}
     </div>
   );

@@ -15,16 +15,19 @@ export function LoadingState() {
   }, []);
 
   return (
-    <section className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="flex items-center gap-3 text-slate-700">
-        <LoaderCircle className="h-5 w-5 animate-spin" aria-hidden="true" />
+    <section className="l-card p-5">
+      <div className="flex items-start gap-3">
+        <LoaderCircle
+          className="mt-0.5 h-5 w-5 shrink-0 animate-spin text-accent"
+          aria-hidden="true"
+        />
         <div>
-          <h2 className="text-sm font-semibold text-slate-950">
+          <h2>
             {isRetryWindow
-              ? `Retrying AI generation... Attempt ${attempt} of 3`
-              : "Generating your learning plan..."}
+              ? `Retrying AI generation… Attempt ${attempt} of 3`
+              : "Generating your learning plan…"}
           </h2>
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="l-caption mt-1 leading-6">
             {isRetryWindow
               ? "The AI service may be temporarily busy. We are keeping your request active."
               : "The AI Learning Agent is reading your goal and building a roadmap."}

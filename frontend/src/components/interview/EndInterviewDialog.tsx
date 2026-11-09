@@ -1,7 +1,5 @@
 import { AlertTriangle } from "lucide-react";
 
-import { Button } from "@/components/common/Button";
-
 type EndInterviewDialogProps = {
   isEnding: boolean;
   onCancel: () => void;
@@ -23,34 +21,40 @@ export function EndInterviewDialog({
     <div
       aria-labelledby="end-interview-title"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4"
+      className="fixed inset-0 z-50 grid place-items-center bg-[color-mix(in_oklab,var(--color-paper)_75%,black)] p-4"
       role="dialog"
     >
-      <section className="w-full max-w-md rounded-md border border-white/10 bg-[#1A2235] p-6 shadow-2xl">
-        <span className="flex h-11 w-11 items-center justify-center rounded-md bg-red-500/10 text-red-400">
-          <AlertTriangle className="h-5 w-5" aria-hidden="true" />
+      <section className="l-card l-enter w-full max-w-md p-6">
+        <span className="grid h-11 w-11 place-items-center rounded-full border border-rule bg-paper">
+          <AlertTriangle
+            className="h-5 w-5 text-error"
+            aria-hidden="true"
+          />
         </span>
-        <h2
-          className="mt-4 text-xl font-bold text-white"
-          id="end-interview-title"
-        >
+        <h2 className="mt-4" id="end-interview-title">
           End this interview?
         </h2>
-        <p className="mt-2 text-sm leading-6 text-slate-300">
+        <p className="l-caption mt-2 leading-6">
           Your submitted answers will be summarized. The current unanswered
           question will not be included.
         </p>
         <div className="mt-6 flex justify-end gap-3">
-          <Button disabled={isEnding} onClick={onCancel} variant="outline">
+          <button
+            className="l-pill l-pill-ghost"
+            disabled={isEnding}
+            onClick={onCancel}
+            type="button"
+          >
             Cancel
-          </Button>
-          <Button
-            className="bg-red-600 shadow-none hover:bg-red-500"
+          </button>
+          <button
+            className="l-pill l-pill-primary"
             disabled={isEnding}
             onClick={onConfirm}
+            type="button"
           >
-            {isEnding ? "Ending..." : "End Interview"}
-          </Button>
+            {isEnding ? "Ending…" : "End Interview"}
+          </button>
         </div>
       </section>
     </div>

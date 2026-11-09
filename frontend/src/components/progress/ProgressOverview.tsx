@@ -16,35 +16,33 @@ export function ProgressOverview({
   const boundedCompletion = Math.min(Math.max(completionPercentage, 0), 100);
 
   return (
-    <section className="glass-panel rounded-[24px] p-5 transition hover:-translate-y-0.5 sm:p-6">
+    <section className="l-card p-5 sm:p-6">
       <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <div>
-          <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-violet-500 text-white">
-            <Activity className="h-5 w-5" aria-hidden="true" />
-          </div>
-          <p className="text-sm font-semibold text-slate-500">
-            Progress Summary
+          <p className="l-readout flex items-center gap-2">
+            <Activity className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
+            progress summary
           </p>
-          <h2 className="mt-1 text-xl font-bold tracking-normal text-slate-950">
+          <h2 className="mt-1">
             Phase {currentPhase} - {learnerStatus}
           </h2>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
+          <p className="l-caption mt-3 max-w-2xl leading-6">
             {summary}
           </p>
         </div>
-        <div className="blue-pill min-w-36 rounded-[18px] p-4 text-white">
-          <p className="text-xs font-semibold uppercase text-slate-300">
-            Completion
+        <div className="l-well min-w-36 shrink-0 p-4">
+          <p className="l-readout">completion</p>
+          <p className="font-outlier mt-2 text-3xl text-ink">
+            {boundedCompletion}%
           </p>
-          <p className="mt-2 text-3xl font-bold">{boundedCompletion}%</p>
         </div>
       </div>
-      <div className="mt-5 h-3 overflow-hidden rounded-full bg-slate-100">
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500 transition-all"
+      <span className="l-meter mt-5 block">
+        <span
+          className="l-meter-fill"
           style={{ width: `${boundedCompletion}%` }}
         />
-      </div>
+      </span>
     </section>
   );
 }

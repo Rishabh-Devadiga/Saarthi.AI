@@ -260,27 +260,23 @@ function TopicCard({ completedTopics, remainingTopics }: TopicCardProps) {
   }
 
   return (
-    <section className="glass-panel flex flex-1 flex-col rounded-[24px] p-5 transition hover:-translate-y-0.5 sm:p-6">
+    <section className="l-card flex flex-1 flex-col p-5">
       <div className="flex items-center gap-3">
-        <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-violet-500 text-white">
-          <Layers3 className="h-5 w-5" aria-hidden="true" />
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-rule bg-paper">
+          <Layers3 className="h-5 w-5 text-accent" aria-hidden="true" />
         </span>
         <div>
-          <p className="text-xs font-semibold uppercase text-slate-500">
-            Roadmap Coverage
-          </p>
-          <h2 className="mt-0.5 text-base font-bold text-slate-950">Topics</h2>
+          <p className="l-readout">roadmap coverage</p>
+          <h2 className="mt-1">Topics</h2>
         </div>
       </div>
       {completedTopics.length > 0 ? (
         <div className="mt-4">
-          <p className="text-xs font-semibold uppercase text-slate-500">
-            Completed
-          </p>
+          <p className="l-readout">completed</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {completedTopics.map((topic) => (
               <span
-                className="rounded-md bg-emerald-50 px-2.5 py-1.5 text-xs font-medium text-emerald-700"
+                className="l-tag"
                 key={topic}
               >
                 {topic}
@@ -291,13 +287,11 @@ function TopicCard({ completedTopics, remainingTopics }: TopicCardProps) {
       ) : null}
       {remainingTopics.length > 0 ? (
         <div className="mt-4">
-          <p className="text-xs font-semibold uppercase text-slate-500">
-            Remaining
-          </p>
+          <p className="l-readout">remaining</p>
           <div className="mt-2 flex flex-wrap gap-2">
             {remainingTopics.slice(0, 8).map((topic) => (
               <span
-                className="rounded-md bg-slate-100 px-2.5 py-1.5 text-xs font-medium text-slate-700"
+                className="l-tag"
                 key={topic}
               >
                 {topic}

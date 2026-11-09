@@ -22,34 +22,29 @@ export function ConnectCalendarCard({
   upcomingStudySession,
 }: ConnectCalendarCardProps) {
   return (
-    <section className="metric-card flex h-full flex-col p-5 transition hover:-translate-y-0.5">
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <span className="blue-pill inline-flex h-10 w-10 items-center justify-center rounded-full text-white">
-            <CalendarDays className="h-5 w-5" aria-hidden="true" />
-          </span>
-          <div>
-            <h2 className="text-base font-black text-slate-950">
-              Google Calendar
-            </h2>
-            <CalendarStatus connected={connected} />
-          </div>
+    <section className="l-card flex h-full flex-col p-5">
+      <div className="flex items-center gap-3">
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-rule bg-paper">
+          <CalendarDays className="h-4.5 w-4.5 text-accent" aria-hidden="true" />
+        </span>
+        <div>
+          <p className="l-readout">study schedule</p>
+          <h2 className="mt-1">Google Calendar</h2>
+          <CalendarStatus connected={connected} />
         </div>
       </div>
 
       {upcomingStudySession ? (
-        <div className="glass-control mb-4 rounded-[20px] p-4">
-          <p className="text-xs font-black uppercase text-slate-400">
-            Upcoming Study Session
-          </p>
-          <p className="mt-2 text-sm font-black text-slate-950">
+        <div className="l-well mt-4 p-4">
+          <p className="l-readout">upcoming study session</p>
+          <p className="mt-2 font-medium text-ink">
             {formatRelativeDate(upcomingStudySession.start)}
           </p>
-          <p className="mt-1 text-sm font-medium text-slate-600">
+          <p className="l-caption mt-1">
             {formatTime(upcomingStudySession.start)} - {upcomingStudySession.topic}
           </p>
           <a
-            className="mt-3 inline-flex items-center gap-2 text-sm font-black text-blue-600 hover:underline"
+            className="mt-3 inline-flex items-center gap-2 text-sm text-accent underline-offset-4 hover:underline"
             href="https://calendar.google.com/calendar/u/0/r"
             rel="noreferrer"
             target="_blank"
@@ -60,7 +55,7 @@ export function ConnectCalendarCard({
         </div>
       ) : null}
 
-      <div className="mt-auto">
+      <div className="mt-auto pt-4">
         <CalendarActions
           connected={connected}
           disabled={disabled}

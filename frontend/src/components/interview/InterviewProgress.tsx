@@ -10,24 +10,28 @@ export function InterviewProgress({
   const percentage = total > 0 ? Math.round((current / total) * 100) : 0;
 
   return (
-    <div aria-label={`Question ${current} of ${total}`} className="space-y-3">
+    <div
+      aria-label={`Question ${current} of ${total}`}
+      className="space-y-3"
+    >
       <div className="flex items-end justify-between gap-4">
-        <span className="text-sm font-bold text-white">
-          Question {current} of {total}
+        <span className="l-readout">
+          question {current} of {total}
         </span>
-        <span className="text-xs font-semibold text-blue-300">
+        <span className="l-readout">
           {percentage}% complete
         </span>
       </div>
       <div
+        aria-label={`Progress ${percentage} percent`}
         aria-valuemax={total}
         aria-valuemin={1}
         aria-valuenow={current}
-        className="h-2 overflow-hidden rounded-full bg-white/10"
+        className="l-meter"
         role="progressbar"
       >
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-blue-500 to-violet-500 transition-[width] duration-300"
+        <span
+          className="l-meter-fill"
           style={{ width: `${percentage}%` }}
         />
       </div>

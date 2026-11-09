@@ -10,16 +10,18 @@ export function MilestoneCard({ milestones }: MilestoneCardProps) {
   }
 
   return (
-    <div className="rounded-md border border-slate-200 bg-white p-4">
-      <div className="mb-3 flex items-center gap-2">
-        <Flag className="h-4 w-4 text-slate-500" aria-hidden="true" />
-        <h4 className="text-sm font-semibold text-slate-950">Milestones</h4>
-      </div>
-      <ul className="space-y-2">
+    <div className="border border-rule bg-paper p-4">
+      <p className="l-readout flex items-center gap-2">
+        <Flag className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
+        milestones
+      </p>
+      <ul className="mt-3">
         {milestones.map((milestone) => (
-          <li className="flex gap-2 text-sm leading-6 text-slate-700" key={milestone}>
-            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400" />
-            <span>{milestone}</span>
+          <li
+            className="border-t border-rule py-2 text-sm leading-6 text-ink-2 first:border-t-0 first:pt-0"
+            key={milestone}
+          >
+            {milestone}
           </li>
         ))}
       </ul>

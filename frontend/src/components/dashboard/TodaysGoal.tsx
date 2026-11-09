@@ -1,4 +1,4 @@
-import { ArrowRight, Clock3, Target } from "lucide-react";
+import { ArrowRight, Clock3 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 type TodaysGoalProps = {
@@ -15,44 +15,33 @@ export function TodaysGoal({
   const normalizedProgress = Math.min(Math.max(progress, 0), 100);
 
   return (
-    <section className="metric-card flex h-full min-h-72 flex-col p-5 sm:p-6">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h2 className="font-black text-slate-950">Today&apos;s Goal</h2>
-          <p className="mt-0.5 text-xs font-semibold text-slate-500">
-            Recommended next step
-          </p>
+    <section className="l-card flex h-full flex-col p-5">
+      <p className="l-readout">today's plan</p>
+      <h2 className="mt-2">Today&apos;s Goal</h2>
+
+      <div
+        aria-label={`Today's progress: ${normalizedProgress} percent`}
+        className="mx-auto mt-6 grid h-36 w-36 place-items-center rounded-full"
+        role="img"
+        style={{
+          background: `conic-gradient(var(--color-accent) ${normalizedProgress * 3.6}deg, var(--color-paper-3) 0deg)`,
+        }}
+      >
+        <div className="grid h-28 w-28 place-items-center rounded-full border border-rule bg-paper text-center">
+          <p className="font-outlier text-3xl text-ink">{normalizedProgress}%</p>
         </div>
-        <span className="blue-pill flex h-10 w-10 items-center justify-center rounded-full text-white">
-          <Target className="h-5 w-5" aria-hidden="true" />
-        </span>
       </div>
 
-      <div className="mt-6 flex flex-1 flex-col items-center text-center">
-        <div
-          className="grid h-32 w-32 place-items-center rounded-full"
-          style={{
-            background: `conic-gradient(#4058ff ${normalizedProgress * 3.6}deg, #e3e6ef 0deg)`,
-          }}
-        >
-          <div className="grid h-24 w-24 place-items-center rounded-full bg-white shadow-inner">
-            <span className="text-2xl font-black text-slate-950">
-              {normalizedProgress}%
-            </span>
-          </div>
-        </div>
-
-        <p className="mt-5 text-base font-black leading-6 text-slate-950">
-          {task ?? "Your next roadmap task will appear here."}
-        </p>
-        <div className="mt-3 flex items-center gap-2 text-sm font-bold text-slate-500">
-          <Clock3 className="h-4 w-4 text-blue-600" aria-hidden="true" />
-          {estimatedMinutes} min estimated
-        </div>
-      </div>
+      <p className="mt-6 leading-6 text-ink">
+        {task ?? "Your next roadmap task will appear here."}
+      </p>
+      <p className="l-readout mt-3 flex items-center gap-2">
+        <Clock3 className="h-3.5 w-3.5 text-muted" aria-hidden="true" />
+        {estimatedMinutes} min estimated
+      </p>
 
       <Link
-        className="blue-pill mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-4 text-sm font-black text-white"
+        className="l-pill l-pill-primary mt-6 w-full"
         to="/learning-plan"
       >
         Continue Learning

@@ -9,37 +9,37 @@ export function SidebarFooter() {
     state.intent?.target_deadline ?? state.learningPlan?.target_deadline ?? null;
 
   return (
-    <footer className="mt-auto pt-5">
-      <div className="rounded-[22px] bg-slate-950 p-4 text-white shadow-[0_18px_34px_rgba(15,23,42,0.18)]">
-        <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
-          Current Goal
-        </p>
-        <p className="mt-2 line-clamp-3 text-sm font-bold leading-5 text-white">
+    <footer className="mt-auto border-rule pt-5">
+      <div className="border-t border-rule pt-4">
+        <p className="l-readout">current goal</p>
+        <p className="mt-2 line-clamp-3 min-h-3 text-sm leading-5 text-ink">
           {goal ?? "No active roadmap"}
         </p>
 
-        <div className="mt-4 space-y-2">
-          <div className="flex items-center justify-between text-xs font-bold text-slate-400">
-            <span>Progress</span>
-            <span>{progress}%</span>
+        <div className="mt-4">
+          <div className="flex items-center justify-between">
+            <span className="l-readout">progress</span>
+            <span className="l-readout text-ink">{progress}%</span>
           </div>
-          <div className="h-2 overflow-hidden rounded-full bg-white/10">
+          <div
+            aria-label={`Progress ${progress}%`}
+            aria-valuemax={100}
+            aria-valuemin={0}
+            aria-valuenow={progress}
+            className="l-meter mt-2"
+            role="progressbar"
+          >
             <div
-              className="h-full rounded-full bg-gradient-to-r from-blue-400 to-violet-400"
+              className="l-meter-fill"
               style={{ width: `${Math.min(Math.max(progress, 0), 100)}%` }}
             />
           </div>
         </div>
 
         <div className="mt-4">
-          <p className="text-xs font-bold uppercase tracking-wide text-slate-500">
-            Target Completion
-          </p>
-          <p className="mt-1 text-sm font-semibold text-slate-200">
-            {targetDate ?? "Not set"}
-          </p>
+          <p className="l-readout">target completion</p>
+          <p className="mt-1 text-sm text-ink-2">{targetDate ?? "Not set"}</p>
         </div>
-
       </div>
     </footer>
   );

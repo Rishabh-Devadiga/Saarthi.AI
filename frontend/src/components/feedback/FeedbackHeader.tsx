@@ -15,44 +15,36 @@ export function FeedbackHeader({
   workflowCompleted,
 }: FeedbackHeaderProps) {
   return (
-    <section className="glass-panel rounded-[28px] p-6 sm:p-7">
+    <section className="l-enter pt-4">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <div className="blue-pill mb-4 inline-flex h-11 w-11 items-center justify-center rounded-full text-white">
-            <MessageCircle className="h-5 w-5" aria-hidden="true" />
-          </div>
-          <p className="text-sm font-bold text-slate-500">AI Study Coach</p>
-          <h1 className="mt-2 text-2xl font-black tracking-normal text-slate-950 sm:text-3xl">
-            Feedback
-          </h1>
+          <p className="l-readout flex items-center gap-2">
+            <MessageCircle
+              className="h-3.5 w-3.5 text-accent"
+              aria-hidden="true"
+            />
+            ai study coach
+          </p>
+          <h1 className="mt-2">Feedback</h1>
           {goal ? (
-            <p className="mt-3 max-w-3xl text-sm font-medium leading-6 text-slate-600">
+            <p className="mt-3 max-w-3xl leading-7 text-ink-2">
               {goal}
             </p>
           ) : null}
-        </div>
-        <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-1">
-          <Link
-            className="blue-pill inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-black text-white"
-            to="/dashboard"
-          >
-            <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
-            Dashboard
-          </Link>
-          <Link
-            className="glass-control inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-black text-slate-700"
-            to="/learning-plan"
-          >
-            <BookOpen className="h-4 w-4" aria-hidden="true" />
-            Learning Plan
-          </Link>
-          <Link
-            className="glass-control inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-black text-slate-700"
-            to="/progress"
-          >
-            <TrendingUp className="h-4 w-4" aria-hidden="true" />
-            Progress
-          </Link>
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <Link className="l-pill l-pill-primary" to="/dashboard">
+              <LayoutDashboard className="h-4 w-4" aria-hidden="true" />
+              Dashboard
+            </Link>
+            <Link className="l-pill l-pill-ghost" to="/learning-plan">
+              <BookOpen className="h-4 w-4" aria-hidden="true" />
+              Learning Plan
+            </Link>
+            <Link className="l-pill l-pill-ghost" to="/progress">
+              <TrendingUp className="h-4 w-4" aria-hidden="true" />
+              Progress
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -79,9 +71,9 @@ function StatusMeta({ label, value }: StatusMetaProps) {
   }
 
   return (
-    <div className="glass-control rounded-[18px] p-3">
-      <p className="text-xs font-black uppercase text-slate-400">{label}</p>
-      <p className="mt-1 text-sm font-black text-slate-950">{value}</p>
+    <div className="l-well p-3">
+      <p className="l-readout">{label}</p>
+      <p className="mt-1 text-sm font-medium text-ink">{value}</p>
     </div>
   );
 }

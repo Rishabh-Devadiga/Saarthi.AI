@@ -5,7 +5,6 @@ import { useSearchParams } from "react-router-dom";
 import { EmptyPlan } from "@/components/learning-plan/EmptyPlan";
 import { PhaseTimeline } from "@/components/learning-plan/PhaseTimeline";
 import { PlanHeader } from "@/components/learning-plan/PlanHeader";
-import { Button } from "@/components/common/Button";
 import { useSession } from "@/context/SessionContext";
 import {
   searchYouTubeTutorials,
@@ -375,20 +374,21 @@ export function LearningPlanPage() {
 
   if (isRestoring) {
     return (
-      <div className="py-16 text-center text-sm font-semibold text-slate-500">
-        Restoring your saved roadmap...
-      </div>
+      <p
+        className="l-readout animate-pulse py-16 text-center"
+        aria-live="polite"
+      >
+        restoring your saved roadmap…
+      </p>
     );
   }
 
   if (restoreError) {
     return (
       <div className="space-y-6">
-        <div
-          className="rounded-[20px] border border-rose-200 bg-rose-50/80 p-4 text-sm font-semibold leading-6 text-rose-700"
-          role="alert"
-        >
-          {restoreError}
+        <div className="l-alert p-4" role="alert">
+          <p className="l-readout">restore failed</p>
+          <p className="mt-2 text-sm leading-6 text-ink-2">{restoreError}</p>
         </div>
         <EmptyPlan />
       </div>
@@ -410,29 +410,33 @@ export function LearningPlanPage() {
       <PlanHeader plan={plan} />
 
       <div className="flex justify-end">
-        <Button onClick={handleRefreshResources} size="large" variant="secondary">
+        <button
+          className="l-pill l-pill-ghost"
+          onClick={handleRefreshResources}
+          type="button"
+        >
           <RefreshCw className="h-4 w-4" aria-hidden="true" />
-          Refresh resources
-        </Button>
+          Refresh Resources
+        </button>
       </div>
 
       {youtubeError ? (
-        <section className="rounded-[20px] border border-amber-200 bg-amber-50/80 p-4 text-sm font-semibold leading-6 text-amber-800">
-          {youtubeError}
+        <section className="l-alert p-4">
+          <p className="l-readout">resource loading notice</p>
+          <p className="mt-2 text-sm leading-6 text-ink-2">{youtubeError}</p>
         </section>
       ) : null}
 
       {plan.final_milestone ? (
-        <section className="metric-card p-5">
+        <section className="l-well p-5">
           <div className="flex gap-3">
-            <span className="glass-control inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-blue-600">
-              <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
-            </span>
+            <CheckCircle2
+              className="mt-0.5 h-5 w-5 shrink-0 text-accent"
+              aria-hidden="true"
+            />
             <div>
-              <p className="text-sm font-black text-slate-500">
-                Final Milestone
-              </p>
-              <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
+              <p className="l-readout">final milestone</p>
+              <p className="mt-2 text-sm leading-6 text-ink-2">
                 {plan.final_milestone}
               </p>
             </div>

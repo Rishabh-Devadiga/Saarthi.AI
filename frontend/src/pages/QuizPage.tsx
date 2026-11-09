@@ -2,13 +2,11 @@ import {
   AlertTriangle,
   ArrowLeft,
   ArrowRight,
-  ClipboardCheck,
   Send,
   Sparkles,
 } from "lucide-react";
 import { useMemo, useState } from "react";
 
-import { Button } from "@/components/common/Button";
 import { EmptyQuiz } from "@/components/quiz/EmptyQuiz";
 import { QuizLoading } from "@/components/quiz/QuizLoading";
 import { QuizQuestionCard } from "@/components/quiz/QuizQuestionCard";
@@ -147,7 +145,7 @@ export function QuizPage() {
         {generateMutation.error ? (
           <QuizError message={generateMutation.error.message} />
         ) : null}
-        <section className="rounded-md border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="l-card p-6">
           <div className="grid gap-4 sm:grid-cols-3">
             <QuizSetting label="Difficulty" value={DEFAULT_DIFFICULTY} />
             <QuizSetting
@@ -157,16 +155,18 @@ export function QuizPage() {
             <QuizSetting label="Roadmap Topics" value={`${topics.length}`} />
           </div>
           <div className="mt-6 flex justify-end">
-            <Button
+            <button
+              className="l-pill l-pill-primary"
               disabled={topics.length === 0}
               onClick={() => void handleGenerateQuiz()}
+              type="button"
             >
               <Sparkles className="h-4 w-4" aria-hidden="true" />
               Generate Quiz
-            </Button>
+            </button>
           </div>
           {topics.length === 0 ? (
-            <p className="mt-3 text-right text-sm text-amber-700">
+            <p className="l-caption mt-3 text-right">
               The current learning plan does not contain any quiz topics.
             </p>
           ) : null}
@@ -195,42 +195,45 @@ export function QuizPage() {
       />
 
       <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <Button
+        <button
+          className="l-pill l-pill-ghost"
           disabled={currentQuestion === 0 || submitMutation.isPending}
           onClick={() =>
             setCurrentQuestion((currentValue) => currentValue - 1)
           }
-          variant="outline"
+          type="button"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           Previous
-        </Button>
+        </button>
 
         {isFinalQuestion ? (
           <div className="flex flex-col items-stretch gap-2 sm:items-end">
-            <Button
+            <button
+              className="l-pill l-pill-primary"
               disabled={!allQuestionsAnswered || submitMutation.isPending}
               onClick={() => void handleSubmitQuiz()}
+              type="button"
             >
               <Send className="h-4 w-4" aria-hidden="true" />
-              {submitMutation.isPending ? "Submitting..." : "Submit Quiz"}
-            </Button>
+              {submitMutation.isPending ? "Submitting…" : "Submit Quiz"}
+            </button>
             {!allQuestionsAnswered ? (
-              <p className="text-xs text-slate-500">
-                Answer every question before submitting.
-              </p>
+              <p className="l-caption">Answer every question before submitting.</p>
             ) : null}
           </div>
         ) : (
-          <Button
+          <button
+            className="l-pill l-pill-primary"
             disabled={submitMutation.isPending}
             onClick={() =>
               setCurrentQuestion((currentValue) => currentValue + 1)
             }
+            type="button"
           >
             Next
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Button>
+          </button>
         )}
       </div>
     </div>
@@ -245,17 +248,10 @@ function QuizHeader({
   topicCount: number;
 }) {
   return (
-    <section className="rounded-md border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-      <div className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-slate-900 text-white">
-        <ClipboardCheck className="h-5 w-5" aria-hidden="true" />
-      </div>
-      <p className="mt-4 text-sm font-semibold text-blue-600">
-        Knowledge Check
-      </p>
-      <h1 className="mt-1 text-2xl font-bold text-slate-950 sm:text-3xl">
-        Quiz
-      </h1>
-      <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
+    <section className="l-enter pt-4">
+      <p className="l-readout">knowledge check</p>
+      <h1 className="mt-2">Quiz</h1>
+      <p className="mt-3 max-w-3xl leading-7 text-ink-2">
         Test your understanding of {goal} across {topicCount} roadmap{" "}
         {topicCount === 1 ? "topic" : "topics"}.
       </p>
@@ -265,27 +261,23 @@ function QuizHeader({
 
 function QuizSetting({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-md bg-slate-50 p-4">
-      <p className="text-xs font-semibold uppercase text-slate-500">{label}</p>
-      <p className="mt-1 text-base font-bold text-slate-950">{value}</p>
+    <div className="l-well p-4">
+      <p className="l-readout">{label}</p>
+      <p className="mt-2 font-outlier text-xl text-ink">{value}</p>
     </div>
   );
 }
 
 function QuizError({ message }: { message: string }) {
   return (
-    <section className="rounded-md border border-red-200 bg-red-50 p-4">
-      <div className="flex gap-3">
-        <AlertTriangle
-          className="mt-0.5 h-5 w-5 shrink-0 text-red-600"
-          aria-hidden="true"
-        />
-        <div>
-          <p className="text-sm font-semibold text-red-950">
-            Quiz request failed
-          </p>
-          <p className="mt-1 text-sm leading-6 text-red-800">{message}</p>
-        </div>
+    <section className="l-alert flex gap-3 p-4" role="alert">
+      <AlertTriangle
+        className="mt-0.5 h-5 w-5 shrink-0 text-error"
+        aria-hidden="true"
+      />
+      <div>
+        <p className="text-sm font-medium text-ink">Quiz request failed</p>
+        <p className="mt-1 leading-6 text-ink-2">{message}</p>
       </div>
     </section>
   );

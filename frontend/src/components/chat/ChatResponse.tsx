@@ -4,7 +4,6 @@ import {
   Clock,
   Lightbulb,
   MessageCircle,
-  Sparkles,
   Target,
   TrendingUp,
 } from "lucide-react";
@@ -25,8 +24,8 @@ export function ChatResponse({ response }: ChatResponseProps) {
 
   return (
     <section className="space-y-4">
-      <div className="flex items-center gap-2 text-sm font-medium text-emerald-700">
-        <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
+      <div className="l-readout flex items-center gap-2">
+        <CheckCircle2 className="h-4 w-4 text-success" aria-hidden="true" />
         {response.workflow_completed
           ? "Learning workflow completed"
           : `Current stage: ${response.current_stage}`}
@@ -38,16 +37,16 @@ export function ChatResponse({ response }: ChatResponseProps) {
           title="Learner Intent"
         >
           <DetailGrid>
-            <DetailItem label="Learning Goal" value={intent.learning_goal} />
-            <DetailItem label="Subject" value={intent.subject} />
+            <DetailItem label="learning goal" value={intent.learning_goal} />
+            <DetailItem label="subject" value={intent.subject} />
             <DetailItem
-              label="Current Skill Level"
+              label="current skill level"
               value={intent.current_skill_level}
             />
-            <DetailItem label="Target Deadline" value={intent.target_deadline} />
-            <DetailItem label="Available Time" value={intent.available_time} />
+            <DetailItem label="target deadline" value={intent.target_deadline} />
+            <DetailItem label="available time" value={intent.available_time} />
             <DetailItem
-              label="Learning Style"
+              label="learning style"
               value={intent.preferred_learning_style}
             />
           </DetailGrid>
@@ -60,38 +59,32 @@ export function ChatResponse({ response }: ChatResponseProps) {
           title="Learning Plan"
         >
           <DetailGrid>
-            <DetailItem label="Learning Goal" value={plan.learning_goal} />
-            <DetailItem label="Subject" value={plan.subject} />
-            <DetailItem label="Current Skill Level" value={plan.learner_level} />
-            <DetailItem label="Target Deadline" value={plan.target_deadline} />
+            <DetailItem label="learning goal" value={plan.learning_goal} />
+            <DetailItem label="subject" value={plan.subject} />
+            <DetailItem label="current skill level" value={plan.learner_level} />
+            <DetailItem label="target deadline" value={plan.target_deadline} />
           </DetailGrid>
           {plan.overview ? (
-            <div className="mt-4 rounded-md bg-slate-50 p-4">
-              <p className="text-xs font-semibold uppercase text-slate-500">
-                Overview
-              </p>
-              <p className="mt-2 text-sm leading-6 text-slate-700">
-                {plan.overview}
-              </p>
+            <div className="l-well mt-4 p-4">
+              <p className="l-readout">overview</p>
+              <p className="mt-2 leading-6 text-ink-2">{plan.overview}</p>
             </div>
           ) : null}
           {plan.phases.length > 0 ? (
             <div className="mt-4 grid gap-3">
               {plan.phases.map((phase) => (
                 <div
-                  className="rounded-md border border-slate-200 p-4"
+                  className="l-well p-4"
                   key={`${phase.phase_number}-${phase.title}`}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <h3 className="text-sm font-semibold text-slate-950">
-                      {phase.phase_number}. {phase.title}
-                    </h3>
-                    <span className="inline-flex items-center gap-1 rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">
-                      <Clock className="h-3.5 w-3.5" aria-hidden="true" />
+                    <h3>{phase.phase_number}. {phase.title}</h3>
+                    <span className="l-tag">
+                      <Clock className="h-3.5 w-3.5 text-muted" aria-hidden="true" />
                       {phase.estimated_duration}
                     </span>
                   </div>
-                  <p className="mt-2 text-sm leading-6 text-slate-700">
+                  <p className="mt-2 leading-6 text-ink-2">
                     {phase.objective}
                   </p>
                 </div>
@@ -106,15 +99,15 @@ export function ChatResponse({ response }: ChatResponseProps) {
           icon={<TrendingUp className="h-5 w-5" aria-hidden="true" />}
           title="Progress Summary"
         >
-          <p className="text-sm leading-6 text-slate-700">{progress.summary}</p>
+          <p className="leading-6 text-ink-2">{progress.summary}</p>
           <DetailGrid>
             <DetailItem
-              label="Completion"
+              label="completion"
               value={`${progress.overall_completion_percentage}%`}
             />
-            <DetailItem label="Status" value={progress.learner_status} />
+            <DetailItem label="status" value={progress.learner_status} />
             <DetailItem
-              label="Next Task"
+              label="next task"
               value={progress.next_recommended_task}
             />
           </DetailGrid>
@@ -126,10 +119,10 @@ export function ChatResponse({ response }: ChatResponseProps) {
           icon={<Lightbulb className="h-5 w-5" aria-hidden="true" />}
           title="Latest Feedback"
         >
-          <p className="text-sm leading-6 text-slate-700">
+          <p className="leading-6 text-ink-2">
             {feedback.overall_performance_assessment}
           </p>
-          <p className="mt-3 text-sm font-medium text-slate-950">
+          <p className="mt-3 font-medium text-ink">
             {feedback.motivation_message}
           </p>
         </ResponseCard>
@@ -140,12 +133,12 @@ export function ChatResponse({ response }: ChatResponseProps) {
           icon={<MessageCircle className="h-5 w-5" aria-hidden="true" />}
           title="Latest Nudge"
         >
-          <p className="text-sm leading-6 text-slate-700">
+          <p className="leading-6 text-ink-2">
             {nudge.personalized_message}
           </p>
           <DetailGrid>
-            <DetailItem label="Urgency" value={nudge.urgency} />
-            <DetailItem label="Recommended Action" value={nudge.recommended_action} />
+            <DetailItem label="urgency" value={nudge.urgency} />
+            <DetailItem label="recommended action" value={nudge.recommended_action} />
           </DetailGrid>
         </ResponseCard>
       ) : null}
@@ -161,13 +154,12 @@ type ResponseCardProps = {
 
 function ResponseCard({ children, icon, title }: ResponseCardProps) {
   return (
-    <article className="rounded-md border border-slate-200 bg-white p-5 shadow-sm">
-      <div className="mb-4 flex items-center gap-2">
-        <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-slate-900 text-white">
-          {icon}
+    <article className="l-card p-5">
+      <div className="flex items-center gap-3">
+        <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-rule bg-paper">
+          <span className="text-accent">{icon}</span>
         </span>
-        <h2 className="text-base font-semibold text-slate-950">{title}</h2>
-        <Sparkles className="ml-auto h-4 w-4 text-slate-400" aria-hidden="true" />
+        <h2 className="truncate">{title}</h2>
       </div>
       {children}
     </article>
@@ -193,9 +185,9 @@ function DetailItem({ label, value }: DetailItemProps) {
   }
 
   return (
-    <div className="rounded-md bg-slate-50 p-3">
-      <dt className="text-xs font-semibold uppercase text-slate-500">{label}</dt>
-      <dd className="mt-1 text-sm font-medium text-slate-900">{value}</dd>
+    <div className="l-well p-3">
+      <dt className="l-readout">{label}</dt>
+      <dd className="mt-1 text-sm font-medium text-ink">{value}</dd>
     </div>
   );
 }

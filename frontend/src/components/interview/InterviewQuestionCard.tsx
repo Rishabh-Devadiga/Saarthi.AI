@@ -10,18 +10,17 @@ export function InterviewQuestionCard({
   question,
 }: InterviewQuestionCardProps) {
   return (
-    <article className="rounded-md border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+    <article className="l-card p-5 sm:p-7">
       <div className="flex items-start gap-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-slate-900 text-white">
-          <MessageSquareText className="h-5 w-5" aria-hidden="true" />
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-rule bg-paper">
+          <MessageSquareText
+            className="h-5 w-5 text-accent"
+            aria-hidden="true"
+          />
         </span>
         <div className="min-w-0">
-          <p className="text-xs font-semibold uppercase text-blue-600">
-            Interview Question
-          </p>
-          <h2 className="mt-2 text-xl font-bold leading-8 text-slate-950 sm:text-2xl">
-            {question.question}
-          </h2>
+          <p className="l-readout">interview question</p>
+          <h2 className="mt-2 leading-8">{question.question}</h2>
         </div>
       </div>
     </article>

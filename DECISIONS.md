@@ -410,3 +410,62 @@ future copy edits must hand-title; the hero's lone accented verb stays
 "Plans" under the recorded 38iii waiver; the mono lanes' lowercase is now an
 explicit design decision rather than a page-wide transform, so both registers
 must be respected in future copy.
+
+## DEC-023: Every post-onboarding surface moves onto Lumen; the shell loses the theme switch and owns no page head
+
+**Context:** DEC-020 locked Lumen for the sign-up anatomy (``/`` and
+``/onboarding``), DEC-021 polished it, and DEC-022 set the register — but
+every post-onboarding surface (dashboard, chat plan intake, learning plan,
+quiz, AI mentor, mock interview, progress, feedback, my learning) still sat
+on the project's legacy blue/glass system (``workspace-shell``,
+``dark-workspace``, ``glass-panel``, ``blue-pill``, ``metric-card``) inside
+an ``AppLayout`` that owned a ``Learning Report`` h1, a light/dark theme
+switch and a static header date. The owner asked every workspace page to
+match the landing's premium quality, with each page composed differently
+rather than repeated generic cards, functionality and wiring preserved
+end-to-end, and ``/api-test`` kept as its plain utility canvas; auth pages
+stay out of scope for now.
+**Decision:** The whole cluster is rewritten on the Lumen tokens under a
+``.lumen-workspace`` scope so the app register steps down from the marketing
+one (h1 ``--text-2xl``, h2 ``--text-title``, h3 the body face at 500): each
+page keeps an editorial head pattern (lowercase mono readout eyebrow over a
+Title Case head), the dashboard pairs the conic today's-goal ring, token
+themed recharts and hairline ledger strips, chat/mentor run the deep
+``l-stage`` well with brass user bubbles, quiz options and interview setup
+take the brass-ruled ``l-choice`` wells, interview adds the ``l-stage``
+interviewer/candidate mats with the live-coloured status dots, and progress
+leads with the completion estimate over the ``l-meter`` rails. The legacy
+utilities retire from the workspace (they stay for auth pages and api-test).
+``AppLayout`` drops its shell h1 — each page owns its identity now — and
+drops the theme switch entirely: Lumen is a dark-paper system with no light
+variant on record, so a light/dark toggle would present a surface the system
+never designed. The header keeps a live lowercase date readout (now
+including the year, visible from ``sm``), the notifications popover renders
+as an ``l-well`` card, search lives only on the learning-plan route, and the
+sidebar brand is the logo image returning home. New token-based primitives:
+``l-raillink``, ``l-meter``/``l-meter-fill`` (width set, never animated),
+``l-tag``, ``l-stage``, ``l-enter``, ``l-ledger``, ``workspace-utility``;
+``interview-wave-bar`` moves into the Lumen layer. Buttons inside scope use
+the native ``l-pill`` pair; the shared ``Button`` component is untouched for
+the auth pages. All handlers, payloads, roadmap generation/restore, guest
+flows and quiz-attempt persistence are byte-for-byte logic. The kept-gate
+recorded links 21/21, fields 6/6, handlers 109/111 (2 dropped on record: the
+theme-switch dark/light handlers), headings 22/23 (1 dropped on record: the
+shell's "Learning Report" head), figures 2/2, with the FAIL total moving
+219 → 139 and REFLEX 13 → 9 (all remaining gate findings are inherited
+out-of-scope debt in the legacy base layer). Lint and build pass.
+**Alternatives:** Keeping one shared dashboard-card grid (rejected — the
+brief asked for distinctive per-page compositions); keeping the theme switch
+with a second light token set (rejected — no light art direction exists in
+the record, so a toggle would ship an un-designed state); restyling
+signin/signup in the same pass (out of scope — they remain on the legacy
+canvas until their own brief); recording the removed shell head and handlers
+without stamps (rejected — the kept contract requires drops to state a
+reason on the record).
+**Trade-offs:** The theme switch is a real capability the owner may want
+back; restoring it means designing a light Lumen variant, not re-adding a
+control against unavailable tokens. Every page now carries its own head, so
+new routes must opt into the editorial head pattern. The glance metrics that
+used to live in the shell head read instead from the dashboard and progress
+pages. Two dropped stamps extend the ``globals.css`` record, and the >500 kB
+chunk warning remains pre-existing.

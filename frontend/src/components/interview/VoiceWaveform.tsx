@@ -12,7 +12,7 @@ export function VoiceWaveform({ active, variant }: VoiceWaveformProps) {
         <span
           className={cn(
             "w-1 rounded-full transition-all",
-            variant === "ai" ? "bg-blue-400" : "bg-emerald-400",
+            variant === "ai" ? "bg-accent" : "bg-accent-2",
             active ? "interview-wave-bar" : "h-1.5 opacity-40"
           )}
           key={index}

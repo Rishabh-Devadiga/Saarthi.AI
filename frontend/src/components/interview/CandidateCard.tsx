@@ -16,24 +16,27 @@ export function CandidateCard({
   transcript,
 }: CandidateCardProps) {
   return (
-    <article className="flex min-h-52 flex-col rounded-md border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+    <article className="l-stage flex min-h-52 flex-col p-5 sm:p-6">
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <span className="flex h-12 w-12 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-600">
-            <UserRound className="h-6 w-6" aria-hidden="true" />
+          <span className="grid h-12 w-12 place-items-center rounded-full border border-rule-2 bg-paper">
+            <UserRound
+              className="h-6 w-6 text-accent-2"
+              aria-hidden="true"
+            />
           </span>
           <div>
-            <p className="font-bold text-slate-950">Candidate</p>
-            <p className="mt-0.5 text-xs text-slate-500">Your live response</p>
+            <p className="font-medium text-ink">Candidate</p>
+            <p className="l-caption mt-0.5">Your live response</p>
           </div>
         </div>
-        <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700">
+        <span className="l-readout inline-flex h-max items-center gap-2 rounded-[var(--radius-card)] border border-rule-2 bg-paper px-3 py-1.5">
           <span
             className={`h-2 w-2 rounded-full ${
-              isRecording ? "bg-red-500" : "bg-emerald-500"
+              isRecording ? "bg-error" : "bg-success"
             }`}
           />
-          {isRecording ? "Listening..." : transcript ? "Ready" : "Waiting..."}
+          {isRecording ? "Listening…" : transcript ? "Ready" : "Waiting…"}
         </span>
       </div>
 
@@ -47,11 +50,11 @@ export function CandidateCard({
         aria-label="Speech transcript"
         aria-live="polite"
         aria-readonly="true"
-        className="mt-4 min-h-24 flex-1 overflow-y-auto rounded-md border border-slate-200 bg-slate-50 px-4 py-3 text-sm leading-6 text-slate-700"
+        className="mt-4 min-h-24 flex-1 overflow-y-auto border border-rule-2 bg-paper px-4 py-3 text-sm leading-6 text-ink-2 rounded-[var(--radius-card)]"
         role="textbox"
       >
         {transcript || (
-          <span className="text-slate-500">
+          <span className="text-muted">
             Your live transcript will appear here while you speak.
           </span>
         )}
@@ -59,10 +62,13 @@ export function CandidateCard({
 
       {!isSupported || error ? (
         <div
-          className="mt-3 flex gap-2 text-xs leading-5 text-amber-700"
+          className="mt-3 flex gap-2 text-xs leading-5 text-muted"
           role="alert"
         >
-          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+          <AlertTriangle
+            className="mt-0.5 h-4 w-4 shrink-0 text-error"
+            aria-hidden="true"
+          />
           <span>
             {error ?? "Speech recognition is not supported in this browser."}
           </span>

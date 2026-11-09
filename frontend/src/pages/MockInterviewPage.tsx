@@ -2,7 +2,6 @@ import { AlertTriangle, BriefcaseBusiness, RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { Button } from "@/components/common/Button";
 import { InterviewResults } from "@/components/interview/InterviewResults";
 import { InterviewSession } from "@/components/interview/InterviewSession";
 import { InterviewSetup } from "@/components/interview/InterviewSetup";
@@ -194,20 +193,22 @@ export function MockInterviewPage() {
 
   if (!learningGoal) {
     return (
-      <section className="mx-auto max-w-2xl rounded-md border border-slate-200 bg-white p-8 text-center shadow-sm">
-        <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-md bg-slate-100 text-blue-600">
-          <BriefcaseBusiness className="h-7 w-7" aria-hidden="true" />
+      <section className="l-card mx-auto mt-6 max-w-2xl p-8 text-center">
+        <span className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-rule bg-paper">
+          <BriefcaseBusiness className="h-7 w-7 text-muted" aria-hidden="true" />
         </span>
-        <h1 className="mt-5 text-2xl font-bold text-slate-950">
-          No learning plan yet
-        </h1>
-        <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-slate-600">
+        <h1 className="mt-5">No learning plan yet</h1>
+        <p className="l-caption mx-auto mt-3 max-w-lg leading-6">
           Generate a learning plan first so Saarthi can prepare an interview
           around your goal.
         </p>
-        <Button className="mt-6" onClick={() => navigate("/onboarding")}>
+        <button
+          className="l-pill l-pill-primary mt-6"
+          onClick={() => navigate("/onboarding")}
+          type="button"
+        >
           Create Learning Plan
-        </Button>
+        </button>
       </section>
     );
   }
@@ -215,20 +216,22 @@ export function MockInterviewPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-5">
       {error ? (
-        <section className="rounded-md border border-red-200 bg-red-50 p-4">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <AlertTriangle
-              className="h-5 w-5 shrink-0 text-red-600"
-              aria-hidden="true"
-            />
-            <p className="min-w-0 flex-1 text-sm text-red-800">{error}</p>
-            {view !== "setup" ? (
-              <Button onClick={resetInterview} size="default" variant="outline">
-                <RefreshCw className="h-4 w-4" aria-hidden="true" />
-                Start Again
-              </Button>
-            ) : null}
-          </div>
+        <section className="l-alert flex flex-col gap-3 p-4 sm:flex-row sm:items-center" role="alert">
+          <AlertTriangle
+            className="h-5 w-5 shrink-0 text-error"
+            aria-hidden="true"
+          />
+          <p className="min-w-0 flex-1 leading-6 text-ink-2">{error}</p>
+          {view !== "setup" ? (
+            <button
+              className="l-pill l-pill-ghost shrink-0 h-11 px-5 text-sm"
+              onClick={resetInterview}
+              type="button"
+            >
+              <RefreshCw className="h-4 w-4" aria-hidden="true" />
+              Start Again
+            </button>
+          ) : null}
         </section>
       ) : null}
 

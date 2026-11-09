@@ -18,23 +18,24 @@ export function EstimatedCompletionCard({
   const isBehind = estimate.status === "Behind Schedule";
 
   return (
-    <section className="glass-panel rounded-[24px] p-5 transition hover:-translate-y-0.5 sm:p-6">
+    <section className="l-card p-5 sm:p-6">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-start gap-3">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-violet-500 text-white">
-            <CalendarCheck2 className="h-5 w-5" aria-hidden="true" />
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-rule bg-paper">
+            <CalendarCheck2
+              className="h-5 w-5 text-accent"
+              aria-hidden="true"
+            />
           </span>
           <div>
-            <p className="text-sm font-semibold text-blue-600">
-              Estimated Completion
-            </p>
-            <h2 className="mt-1 text-xl font-bold text-slate-950">
+            <p className="l-readout">estimated completion</p>
+            <h2 className="mt-1">
               {estimate.estimatedCompletionDate
                 ? formatDate(estimate.estimatedCompletionDate)
                 : "Estimate not available yet"}
             </h2>
             {estimate.message ? (
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+              <p className="l-caption mt-2 max-w-2xl leading-6">
                 {estimate.message}
               </p>
             ) : null}
@@ -56,18 +57,18 @@ export function EstimatedCompletionCard({
                 : String(Math.max(estimate.daysRemaining, 0))
             }
           />
-          <div className="glass-control rounded-[18px] p-4">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase text-slate-500">
-              <AlertCircle className="h-4 w-4" aria-hidden="true" />
+          <div className="l-well p-4">
+            <p className="l-readout flex items-center gap-2">
+              <AlertCircle className="h-4 w-4 text-muted" aria-hidden="true" />
               Status
-            </div>
+            </p>
             <p
-              className={`mt-2 text-sm font-bold ${
+              className={`mt-2 text-sm font-medium ${
                 estimate.status === null
-                  ? "text-slate-700"
+                  ? "text-ink-2"
                   : isBehind
-                    ? "text-amber-300"
-                    : "text-emerald-300"
+                    ? "text-error"
+                    : "text-success"
               }`}
             >
               {estimate.status ?? "Pending estimate"}
@@ -87,12 +88,12 @@ type EstimateMetricProps = {
 
 function EstimateMetric({ icon: Icon, label, value }: EstimateMetricProps) {
   return (
-    <div className="glass-control rounded-[18px] p-4">
-      <div className="flex items-center gap-2 text-xs font-semibold uppercase text-slate-500">
-        <Icon className="h-4 w-4" aria-hidden="true" />
+    <div className="l-well p-4">
+      <p className="l-readout flex items-center gap-2">
+        <Icon className="h-4 w-4 text-muted" aria-hidden="true" />
         {label}
-      </div>
-      <p className="mt-2 text-sm font-bold text-slate-950">{value}</p>
+      </p>
+      <p className="mt-2 text-sm font-medium text-ink">{value}</p>
     </div>
   );
 }

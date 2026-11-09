@@ -1,0 +1,211 @@
+﻿frontend\src\components\landing\FeatureCard.tsx
+  FAIL 2a :36 purple-to-blue gradient (from-blue-500 via-violet-500 to-emerald-400) on <div class="absolute inset-x-0 bottom-0 h-0ΓÇª"> | fix: One anchor hue, solid ink
+  FAIL 10a :26 transition-all on <article class="group relative overflow-hidden ΓÇª"> | fix: Name the properties: transition-colors, transition-opacity or transition-transform
+  WARN 74 :36 default palette instead of theme tokens: 7 distinct palette classes (border-slate-200 border-slate-300 text-slate-950 tΓÇª | fix: Extend the Tailwind theme with the Hallmark tokens and use those names
+  WAIVED 29 :26 glass: backdrop-blur-xl over bg-white/85 on <article class="group relative overflow-hidden ΓÇª">
+frontend\src\styles\globals.css
+  FAIL 2a :859 purple-to-blue gradient on .dark-workspace | fix: One anchor hue; drop the gradient
+  FAIL 2a :941 purple-to-blue gradient on .dark-workspace .bg-blue-50, .dark-workspace .bg-blue-100, .dark-workspace .bg-violet-50
+  FAIL 7a :765 pure #fff: color: #ffffff (.blue-pill) | fix: Tint the base toward the anchor hue
+  FAIL 7a :793 pure #fff: color: #ffffff (.metric-card-primary)
+  FAIL 7a :887 pure #fff: color: #ffffff (.dark-workspace .blue-pill)
+  FAIL 7a :951 pure #fff: color: #ffffff (.dark-workspace .bg-blue-50.text-blue-700, .dark-workspace .bg-blue-50.text-blue-600, .dark-ΓÇª
+  FAIL 10a :1050 @keyframes interview-wave animates height | fix: Animate transform or opacity instead
+  FAIL 10a :1055 @keyframes interview-wave animates height
+  FAIL 48 :725 colour literal #111827 outside tokens (color on .page-heading) | fix: Lift the value into the token block
+  FAIL 48 :739 colour literal rgba(255, 255, 255, 0.72) outside tokens (border on .glass-panel)
+  FAIL 48 :740 colour literal rgba(255, 255, 255, 0.78) outside tokens (background on .glass-panel)
+  FAIL 48 :740 colour literal rgba(255, 255, 255, 0.44) outside tokens (background on .glass-panel)
+  FAIL 48 :740 colour literal rgba(255, 255, 255, 0.82) outside tokens (background on .glass-panel)
+  FAIL 48 :740 colour literal rgba(99, 102, 241, 0.12) outside tokens (background on .glass-panel)
+  FAIL 48 :744 colour literal rgba(255, 255, 255, 0.86) outside tokens (box-shadow on .glass-panel)
+  FAIL 48 :744 colour literal rgba(108, 122, 145, 0.08) outside tokens (box-shadow on .glass-panel)
+  FAIL 48 :744 colour literal rgba(52, 64, 84, 0.12) outside tokens (box-shadow on .glass-panel)
+  FAIL 48 :752 colour literal rgba(255, 255, 255, 0.84) outside tokens (border on .glass-control)
+  FAIL 48 :753 colour literal rgba(255, 255, 255, 0.9) outside tokens (background on .glass-control)
+  FAIL 48 :753 colour literal rgba(238, 244, 252, 0.58) outside tokens (background on .glass-control)
+  FAIL 48 :753 colour literal rgba(255, 255, 255, 0.95) outside tokens (background on .glass-control)
+  FAIL 48 :756 colour literal rgba(255, 255, 255, 0.95) outside tokens (box-shadow on .glass-control)
+  FAIL 48 :756 colour literal rgba(80, 94, 116, 0.08) outside tokens (box-shadow on .glass-control)
+  FAIL 48 :756 colour literal rgba(73, 85, 109, 0.14) outside tokens (box-shadow on .glass-control)
+  FAIL 48 :764 colour literal #4058ff outside tokens (background on .blue-pill)
+  FAIL 48 :764 colour literal #3652f7 outside tokens (background on .blue-pill)
+  FAIL 48 :764 colour literal #6c72ff outside tokens (background on .blue-pill)
+  FAIL 48 :765 colour literal #ffffff outside tokens (color on .blue-pill)
+  FAIL 48 :766 colour literal rgba(255, 255, 255, 0.38) outside tokens (box-shadow on .blue-pill)
+  FAIL 48 :766 colour literal rgba(64, 88, 255, 0.28) outside tokens (box-shadow on .blue-pill)
+  FAIL 48 :772 colour literal #ff3737 outside tokens (background on .liquid-danger)
+  FAIL 48 :772 colour literal #ff6c47 outside tokens (background on .liquid-danger)
+  FAIL 48 :772 colour literal #ffb35b outside tokens (background on .liquid-danger)
+  FAIL 48 :773 colour literal rgba(255, 255, 255, 0.48) outside tokens (box-shadow on .liquid-danger)
+  FAIL 48 :773 colour literal rgba(116, 18, 18, 0.14) outside tokens (box-shadow on .liquid-danger)
+  FAIL 48 :773 colour literal rgba(239, 68, 68, 0.25) outside tokens (box-shadow on .liquid-danger)
+  FAIL 48 :781 colour literal rgba(255, 255, 255, 0.74) outside tokens (border on .metric-card)
+  FAIL 48 :782 colour literal rgba(255, 255, 255, 0.82) outside tokens (background on .metric-card)
+  FAIL 48 :783 colour literal rgba(255, 255, 255, 0.92) outside tokens (box-shadow on .metric-card)
+  FAIL 48 :783 colour literal rgba(61, 75, 101, 0.1) outside tokens (box-shadow on .metric-card)
+  FAIL 48 :789 colour literal rgba(105, 119, 255, 0.44) outside tokens (border-color on .metric-card-primary)
+  FAIL 48 :790 colour literal rgba(53, 255, 125, 0.32) outside tokens (background on .metric-card-primary)
+  FAIL 48 :790 colour literal #4254ff outside tokens (background on .metric-card-primary)
+  FAIL 48 :790 colour literal #3347ee outside tokens (background on .metric-card-primary)
+  FAIL 48 :793 colour literal #ffffff outside tokens (color on .metric-card-primary)
+  FAIL 48 :794 colour literal rgba(255, 255, 255, 0.3) outside tokens (box-shadow on .metric-card-primary)
+  FAIL 48 :794 colour literal rgba(50, 71, 238, 0.24) outside tokens (box-shadow on .metric-card-primary)
+  FAIL 48 :800 colour literal rgba(148, 163, 184, 0.08) outside tokens (background-image on .landing-grid)
+  FAIL 48 :859 colour literal rgba(37, 99, 235, 0.16) outside tokens (background on .dark-workspace)
+  FAIL 48 :859 colour literal rgba(168, 85, 247, 0.12) outside tokens (background on .dark-workspace)
+  FAIL 48 :859 colour literal #111827 outside tokens (background on .dark-workspace)
+  FAIL 48 :859 colour literal #172033 outside tokens (background on .dark-workspace)
+  FAIL 48 :859 colour literal #0b1220 outside tokens (background on .dark-workspace)
+  FAIL 48 :867 colour literal rgba(255, 255, 255, 0.12) outside tokens (border-color on .dark-workspace .glass-panel,ΓÇª)
+  FAIL 48 :868 colour literal rgba(30, 41, 59, 0.84) outside tokens (background on .dark-workspace .glass-panel,ΓÇª)
+  FAIL 48 :868 colour literal rgba(15, 23, 42, 0.72) outside tokens (background on .dark-workspace .glass-panel,ΓÇª)
+  FAIL 48 :868 colour literal rgba(59, 130, 246, 0.16) outside tokens (background on .dark-workspace .glass-panel,ΓÇª)
+  FAIL 48 :871 colour literal rgba(255, 255, 255, 0.1) outside tokens (box-shadow on .dark-workspace .glass-panel,ΓÇª)
+  FAIL 48 :871 colour literal rgba(0, 0, 0, 0.22) outside tokens (box-shadow on .dark-workspace .glass-panel,ΓÇª)
+  FAIL 48 :877 colour literal rgba(255, 255, 255, 0.14) outside tokens (border-color on .dark-workspace .glass-control)
+  FAIL 48 :878 colour literal rgba(51, 65, 85, 0.88) outside tokens (background on .dark-workspace .glass-control)
+  FAIL 48 :878 colour literal rgba(15, 23, 42, 0.7) outside tokens (background on .dark-workspace .glass-control)
+  FAIL 48 :878 colour literal rgba(255, 255, 255, 0.12) outside tokens (background on .dark-workspace .glass-control)
+  FAIL 48 :881 colour literal #e5e7eb outside tokens (color on .dark-workspace .glass-control)
+  FAIL 48 :885 colour literal #4f63ff outside tokens (background on .dark-workspace .blue-pill)
+  FAIL 48 :885 colour literal #3b52f6 outside tokens (background on .dark-workspace .blue-pill)
+  FAIL 48 :885 colour literal #746dff outside tokens (background on .dark-workspace .blue-pill)
+  FAIL 48 :887 colour literal #ffffff outside tokens (color on .dark-workspace .blue-pill)
+  FAIL 48 :893 colour literal #f8fafc outside tokens (color on .dark-workspace .text-slate-9ΓÇª)
+  FAIL 48 :898 colour literal #cbd5e1 outside tokens (color on .dark-workspace .text-slate-7ΓÇª)
+  FAIL 48 :903 colour literal #94a3b8 outside tokens (color on .dark-workspace .text-slate-5ΓÇª)
+  FAIL 48 :909 colour literal #93c5fd outside tokens (color on .dark-workspace .text-blue-60ΓÇª)
+  FAIL 48 :915 colour literal rgba(15, 23, 42, 0.86) outside tokens (background on .dark-workspace .bg-white, .dΓÇª)
+  FAIL 48 :915 colour literal rgba(30, 41, 59, 0.74) outside tokens (background on .dark-workspace .bg-white, .dΓÇª)
+  FAIL 48 :915 colour literal rgba(59, 130, 246, 0.1) outside tokens (background on .dark-workspace .bg-white, .dΓÇª)
+  FAIL 48 :918 colour literal rgba(15, 23, 42, 0.84) outside tokens (background-color on .dark-workspace .bg-white, .dΓÇª)
+  FAIL 48 :924 colour literal rgba(15, 23, 42, 0.78) outside tokens (background on .dark-workspace [class~="bg-wΓÇª)
+  FAIL 48 :924 colour literal rgba(30, 41, 59, 0.64) outside tokens (background on .dark-workspace [class~="bg-wΓÇª)
+  FAIL 48 :924 colour literal rgba(255, 255, 255, 0.08) outside tokens (background on .dark-workspace [class~="bg-wΓÇª)
+  FAIL 48 :927 colour literal rgba(255, 255, 255, 0.12) outside tokens (border-color on .dark-workspace [class~="bg-wΓÇª)
+  FAIL 48 :931 colour literal rgba(255, 255, 255, 0.94) outside tokens (background on .dark-workspace .metric-card-ΓÇª)
+  FAIL 48 :935 colour literal #2563eb outside tokens (color on .dark-workspace .metric-card-ΓÇª)
+  FAIL 48 :941 colour literal rgba(37, 99, 235, 0.24) outside tokens (background on .dark-workspace .bg-blue-50, ΓÇª)
+  FAIL 48 :941 colour literal rgba(124, 58, 237, 0.18) outside tokens (background on .dark-workspace .bg-blue-50, ΓÇª)
+  FAIL 48 :943 colour literal rgba(37, 99, 235, 0.2) outside tokens (background-color on .dark-workspace .bg-blue-50, ΓÇª)
+  FAIL 48 :951 colour literal #ffffff outside tokens (color on .dark-workspace .bg-blue-50.tΓÇª)
+  FAIL 48 :955 colour literal rgba(71, 85, 105, 0.42) outside tokens (background-color on .dark-workspace .bg-slate-200)
+  FAIL 48 :960 colour literal rgba(255, 255, 255, 0.12) outside tokens (border-color on .dark-workspace .border-slateΓÇª)
+  FAIL 48 :969 colour literal rgba(51, 65, 85, 0.74) outside tokens (background on .dark-workspace [class~="hoveΓÇª)
+  FAIL 48 :969 colour literal rgba(15, 23, 42, 0.62) outside tokens (background on .dark-workspace [class~="hoveΓÇª)
+  FAIL 48 :969 colour literal rgba(99, 102, 241, 0.18) outside tokens (background on .dark-workspace [class~="hoveΓÇª)
+  FAIL 48 :972 colour literal #f8fafc outside tokens (color on .dark-workspace [class~="hoveΓÇª)
+  FAIL 48 :993 colour literal rgba(255, 255, 255, 0.78) outside tokens (border-color on .workspace-shell input, .workΓÇª)
+  FAIL 48 :994 colour literal rgba(255, 255, 255, 0.72) outside tokens (background on .workspace-shell input, .workΓÇª)
+  FAIL 48 :995 colour literal #111827 outside tokens (color on .workspace-shell input, .workΓÇª)
+  FAIL 48 :996 colour literal rgba(255, 255, 255, 0.88) outside tokens (box-shadow on .workspace-shell input, .workΓÇª)
+  FAIL 48 :996 colour literal rgba(73, 85, 109, 0.08) outside tokens (box-shadow on .workspace-shell input, .workΓÇª)
+  FAIL 48 :1003 colour literal #8a94a6 outside tokens (color on .workspace-shell input::placeΓÇª)
+  FAIL 48 :1011 colour literal #111827 outside tokens (color on .workspace-shell .workspace-sΓÇª)
+  FAIL 48 :1016 colour literal rgba(255, 255, 255, 0.14) outside tokens (border-color on .dark-workspace input, .dark-ΓÇª)
+  FAIL 48 :1017 colour literal rgba(15, 23, 42, 0.92) outside tokens (background on .dark-workspace input, .dark-ΓÇª)
+  FAIL 48 :1017 colour literal rgba(30, 41, 59, 0.82) outside tokens (background on .dark-workspace input, .dark-ΓÇª)
+  FAIL 48 :1019 colour literal #f8fafc outside tokens (color on .dark-workspace input, .dark-ΓÇª)
+  FAIL 48 :1020 colour literal rgba(255, 255, 255, 0.08) outside tokens (box-shadow on .dark-workspace input, .dark-ΓÇª)
+  FAIL 48 :1020 colour literal rgba(0, 0, 0, 0.18) outside tokens (box-shadow on .dark-workspace input, .dark-ΓÇª)
+  FAIL 48 :1027 colour literal #94a3b8 outside tokens (color on .dark-workspace input::placehΓÇª)
+  FAIL 48 :1032 colour literal #f8fafc outside tokens (color on .dark-workspace .workspace-seΓÇª)
+  WARN F24 :744 a hairline border under a wide soft shadow on .glass-panel | fix: Commit to one: a defined edge, or elevation by shadow
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª | fix: Lock it into a design.md so later pages inherit it instead of re-arguing it
+frontend\src\components\mentor\MentorChat.tsx
+  FAIL 6a :30 hero sized in vh: min-h-[calc(100vh-14rem)] on <section class="l-stage flex min-h-[calc(100vh-ΓÇª"> | fix: min-h-dvh or min-h-svh
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\components\interview\VoiceWaveform.tsx
+  FAIL 10a :12 transition-all on <span class="w-1 rounded-full transition-allΓÇª">
+frontend\src\components\landing\Benefits.tsx
+  FAIL 10a :51 transition-all on <article class="rounded-lg border border-slate-ΓÇª">
+  FAIL 48 :29 colour literal bg-[#f6f8fc] in a class on <section class="scroll-mt-20 border-y border-slΓÇª"> | fix: Lift the value into the token block (@theme or :root) and use its utility name
+  FAIL 54 :35 eyebrow "Why Saarthi.AI?" before <h2> (uppercase, text-emerald-700 at 14px) | fix: Cut it; open the section another way (craft.md, Opening a section)
+  FAIL 67 :35 "Why Saarthi.AI?" uppercase at 14px on <p class="text-sm font-semibold uppercaseΓÇª"> | fix: Sentence case in the body face, a step smaller, untracked: drop uppercase and the tracking-* class
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\components\dashboard\InterviewAnalytics.tsx
+  FAIL 19 :19 buzzword "unlock" | fix: Say what the product does, in its own nouns
+frontend\src\components\feedback\NudgeCard.tsx
+  FAIL 48 :15 colour literal bg-[#1A2235] in a class on <section class="h-full rounded-md border borderΓÇª">
+  FAIL 67 :23 "priority" uppercase at 12px on <p class="text-xs font-semibold uppercaseΓÇª">
+  WARN 74 :31 default palette instead of theme tokens: 6 distinct palette classes (from-violet-500 to-fuchsia-500 text-slate-950 textΓÇª
+frontend\src\pages\SignInPage.tsx
+  FAIL 48 :47 colour literal bg-[#080b14] in a class on <div class="relative isolate min-h-screen oΓÇª">
+  FAIL 48 :56 colour literal shadow-[0_8px_24px_rgba(59,130,246,0.35)] in a class on <span class="flex h-9 w-9 items-center justiΓÇª">
+  FAIL 48 :61 colour literal shadow-[0_30px_100px_rgba(0,0,0,0.35)] in a class on <div class="w-full rounded-[24px] border boΓÇª">
+  WARN 74 :67 default palette instead of theme tokens: 12 distinct palette classes (bg-blue-500 text-slate-300 border-rose-300 bg-rosΓÇª
+  WAIVED 29 :61 glass: backdrop-blur-xl over bg-white/8 on <div class="w-full rounded-[24px] border boΓÇª">
+frontend\src\pages\SignUpPage.tsx
+  FAIL 48 :72 colour literal bg-[#080b14] in a class on <div class="relative isolate min-h-screen oΓÇª">
+  FAIL 48 :81 colour literal shadow-[0_8px_24px_rgba(59,130,246,0.35)] in a class on <span class="flex h-9 w-9 items-center justiΓÇª">
+  FAIL 48 :86 colour literal shadow-[0_30px_100px_rgba(0,0,0,0.35)] in a class on <div class="w-full rounded-[24px] border boΓÇª">
+  WARN 74 :92 default palette instead of theme tokens: 15 distinct palette classes (bg-blue-500 text-slate-300 border-blue-300 bg-bluΓÇª
+  WAIVED 29 :86 glass: backdrop-blur-xl over bg-white/8 on <div class="w-full rounded-[24px] border boΓÇª">
+frontend\src\components\landing\HowItWorks.tsx
+  FAIL 54 :44 eyebrow "How it works" before <h2> | fix: Cut it; the heading already says this (craft.md ┬º 7 has twelve other openings)
+  FAIL 54 :89 eyebrow "Step" before <h3> (uppercase at 12px)
+  FAIL 67 :44 "How it works" uppercase at 14px on <p class="text-sm font-semibold uppercaseΓÇª">
+  FAIL 67 :89 "Step" uppercase at 12px on <p class="mt-5 text-xs font-bold uppercasΓÇª">
+  WARN 74 :86 default palette instead of theme tokens: 7 distinct palette classes (text-violet-700 text-slate-950 text-slate-600 bg-sΓÇª
+frontend\src\components\learning-plan\PhaseCard.tsx
+  FAIL 54 :37 eyebrow "phase" before <h3>
+frontend\src\components\quiz\QuizResults.tsx
+  FAIL 54 :74 eyebrow "question" before <h2>
+frontend\src\pages\ApiTestPage.tsx
+  FAIL 67 :264 uppercase at 12px on <span class="rounded-md bg-slate-100 px-2 pyΓÇª">
+  WARN 74 :137 default palette instead of theme tokens: 10 distinct palette classes (text-slate-600 border-slate-200 text-slate-700 boΓÇª
+.hallmark\before.json
+  FAIL kept :1 links the page had before and no longer has: {item.to} | fix: Restore each one, or record it in the stamp: /* Hallmark ┬╖ dropped <item>, <item> ┬╖ <the reason> */
+  FAIL kept :1 handlers the page had before and no longer has: onClick={() => setIsNotificationsOpen((isOpen) ΓÇª, onClick={() => { if (theme !== "dark") { handleΓÇª, onClick={() => { if (theme !== "light") { handlΓÇª
+  WARN kept :1 not compared, because this run did not render them: http://localhost:5173/, http://localhost:5173/onboarding, http://localhost:5173/chat, http://localhost:5173/dashboard and 7 more | fix: Render the same pages or URLs the before record holds
+frontend\src\components\landing\Footer.tsx
+  WARN 19 :47 template footer line: "All rights reserved" | fix: A stock line with no legal effect; cut it unless the owner wants it
+frontend\src\components\dashboard\SummaryCards.tsx
+  WARN 74 :64 default palette instead of theme tokens: 5 distinct palette classes (border-slate-200 text-slate-500 text-slate-700 bg-ΓÇª
+frontend\src\components\dashboard\WorkflowStatus.tsx
+  WARN 74 :24 default palette instead of theme tokens: 6 distinct palette classes (border-slate-200 bg-slate-100 text-slate-700 text-ΓÇª
+frontend\src\components\dashboard\TodaysGoal.tsx
+  WARN F1 :19 straight quote in prose x1 (first: today's plan) | fix: Use typographic quotes: ΓÇ£ ΓÇ¥ ΓÇÖ
+frontend\src\components\feedback\EmptyFeedback.tsx
+  NOTE 58 :11 hero paragraph runs 15 words | fix: One sentence, twelve words or fewer
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\components\learning-plan\EmptyPlan.tsx
+  NOTE 58 :11 hero paragraph runs 22 words
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\components\progress\EmptyProgress.tsx
+  NOTE 58 :11 hero paragraph runs 22 words
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\components\quiz\EmptyQuiz.tsx
+  NOTE 58 :11 hero paragraph runs 20 words
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\pages\ChatPage.tsx
+  NOTE 58 :91 hero paragraph runs 28 words
+frontend\src\pages\DashboardPage.tsx
+  NOTE 58 :287 hero paragraph runs 23 words
+frontend\src\pages\MockInterviewPage.tsx
+  NOTE 58 :201 hero paragraph runs 14 words
+frontend\src\App.tsx
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\components\calendar\CalendarActions.tsx
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\components\chat\ChatInput.tsx
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\components\common\Button.tsx
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\components\dashboard\FeedbackCard.tsx
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\components\interview\AIInterviewerCard.tsx
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\components\layout\MobileSidebar.tsx
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\components\onboarding\GoalStep.tsx
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\context\AuthContext.tsx
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\layouts\AppLayout.tsx
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+frontend\src\pages\AIMentorPage.tsx
+  NOTE waive :1 4 reflex gates waived (38iii, 29, 77, 79): that is a house style, not aΓÇª
+sloplint: 133 FAIL, 12 WARN, 3 WAIVED, 25 NOTE across 112 file(s).
+kept: links 17/18, handlers 108/111; before 219 FAIL, 13 REFLEX, now 133 FAIL, 0 REFLEX

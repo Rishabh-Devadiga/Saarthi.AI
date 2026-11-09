@@ -1,4 +1,3 @@
-import { Bot, Sparkles } from "lucide-react";
 import { useState } from "react";
 
 import { ChatInput } from "@/components/chat/ChatInput";
@@ -86,30 +85,24 @@ export function ChatPage() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-8">
-      <header className="glass-panel rounded-[28px] p-6 text-center sm:p-8">
-        <div className="blue-pill mx-auto mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full text-white">
-          <Bot className="h-6 w-6" aria-hidden="true" />
-        </div>
-        <h1 className="text-3xl font-black tracking-normal text-slate-950 sm:text-4xl">
-          Build your personalized learning plan
-        </h1>
-        <p className="mx-auto mt-3 max-w-2xl text-base font-medium leading-7 text-slate-600">
+      <header className="l-enter pt-4">
+        <p className="l-readout">plan intake</p>
+        <h1 className="mt-2">Build your personalized learning plan</h1>
+        <p className="mt-4 max-w-2xl text-base leading-7 text-ink-2">
           Tell the AI Learning Agent what you want to learn, your timeline, and
           your current level. It will generate a structured roadmap with next
           steps, feedback, and nudges.
         </p>
       </header>
 
-      <div className="glass-panel rounded-[28px] p-2">
-        <div className="rounded-[22px] bg-white/45 p-3 sm:p-4">
-          <ChatInput
-            error={validationError}
-            isSubmitting={startLearningSession.isPending}
-            onChange={handlePromptChange}
-            onSubmit={handleSubmit}
-            value={prompt}
-          />
-        </div>
+      <div className="l-card p-3">
+        <ChatInput
+          error={validationError}
+          isSubmitting={startLearningSession.isPending}
+          onChange={handlePromptChange}
+          onSubmit={handleSubmit}
+          value={prompt}
+        />
       </div>
 
       {startLearningSession.isPending ? <LoadingState /> : null}
@@ -128,10 +121,7 @@ export function ChatPage() {
 
       {response ? (
         <div className="space-y-4">
-          <div className="flex items-center gap-2 text-sm font-black text-slate-600">
-            <Sparkles className="h-4 w-4" aria-hidden="true" />
-            Generated response
-          </div>
+          <p className="l-readout">generated response</p>
           <ChatResponse response={response} />
         </div>
       ) : null}

@@ -1,9 +1,8 @@
 import {
   BookOpen,
-  ClipboardCheck,
   BriefcaseBusiness,
+  ClipboardCheck,
   FolderOpen,
-  GraduationCap,
   LayoutDashboard,
   MessageCircle,
   MessagesSquare,
@@ -39,43 +38,31 @@ type SidebarProps = {
 
 export function Sidebar({ onNavigate }: SidebarProps) {
   return (
-    <aside className="glass-panel flex h-full w-[224px] shrink-0 flex-col rounded-[24px] p-3 text-slate-950">
-      <div className="p-2 pb-5">
-        <Link
-          className="group flex items-center gap-3 rounded-[20px] px-2 py-2 transition hover:bg-white/50"
-          onClick={onNavigate}
-          to="/"
-        >
-          <span className="blue-pill flex h-10 w-10 items-center justify-center rounded-[16px] text-white">
-            <GraduationCap className="h-5 w-5" aria-hidden="true" />
-          </span>
-          <span>
-            <span className="block text-base font-black tracking-tight text-slate-950">
-              Saarthi.AI
-            </span>
-            <span className="block text-xs font-semibold text-slate-500">
-              Learning Workspace
-            </span>
-          </span>
-        </Link>
-      </div>
-
-      <p className="px-3 pb-2 text-[11px] font-bold uppercase text-slate-400">
-        Menu
-      </p>
-      <nav className="space-y-1" aria-label="Workspace navigation">
+    <div className="flex h-full min-h-0 flex-col">
+      <Link aria-label="Return to Saarthi.AI home" className="mb-8 inline-flex" to="/">
+        <img
+          alt="Saarthi.AI"
+          className="h-7 w-auto"
+          draggable={false}
+          src="/images/logo.png"
+        />
+      </Link>
+      <p className="l-readout">workspace</p>
+      <nav
+        aria-label="Workspace navigation"
+        className="mt-3 flex flex-col gap-1"
+      >
         {sidebarItems.map((item) => (
           <SidebarItem
             icon={item.icon}
-            key={`${item.label}-${item.to}`}
+            key={item.to}
             label={item.label}
             onClick={onNavigate}
             to={item.to}
           />
         ))}
       </nav>
-
       <SidebarFooter />
-    </aside>
+    </div>
   );
 }

@@ -27,12 +27,12 @@ export function TopicChecklist({
   }
 
   return (
-    <div className="mt-5 rounded-md bg-slate-50 p-4">
-      <div className="mb-3 flex items-center gap-2">
-        <ListChecks className="h-4 w-4 text-slate-500" aria-hidden="true" />
-        <h4 className="text-sm font-semibold text-slate-950">Topics</h4>
-      </div>
-      <div className="grid gap-3">
+    <div className="mt-5">
+      <p className="l-readout flex items-center gap-2">
+        <ListChecks className="h-4 w-4" aria-hidden="true" />
+        topics
+      </p>
+      <div className="mt-3 grid gap-3">
         {topics.map((topic, index) => {
           const topicKey = getTopicKey(phaseNumber, topic);
           const topicVideos = videos[topicKey] ?? [];

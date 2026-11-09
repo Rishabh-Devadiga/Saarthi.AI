@@ -41,7 +41,6 @@ export function DashboardPage() {
   if (!hasActiveSession) {
     return <EmptyDashboardState />;
   }
-
   const learningGoal =
     state.intent?.learning_goal ?? state.learningPlan?.learning_goal ?? null;
   const subject = state.intent?.subject ?? state.learningPlan?.subject ?? null;
@@ -75,7 +74,7 @@ export function DashboardPage() {
   );
 
   return (
-    <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_320px]">
+    <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_20rem]">
       <div className="min-w-0 space-y-5">
         <WelcomeCard
           learnerName={state.user?.name ?? null}
@@ -124,9 +123,9 @@ export function DashboardPage() {
             upcomingStudySession={state.upcomingStudySession}
           />
           {calendarError ? (
-            <p className="liquid-danger mt-3 rounded-[18px] p-3 text-sm font-bold text-white">
-              {calendarError}
-            </p>
+            <div className="l-alert mt-3 p-3" role="alert">
+              <p className="text-sm leading-6 text-ink-2">{calendarError}</p>
+            </div>
           ) : null}
         </div>
       </aside>
@@ -280,31 +279,22 @@ function loadGoogleIdentityServices(): Promise<void> {
 
 function EmptyDashboardState() {
   return (
-    <section className="glass-panel mx-auto flex max-w-2xl flex-col items-center rounded-[28px] p-8 text-center">
-      <div className="glass-control mb-5 inline-flex h-12 w-12 items-center justify-center rounded-full text-slate-700">
-        <Inbox className="h-6 w-6" aria-hidden="true" />
-      </div>
-      <h1 className="text-2xl font-black tracking-normal text-slate-950">
-        No active learning session yet
-      </h1>
-      <p className="mt-3 text-sm font-medium leading-6 text-slate-600">
+    <section className="l-enter l-well mx-auto flex max-w-2xl flex-col items-center p-8 text-center sm:p-12">
+      <span className="flex h-11 w-11 items-center justify-center border border-rule text-accent">
+        <Inbox className="h-5 w-5" aria-hidden="true" />
+      </span>
+      <h1 className="mt-6">No Active Learning Session Yet</h1>
+      <p className="mt-3 text-sm leading-6 text-ink-2">
         Generate a learning plan from the chat page, then come back here to see
         your goal, progress, feedback, and nudges in one place.
       </p>
-      <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <Link
-          className="blue-pill inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-black text-white"
-          to="/chat"
-        >
+      <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+        <Link className="l-pill l-pill-primary" to="/chat">
           Start in Chat
           <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
-        <Link
-          className="glass-control inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-black text-slate-700"
-          to="/my-learning"
-        >
+        <Link className="l-pill l-pill-ghost" to="/my-learning">
           My Learning
-          <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </div>
     </section>

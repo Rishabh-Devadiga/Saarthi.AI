@@ -7,8 +7,6 @@ import {
   VolumeOff,
 } from "lucide-react";
 
-import { Button } from "@/components/common/Button";
-
 type InterviewControlBarProps = {
   canSubmit: boolean;
   isLoading: boolean;
@@ -41,20 +39,22 @@ export function InterviewControlBar({
   speechSupported,
 }: InterviewControlBarProps) {
   return (
-    <section className="rounded-md border border-white/[0.08] bg-[#111827] p-3 shadow-xl">
+    <section className="l-stage p-3">
       <div className="flex flex-wrap items-center justify-center gap-2">
-        <Button
+        <button
+          className="l-pill l-pill-ghost h-11 px-5 text-sm"
           disabled={!speechSupported || isMuted || isSpeaking || isLoading}
           onClick={onReplay}
-          variant="secondary"
+          type="button"
         >
           <Volume2 className="h-4 w-4" aria-hidden="true" />
           Replay
-        </Button>
-        <Button
+        </button>
+        <button
+          className="l-pill l-pill-ghost h-11 px-5 text-sm"
           disabled={!speechSupported || isLoading}
           onClick={onToggleMute}
-          variant="secondary"
+          type="button"
         >
           {isMuted ? (
             <VolumeOff className="h-4 w-4" aria-hidden="true" />
@@ -62,43 +62,48 @@ export function InterviewControlBar({
             <Volume2 className="h-4 w-4" aria-hidden="true" />
           )}
           {isMuted ? "Unmute" : "Mute"}
-        </Button>
+        </button>
 
         {isRecording ? (
-          <Button
+          <button
+            className="l-pill l-pill-ghost h-11 px-5 text-sm"
             disabled={isLoading}
             onClick={onStopRecording}
-            variant="secondary"
+            type="button"
           >
             <Square className="h-4 w-4 fill-current" aria-hidden="true" />
             Stop
-          </Button>
+          </button>
         ) : (
-          <Button
+          <button
+            className="l-pill l-pill-primary h-11 px-5 text-sm"
             disabled={!recognitionSupported || isLoading || isSpeaking}
             onClick={onStartRecording}
+            type="button"
           >
             <Mic className="h-4 w-4" aria-hidden="true" />
             Start Recording
-          </Button>
+          </button>
         )}
 
-        <Button
+        <button
+          className="l-pill l-pill-primary h-11 px-5 text-sm"
           disabled={!canSubmit || isLoading || isRecording}
           onClick={onSubmit}
+          type="button"
         >
           <Send className="h-4 w-4" aria-hidden="true" />
-          {isLoading ? "Submitting..." : "Submit Answer"}
-        </Button>
-        <Button
-          className="border-red-400/30 text-red-200 hover:border-red-300/50 hover:bg-red-500/10"
+          {isLoading ? "Submitting…" : "Submit Answer"}
+        </button>
+        <button
+          className="l-pill l-pill-ghost h-11 px-5 text-sm text-error"
           disabled={isLoading || isRecording}
           onClick={onEnd}
-          variant="secondary"
+          type="button"
         >
           <LogOut className="h-4 w-4" aria-hidden="true" />
           End Interview
-        </Button>
+        </button>
       </div>
     </section>
   );

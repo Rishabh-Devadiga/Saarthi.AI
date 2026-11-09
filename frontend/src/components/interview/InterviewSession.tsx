@@ -67,16 +67,16 @@ export function InterviewSession({
   }
 
   const interviewerStatus: InterviewerStatus = isSpeaking
-    ? "Speaking..."
+    ? "Speaking…"
     : isLoading
-      ? "Thinking..."
+      ? "Thinking…"
       : isRecording
-        ? "Listening..."
-        : "Waiting...";
+        ? "Listening…"
+        : "Waiting…";
 
   return (
     <div className="space-y-4">
-      <section className="rounded-md border border-white/[0.08] bg-[#111827] p-4 shadow-xl sm:p-5">
+      <section className="l-stage p-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0 flex-1">
             <InterviewProgress
@@ -90,7 +90,7 @@ export function InterviewSession({
 
       {feedback ? (
         <p
-          className="rounded-md border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-300"
+          className="border border-[color-mix(in_oklab,var(--color-live)_35%,transparent)] bg-[color-mix(in_oklab,var(--color-live)_12%,transparent)] px-4 py-3 text-sm rounded-[var(--radius-card)] text-ink"
           role="status"
         >
           Answer recorded. The interviewer is preparing the next question.
@@ -147,14 +147,14 @@ export function InterviewSession({
 function VoiceError({ message }: { message: string }) {
   return (
     <div
-      className="flex gap-3 rounded-md border border-amber-400/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-200"
+      className="l-alert flex gap-3 px-4 py-3 text-sm rounded-[var(--radius-card)]"
       role="alert"
     >
       <AlertTriangle
-        className="mt-0.5 h-4 w-4 shrink-0"
+        className="mt-0.5 h-4 w-4 shrink-0 text-error"
         aria-hidden="true"
       />
-      <span>{message}</span>
+      <span className="text-ink-2">{message}</span>
     </div>
   );
 }

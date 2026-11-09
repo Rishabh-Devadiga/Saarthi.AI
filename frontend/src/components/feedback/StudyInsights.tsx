@@ -35,20 +35,17 @@ export function StudyInsights({
   }
 
   return (
-    <section className="metric-card h-full p-5 transition hover:-translate-y-0.5 sm:p-6">
-      <div className="mb-4 flex items-center gap-3">
-        <span className="blue-pill inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white">
-          <BarChart3 className="h-5 w-5" aria-hidden="true" />
-        </span>
-        <h2 className="text-base font-black text-slate-950">Study Insights</h2>
-      </div>
-      <div className="grid gap-3 sm:grid-cols-2">
+    <section className="l-card h-full p-5 sm:p-6">
+      <p className="l-readout flex items-center gap-2">
+        <BarChart3 className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
+        study insights
+      </p>
+      <h2 className="mt-2">Study Insights</h2>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {insights.map((item) => (
-          <div className="glass-control rounded-[18px] p-3" key={item.label}>
-            <p className="text-xs font-black uppercase text-slate-400">
-              {item.label}
-            </p>
-            <p className="mt-1 text-sm font-black leading-6 text-slate-950">
+          <div className="l-well p-3" key={item.label}>
+            <p className="l-readout">{item.label}</p>
+            <p className="mt-1 text-sm font-medium leading-6 text-ink">
               {item.value}
             </p>
           </div>

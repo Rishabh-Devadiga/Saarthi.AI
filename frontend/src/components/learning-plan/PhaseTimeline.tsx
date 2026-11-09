@@ -25,21 +25,21 @@ export function PhaseTimeline({
 
   return (
     <section className="space-y-4">
-      <div>
-        <p className="text-sm font-semibold text-slate-500">Roadmap</p>
-        <h2 className="mt-1 text-xl font-bold tracking-normal text-slate-950">
-          Learning Phases
-        </h2>
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+        <div>
+          <p className="l-readout">roadmap</p>
+          <h2 className="mt-1">Learning Phases</h2>
+        </div>
         {isSearching ? (
-          <p className="mt-2 text-sm font-semibold text-slate-600">
+          <p className="l-readout" aria-live="polite">
             {visibleTopicCount > 0
-              ? `${visibleTopicCount} topic${visibleTopicCount === 1 ? "" : "s"} found for "${searchQuery}".`
-              : `No topics found for "${searchQuery}".`}
+              ? `${visibleTopicCount} ${visibleTopicCount === 1 ? "topic" : "topics"} found for "${searchQuery}"`
+              : `no topics found for "${searchQuery}"`}
           </p>
         ) : null}
       </div>
       {phases.length > 0 ? (
-        <div className="grid gap-4">
+        <div className="grid gap-5">
           {phases
             .slice()
             .sort((first, second) => first.phase_number - second.phase_number)
@@ -55,10 +55,11 @@ export function PhaseTimeline({
             ))}
         </div>
       ) : (
-        <div className="glass-panel rounded-[22px] p-6 text-center">
-          <p className="text-base font-black text-slate-950">No matches found</p>
-          <p className="mt-2 text-sm font-semibold text-slate-600">
-            Try a topic, phase name, milestone, or resource type from your roadmap.
+        <div className="l-well p-6 text-center">
+          <p className="text-sm text-ink-2">No matches found</p>
+          <p className="mt-2 text-sm text-muted">
+            Try a topic, phase name, milestone, or resource type from your
+            roadmap.
           </p>
         </div>
       )}

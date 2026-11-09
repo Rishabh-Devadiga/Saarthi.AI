@@ -21,32 +21,34 @@ export function SchedulePreview({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/30 p-4 backdrop-blur-sm">
-      <section className="glass-panel max-h-[90vh] w-full max-w-3xl overflow-hidden rounded-[28px]">
-        <div className="flex items-center justify-between border-b border-white/70 p-5">
+    <div className="fixed inset-0 z-50 grid place-items-center bg-[color-mix(in_oklab,var(--color-paper)_62%,black)] p-4">
+      <section className="l-card l-enter max-h-[90vh] w-full max-w-3xl overflow-hidden">
+        <div className="flex items-start justify-between gap-4 border-b border-rule p-5">
           <div>
-            <h2 className="text-lg font-black text-slate-950">Review Schedule</h2>
-            <p className="mt-1 text-sm font-medium text-slate-600">
-              {events.length} study sessions will be added to your primary calendar.
+            <p className="l-readout">schedule preview</p>
+            <h2 className="mt-1">Review Schedule</h2>
+            <p className="l-caption mt-2">
+              {events.length} study sessions will be added to your primary
+              calendar.
             </p>
           </div>
           <button
             aria-label="Close schedule preview"
-            className="glass-control rounded-full p-2 text-slate-600"
+            className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-rule text-muted"
             onClick={onCancel}
             type="button"
           >
-            <X className="h-5 w-5" aria-hidden="true" />
+            <X className="h-4 w-4" aria-hidden="true" />
           </button>
         </div>
-        <div className="max-h-[60vh] space-y-3 overflow-y-auto bg-white/25 p-5">
+        <div className="max-h-[60vh] space-y-3 overflow-y-auto border-b border-rule bg-paper-2 p-5">
           {events.map((event) => (
             <ScheduleEventCard event={event} key={event.id} />
           ))}
         </div>
-        <div className="flex flex-col gap-3 border-t border-white/70 p-5 sm:flex-row sm:justify-end">
+        <div className="flex flex-col gap-3 p-5 sm:flex-row sm:justify-end">
           <button
-            className="glass-control rounded-full px-5 py-2.5 text-sm font-black text-slate-700"
+            className="l-pill l-pill-ghost px-5"
             disabled={isCreating}
             onClick={onCancel}
             type="button"
@@ -54,12 +56,12 @@ export function SchedulePreview({
             Cancel
           </button>
           <button
-            className="blue-pill rounded-full px-5 py-2.5 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-60"
+            className="l-pill l-pill-primary px-5"
             disabled={isCreating}
             onClick={onCreate}
             type="button"
           >
-            {isCreating ? "Creating events..." : "Create Calendar Events"}
+            {isCreating ? "Creating events…" : "Create Calendar Events"}
           </button>
         </div>
       </section>

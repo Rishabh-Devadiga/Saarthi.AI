@@ -11,16 +11,22 @@ export function PhaseProgress({ completedCount, totalCount }: PhaseProgressProps
   const percentage = Math.round((completedCount / totalCount) * 100);
 
   return (
-    <div className="rounded-md bg-slate-50 p-4">
+    <div
+      aria-label={`Phase progress ${completedCount} of ${totalCount} topics`}
+      aria-valuemax={100}
+      aria-valuemin={0}
+      aria-valuenow={percentage}
+      role="progressbar"
+    >
       <div className="flex items-center justify-between gap-3">
-        <p className="text-sm font-semibold text-slate-950">Phase Progress</p>
-        <p className="text-sm font-semibold text-slate-600">
+        <p className="l-readout">phase progress</p>
+        <p className="l-readout text-ink">
           {completedCount}/{totalCount} topics
         </p>
       </div>
-      <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-200">
+      <div className="l-meter mt-2">
         <div
-          className="h-full rounded-full bg-slate-900 transition-all"
+          className="l-meter-fill"
           style={{ width: `${percentage}%` }}
         />
       </div>

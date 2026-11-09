@@ -27,8 +27,8 @@ export function MentorChat({
   }, [isLoading, messages, suggestions]);
 
   return (
-    <section className="flex min-h-[calc(100vh-13rem)] flex-col overflow-hidden rounded-md border border-slate-200 bg-slate-50 shadow-sm">
-      <div className="min-h-0 flex-1 overflow-y-auto px-3 py-5 sm:px-5">
+    <section className="l-stage flex min-h-[calc(100vh-14rem)] flex-col overflow-hidden">
+      <div className="min-h-0 flex-1 overflow-y-auto px-3 py-5 sm:px-5 sm:py-6">
         {messages.length === 0 ? (
           <StarterPrompts disabled={isLoading} onSelect={onSend} />
         ) : (

@@ -2,15 +2,13 @@ import { LoaderCircle } from "lucide-react";
 
 export function QuizLoading() {
   return (
-    <section className="rounded-md border border-slate-200 bg-white p-8 text-center shadow-sm">
+    <section className="l-card mt-6 p-8 text-center">
       <LoaderCircle
-        className="mx-auto h-8 w-8 animate-spin text-blue-600"
+        className="mx-auto h-8 w-8 animate-spin text-accent"
         aria-hidden="true"
       />
-      <h2 className="mt-4 text-lg font-bold text-slate-950">
-        Preparing your quiz
-      </h2>
-      <p className="mt-2 text-sm text-slate-600">
+      <h2 className="mt-4">Preparing your quiz</h2>
+      <p className="l-caption mt-2">
         Saarthi is turning your roadmap topics into five focused questions.
       </p>
     </section>

@@ -1,8 +1,7 @@
-import { AlertTriangle, Bot, RefreshCw, X } from "lucide-react";
+import { AlertTriangle, RefreshCw, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 
-import { Button } from "@/components/common/Button";
 import { MentorChat } from "@/components/mentor/MentorChat";
 import { useSession } from "@/context/SessionContext";
 import { sendMentorMessage } from "@/services/mentorService";
@@ -63,20 +62,12 @@ export function AIMentorPage() {
 
   return (
     <div className="mx-auto max-w-[960px] space-y-5">
-      <header className="rounded-md border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
-        <div className="flex items-center gap-4">
-          <span className="flex h-12 w-12 items-center justify-center rounded-md bg-gradient-to-br from-blue-600 to-violet-600 text-white shadow-md shadow-blue-100">
-            <Bot className="h-6 w-6" aria-hidden="true" />
-          </span>
-          <div>
-            <h1 className="text-2xl font-bold text-slate-950 sm:text-3xl">
-              AI Mentor
-            </h1>
-            <p className="mt-1 text-sm text-slate-600">
-              Ask questions about your learning journey.
-            </p>
-          </div>
-        </div>
+      <header className="l-enter pt-4">
+        <p className="l-readout">always on call</p>
+        <h1 className="mt-2">AI Mentor</h1>
+        <p className="mt-3 text-ink-2">
+          Ask questions about your learning journey.
+        </p>
       </header>
 
       <MentorChat
@@ -88,24 +79,24 @@ export function AIMentorPage() {
 
       {failedRequest ? (
         <div
-          className="fixed bottom-5 right-5 z-50 w-[min(92vw,400px)] rounded-md border border-red-200 bg-white p-4 shadow-2xl"
+          className="l-card fixed bottom-5 right-5 z-[var(--z-toast)] w-[min(92vw,400px)] p-4"
           role="alert"
         >
           <div className="flex gap-3">
             <AlertTriangle
-              className="mt-0.5 h-5 w-5 shrink-0 text-red-600"
+              className="mt-0.5 h-5 w-5 shrink-0 text-error"
               aria-hidden="true"
             />
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-bold text-slate-950">
+              <p className="font-medium text-ink">
                 Unable to contact AI Mentor.
               </p>
-              <p className="mt-1 text-xs leading-5 text-slate-600">
+              <p className="l-caption mt-1 leading-5">
                 Your conversation is still here. Retry when the service is
                 available.
               </p>
-              <Button
-                className="mt-3"
+              <button
+                className="l-pill l-pill-ghost mt-3 h-11 px-5 text-sm"
                 disabled={mentorMutation.isPending}
                 onClick={() =>
                   void sendMessage(
@@ -114,15 +105,15 @@ export function AIMentorPage() {
                     false
                   )
                 }
-                size="default"
+                type="button"
               >
                 <RefreshCw className="h-4 w-4" aria-hidden="true" />
                 Retry
-              </Button>
+              </button>
             </div>
             <button
               aria-label="Dismiss error"
-              className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-rule text-muted"
               onClick={() => setFailedRequest(null)}
               type="button"
             >

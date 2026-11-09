@@ -11,18 +11,14 @@ export function NextActionCard({ nextAction }: NextActionCardProps) {
   }
 
   return (
-    <section className="glass-panel rounded-[24px] p-5 transition hover:-translate-y-0.5 sm:p-6">
-      <div className="mb-4 flex items-center gap-3">
-        <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-violet-500 to-blue-500 text-white">
-          <Sparkles className="h-5 w-5" aria-hidden="true" />
-        </span>
-        <h2 className="text-base font-semibold text-slate-950">
-          Next Recommended Action
-        </h2>
-      </div>
-      <p className="text-sm leading-6 text-slate-700">{nextAction}</p>
+    <section className="l-card p-5">
+      <p className="l-readout flex items-center gap-2">
+        <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
+        next recommended action
+      </p>
+      <h2 className="mt-2">{nextAction}</h2>
       <Link
-        className="glass-control mt-5 inline-flex items-center justify-center gap-2 rounded-full px-4 py-2.5 text-sm font-black text-slate-700"
+        className="l-pill l-pill-ghost mt-5 h-11 px-4 text-sm"
         to="/learning-plan"
       >
         Review Roadmap

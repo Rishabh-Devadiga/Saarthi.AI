@@ -16,15 +16,16 @@ export function ProgressSummaryCard({
   const normalizedPercentage = Math.min(Math.max(percentage, 0), 100);
 
   return (
-    <section className="glass-panel rounded-[26px] p-5 sm:p-6">
+    <section className="l-card p-5">
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(240px,420px)] lg:items-center">
         <div className="flex items-start gap-3">
-          <span className="blue-pill flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white">
-            <TrendingUp className="h-5 w-5" aria-hidden="true" />
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-rule bg-paper">
+            <TrendingUp className="h-5 w-5 text-accent" aria-hidden="true" />
           </span>
           <div>
-            <h2 className="font-black text-slate-950">Progress Summary</h2>
-            <p className="mt-1 text-sm font-medium leading-6 text-slate-600">
+            <p className="l-readout">progress so far</p>
+            <h2 className="mt-1">Progress Summary</h2>
+            <p className="l-caption mt-2 leading-6">
               {summary ??
                 `${completedTopics} of ${totalTopics} roadmap topics completed.`}
             </p>
@@ -32,15 +33,15 @@ export function ProgressSummaryCard({
         </div>
 
         <div className="flex items-center gap-4">
-          <span className="w-12 text-right text-lg font-black text-slate-950">
+          <span className="font-outlier w-12 shrink-0 text-right text-lg text-ink">
             {normalizedPercentage}%
           </span>
-          <div className="h-3 flex-1 overflow-hidden rounded-full bg-slate-200">
-            <div
-              className="blue-pill h-full rounded-full"
+          <span className="l-meter flex-1">
+            <span
+              className="l-meter-fill"
               style={{ width: `${normalizedPercentage}%` }}
             />
-          </div>
+          </span>
         </div>
       </div>
     </section>

@@ -13,7 +13,7 @@ export function MobileSidebar({ isOpen, onClose, onOpen }: MobileSidebarProps) {
     <>
       <button
         aria-label="Open workspace navigation"
-        className="glass-control fixed left-5 top-5 z-40 inline-flex h-11 w-11 items-center justify-center rounded-full text-slate-800 lg:hidden"
+        className="l-raillink fixed left-4 top-3 z-40 h-10 w-10 justify-center px-0 lg:hidden"
         onClick={onOpen}
         type="button"
       >
@@ -24,15 +24,15 @@ export function MobileSidebar({ isOpen, onClose, onOpen }: MobileSidebarProps) {
         <div className="fixed inset-0 z-50 lg:hidden">
           <button
             aria-label="Close workspace navigation"
-            className="absolute inset-0 bg-slate-950/30 backdrop-blur-sm"
+            className="absolute inset-0 bg-[color-mix(in_oklab,var(--color-paper)_62%,black)]"
             onClick={onClose}
             type="button"
           />
-          <div className="relative h-full w-[min(86vw,248px)] p-3">
+          <div className="l-well relative h-full w-[min(84vw,17rem)] p-4">
             <Sidebar onNavigate={onClose} />
             <button
               aria-label="Close workspace navigation"
-              className="glass-control absolute right-6 top-6 inline-flex h-9 w-9 items-center justify-center rounded-full text-slate-800"
+              className="absolute right-3 top-3 inline-flex h-9 w-9 items-center justify-center border border-rule text-ink-2 transition-colors hover:text-ink"
               onClick={onClose}
               type="button"
             >

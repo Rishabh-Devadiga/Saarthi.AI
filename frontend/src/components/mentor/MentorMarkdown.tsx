@@ -13,7 +13,7 @@ type MarkdownBlock =
 
 export function MentorMarkdown({ content }: MentorMarkdownProps) {
   return (
-    <div className="space-y-3 text-sm leading-7 text-slate-700">
+    <div className="space-y-3 text-sm leading-7 text-ink-2">
       {parseBlocks(content).map((block, index) =>
         renderBlock(block, `${block.type}-${index}`)
       )}
@@ -24,13 +24,16 @@ export function MentorMarkdown({ content }: MentorMarkdownProps) {
 function renderBlock(block: MarkdownBlock, key: string): ReactNode {
   if (block.type === "code") {
     return (
-      <div className="overflow-hidden rounded-md bg-slate-950" key={key}>
+      <div
+        className="overflow-hidden border border-rule-2 bg-[color-mix(in_oklab,var(--color-paper)_72%,black)] rounded-[var(--radius-card)]"
+        key={key}
+      >
         {block.language ? (
-          <div className="border-b border-white/10 px-4 py-2 text-xs font-semibold text-slate-400">
+          <div className="border-b border-rule-2 px-4 py-2 font-outlier text-xs text-muted">
             {block.language}
           </div>
         ) : null}
-        <pre className="overflow-x-auto p-4 text-xs leading-6 text-slate-100">
+        <pre className="overflow-x-auto p-4 font-outlier text-xs leading-6 text-ink-2">
           <code>{block.content}</code>
         </pre>
       </div>
@@ -40,8 +43,8 @@ function renderBlock(block: MarkdownBlock, key: string): ReactNode {
   if (block.type === "heading") {
     const className =
       block.level <= 2
-        ? "text-lg font-bold text-slate-950"
-        : "text-base font-bold text-slate-950";
+        ? "font-display text-xl text-ink"
+        : "font-display text-lg text-ink";
     return (
       <div className={className} key={key}>
         {renderInline(block.content)}
@@ -69,12 +72,15 @@ function renderBlock(block: MarkdownBlock, key: string): ReactNode {
 
   if (block.type === "table") {
     return (
-      <div className="overflow-x-auto rounded-md border border-slate-200" key={key}>
+      <div
+        className="overflow-x-auto border border-rule rounded-[var(--radius-card)]"
+        key={key}
+      >
         <table className="w-full border-collapse text-left text-xs">
-          <thead className="bg-slate-100 text-slate-700">
+          <thead className="bg-paper-2 text-ink-2">
             <tr>
               {block.headers.map((header, index) => (
-                <th className="border-b border-slate-200 px-3 py-2" key={index}>
+                <th className="border-b border-rule px-3 py-2" key={index}>
                   {renderInline(header)}
                 </th>
               ))}
@@ -82,7 +88,7 @@ function renderBlock(block: MarkdownBlock, key: string): ReactNode {
           </thead>
           <tbody>
             {block.rows.map((row, rowIndex) => (
-              <tr className="border-b border-slate-100 last:border-0" key={rowIndex}>
+              <tr className="border-b border-rule last:border-0" key={rowIndex}>
                 {row.map((cell, cellIndex) => (
                   <td className="px-3 py-2 align-top" key={cellIndex}>
                     {renderInline(cell)}
@@ -219,7 +225,7 @@ function renderInline(content: string): ReactNode[] {
     if (token.startsWith("`") && token.endsWith("`")) {
       return (
         <code
-          className="rounded bg-slate-100 px-1.5 py-0.5 text-xs text-slate-900"
+          className="border border-rule bg-paper-3 px-1.5 py-0.5 font-outlier text-xs text-ink rounded-[var(--radius-card)]"
           key={index}
         >
           {token.slice(1, -1)}

@@ -23,37 +23,35 @@ export function TopicCard({
   video,
 }: TopicCardProps) {
   return (
-    <article className="rounded-md border border-slate-200 bg-white p-4 shadow-sm">
+    <article className="border border-rule bg-paper p-4">
       <div className="flex gap-3">
         <input
           aria-label={`Mark ${topic} complete`}
           checked={isCompleted}
-          className="mt-1 h-4 w-4 rounded border-slate-300 text-slate-900 focus:ring-slate-900"
+          className="mt-0.5 h-4 w-4 shrink-0"
           onChange={(event) => onToggle(event.target.checked)}
           type="checkbox"
         />
         <div className="min-w-0 flex-1">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <h4 className="text-sm font-semibold leading-6 text-slate-950">
+            <div className="min-w-0">
+              <h4 className="min-w-0 [overflow-wrap:anywhere] text-sm text-ink">
                 {topic}
               </h4>
               <div className="mt-2 flex flex-wrap gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">
-                  <Clock3 className="h-3.5 w-3.5" aria-hidden="true" />
+                <span className="l-tag">
+                  <Clock3 className="h-3 w-3" aria-hidden="true" />
                   {isVideoLoading
-                    ? "Estimating learning time..."
+                    ? "estimating learning time…"
                     : estimatedTime
-                      ? `Estimated Time: ${estimatedTime}`
-                      : "Estimated time unavailable."}
+                      ? `estimated time · ${estimatedTime}`
+                      : "estimated time unavailable"}
                 </span>
-                <span className="rounded-md bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-700">
-                  {difficulty}
-                </span>
+                <span className="l-tag">{difficulty}</span>
                 {isCompleted ? (
-                  <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                    <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
-                    Completed
+                  <span className="l-tag border-accent text-ink">
+                    <CheckCircle2 className="h-3 w-3" aria-hidden="true" />
+                    completed
                   </span>
                 ) : null}
               </div>
@@ -61,19 +59,19 @@ export function TopicCard({
             <TopicResourceButton isLoading={isVideoLoading} video={video} />
           </div>
           {video ? (
-            <div className="mt-4 flex gap-3 rounded-md bg-slate-50 p-3">
+            <div className="l-stage mt-3 flex min-w-0 gap-3 p-3">
               {video.thumbnailUrl ? (
                 <img
                   alt=""
-                  className="h-16 w-24 shrink-0 rounded-md object-cover"
+                  className="h-16 w-24 shrink-0 object-cover"
                   src={video.thumbnailUrl}
                 />
               ) : null}
               <div className="min-w-0">
-                <p className="line-clamp-2 text-xs font-semibold leading-5 text-slate-800">
+                <p className="line-clamp-2 text-xs leading-5 text-ink-2">
                   {video.title}
                 </p>
-                <p className="mt-1 text-xs text-slate-500">{video.channel}</p>
+                <p className="l-readout mt-1">{video.channel}</p>
               </div>
             </div>
           ) : null}

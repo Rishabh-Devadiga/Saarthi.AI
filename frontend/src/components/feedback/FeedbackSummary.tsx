@@ -16,26 +16,27 @@ export function FeedbackSummary({
   }
 
   return (
-    <section className="metric-card h-full p-5 transition hover:-translate-y-0.5 sm:p-6">
-      <div className="mb-4 flex items-center gap-3">
-        <span className="blue-pill inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-white">
-          <Lightbulb className="h-5 w-5" aria-hidden="true" />
-        </span>
-        <h2 className="text-base font-black text-slate-950">AI Feedback</h2>
-      </div>
-      <div className="space-y-3">
+    <section className="l-card h-full p-5 sm:p-6">
+      <p className="l-readout flex items-center gap-2">
+        <Lightbulb className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
+        ai feedback
+      </p>
+      <h2 className="mt-2">AI Feedback</h2>
+      <div className="mt-4 space-y-3">
         {summary ? (
-          <p className="text-sm font-medium leading-6 text-slate-600">{summary}</p>
+          <p className="leading-7 text-ink-2">{summary}</p>
         ) : null}
         {motivationMessage ? (
-          <p className="glass-control rounded-[18px] p-3 text-sm font-black leading-6 text-slate-800">
-            {motivationMessage}
-          </p>
+          <div className="l-well p-3">
+            <p className="font-medium leading-6 text-ink">
+              {motivationMessage}
+            </p>
+          </div>
         ) : null}
         {confidenceLevel != null ? (
-          <div className="inline-flex items-center rounded-md bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
-            Confidence: {confidenceLevel}
-          </div>
+          <span className="l-tag">
+            confidence: {confidenceLevel}
+          </span>
         ) : null}
       </div>
     </section>

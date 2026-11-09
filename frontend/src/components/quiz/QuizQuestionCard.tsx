@@ -20,28 +20,26 @@ export function QuizQuestionCard({
   totalQuestions,
 }: QuizQuestionCardProps) {
   return (
-    <section className="rounded-md border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+    <section className="l-card p-5 sm:p-7">
       <div className="flex items-center justify-between gap-4">
-        <p className="text-sm font-semibold text-blue-600">
-          Question {currentQuestion + 1}
+        <p className="l-readout text-accent">
+          question {currentQuestion + 1}
         </p>
-        <p className="text-sm font-medium text-slate-500">
+        <p className="l-readout">
           {currentQuestion + 1} of {totalQuestions}
         </p>
       </div>
 
-      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-slate-100">
-        <div
-          className="h-full rounded-full bg-blue-600 transition-all"
+      <span className="l-meter mt-3 block">
+        <span
+          className="l-meter-fill"
           style={{
             width: `${((currentQuestion + 1) / totalQuestions) * 100}%`,
           }}
         />
-      </div>
+      </span>
 
-      <h2 className="mt-6 text-xl font-bold leading-8 text-slate-950">
-        {question}
-      </h2>
+      <h2 className="mt-6 leading-8">{question}</h2>
 
       <fieldset className="mt-6 grid gap-3">
         <legend className="sr-only">Choose one answer</legend>
@@ -50,10 +48,8 @@ export function QuizQuestionCard({
           return (
             <label
               className={cn(
-                "flex cursor-pointer items-center gap-3 rounded-md border p-4 text-sm font-medium transition",
-                isSelected
-                  ? "blue-pill border-blue-500 text-white"
-                  : "border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                "l-choice flex cursor-pointer items-center gap-3 p-4 text-sm",
+                isSelected ? "text-ink" : "text-ink-2"
               )}
               key={option}
             >
@@ -67,10 +63,10 @@ export function QuizQuestionCard({
               />
               <span
                 className={cn(
-                  "inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-xs font-bold",
+                  "grid h-8 w-8 shrink-0 place-items-center rounded-[var(--radius-card)] font-outlier text-xs",
                   isSelected
-                    ? "bg-blue-600 text-white"
-                    : "bg-slate-100 text-slate-600"
+                    ? "bg-accent text-accent-ink"
+                    : "bg-paper-3 text-muted"
                 )}
               >
                 {isSelected ? (

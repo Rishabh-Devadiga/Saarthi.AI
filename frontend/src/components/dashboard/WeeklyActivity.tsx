@@ -20,17 +20,16 @@ const activity = [
 
 export function WeeklyActivity() {
   return (
-    <section className="metric-card h-full min-h-72 p-5 sm:p-6">
-      <div className="flex items-center justify-between gap-3">
+    <section className="l-card h-full p-5">
+      <div className="flex items-start justify-between gap-3">
         <div>
-          <h2 className="font-black text-slate-950">Study Habits</h2>
-          <p className="mt-0.5 text-xs font-semibold text-slate-500">
-            Example activity until history is available
-          </p>
+          <p className="l-readout">weekly activity</p>
+          <h2 className="mt-2">Study Habits</h2>
         </div>
-        <span className="glass-control flex h-10 w-10 items-center justify-center rounded-full text-blue-600">
-          <CalendarDays className="h-5 w-5" aria-hidden="true" />
-        </span>
+        <CalendarDays
+          className="mt-1 h-4 w-4 shrink-0 text-muted"
+          aria-hidden="true"
+        />
       </div>
 
       <div className="mt-5 h-44">
@@ -39,30 +38,33 @@ export function WeeklyActivity() {
             <XAxis
               axisLine={false}
               dataKey="day"
-              tick={{ fill: "#8993a5", fontSize: 11, fontWeight: 700 }}
+              stroke="var(--color-rule)"
+              tick={{ fontSize: 11 }}
               tickLine={false}
             />
             <YAxis hide domain={[0, 60]} />
             <Tooltip
               contentStyle={{
-                background: "#111827",
-                border: "0",
-                borderRadius: 16,
-                color: "#fff",
-                boxShadow: "0 16px 40px rgba(15,23,42,0.22)",
+                background: "var(--color-paper-3)",
+                border: "var(--rule-hair) solid var(--color-rule-2)",
+                borderRadius: "8px",
+                color: "var(--color-ink)",
+                fontSize: "12px",
+                fontFamily: "var(--font-outlier)",
               }}
-              cursor={{ fill: "rgba(64,88,255,0.06)" }}
-              formatter={(value) => [`${String(value)} min`, "Learning"]}
+              cursor={{
+                fill: "color-mix(in oklab, var(--color-accent) 10%, transparent)",
+              }}
+              formatter={(value) => [`${String(value)} min`, "learning"]}
             />
-            <Bar
-              dataKey="minutes"
-              fill="#3f51ff"
-              maxBarSize={30}
-              radius={[10, 10, 10, 10]}
-            />
+            <Bar dataKey="minutes" maxBarSize={18} radius={[3, 3, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
+
+      <p className="l-caption mt-4">
+        Example activity until history is available.
+      </p>
     </section>
   );
 }

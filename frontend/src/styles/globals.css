@@ -34,6 +34,10 @@
 /* Hallmark · reworded "Your journey starts here." to your journey starts here. · the wizard caption takes the page's lowercase register */
 /* Hallmark · swapped the loading stages' three periods for the true ellipsis "…" · F2 wants the typographic character; the stage lines are prose */
 /* Hallmark · owner register pass: heads, section titles, nav labels and CTA controls take Title Case, body copy takes sentence case · the lowercase transform is lifted from h1-h3, nav, button and .l-navlink — copy sets its own case · mono readouts (eyebrows, captions, field labels, path labels, capture captions) remain lowercase */
+/* Hallmark · workspace migration: every post-onboarding surface moves onto Lumen · the second surface DEC-020 anticipated; scoped to .lumen-workspace so heads step to the app register (h1 --text-2xl, h2 --text-title, h3 the body face at 500) · glass-panel/blue-pill/metric-card retire from the workspace; the legacy utilities stay for the auth pages and the api-test utility canvas · new primitives: l-raillink (brass tick rail), l-meter (hairline track, brass fill, width never animated), l-tag (mono wayfinding), l-stage (the deep interview well), l-enter (one settle, reduced-motion drops it) */
+/* Hallmark · theme toggle audited: the workspace toggled light/dark before; Lumen is a dark-paper system with no light variant on record, so the control leaves the header with the migration (DEC-023) */
+/* Hallmark · dropped handleThemeToggle() · DEC-023: the light/dark switch left the workspace header because Lumen keeps one settled dark paper across every workspace surface */
+/* Hallmark · dropped learning report · the shell's identity head retired with the DEC-023 rebuild; each page now carries its own editorial head, so the shell repeats nothing */
 
 @import "tailwindcss";
 @import "./tokens.css";
@@ -192,6 +196,45 @@
   .lumen select {
     font: inherit;
     color: inherit;
+  }
+
+  /* the workspace register: heads step down from the landing display sizes;
+     everything else in the Lumen base carries over unchanged */
+  .lumen-workspace h1 {
+    font-size: var(--text-2xl);
+    line-height: 1.08;
+    max-width: 24ch;
+  }
+
+  .lumen-workspace h2 {
+    font-size: var(--text-title);
+    line-height: 1.15;
+    max-width: 36ch;
+  }
+
+  .lumen-workspace h3 {
+    font-size: var(--text-md);
+    font-weight: 500;
+    line-height: 1.35;
+    max-width: 48ch;
+  }
+
+  .lumen-workspace input[type="checkbox"],
+  .lumen-workspace input[type="radio"] {
+    accent-color: var(--color-accent);
+  }
+
+  /* the charts read in the theme, not the library's default inks */
+  .lumen-workspace .recharts-text {
+    fill: var(--color-muted);
+  }
+
+  .lumen-workspace .recharts-rectangle {
+    fill: var(--color-accent);
+  }
+
+  .lumen-workspace .recharts-tooltip-cursor {
+    fill: color-mix(in oklab, var(--color-accent) 10%, transparent);
   }
 }
 
@@ -512,6 +555,159 @@
     background: var(--color-ink-2);
     box-shadow: inset 0 0 0 1px var(--color-ink-2);
   }
+
+  /* ------------------------------------------------------------------
+     Lumen workspace: the second surface. Same tokens, the app register:
+     heads step down from the landing's display sizes to workspace scale,
+     monospace carries the wayfinding, brass carries the verb.
+     ------------------------------------------------------------------ */
+
+  /* the rail: item labels in the body face, Title Case in copy */
+  .l-raillink {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    height: 40px;
+    padding: 0 var(--space-sm);
+    border-radius: var(--radius-card);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition:
+      color var(--dur-short) var(--ease-in-out),
+      background-color var(--dur-short) var(--ease-in-out);
+  }
+
+  .l-raillink::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    transition: background-color var(--dur-short) var(--ease-in-out);
+  }
+
+  .l-raillink:hover {
+    color: var(--color-ink);
+  }
+
+  .l-raillink:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .l-raillink.is-active {
+    color: var(--color-ink);
+    background: var(--color-paper-2);
+  }
+
+  .l-raillink.is-active::before {
+    background: var(--color-accent);
+  }
+
+  /* the meter: a hairline track, brass fill; width is set, never animated */
+  .l-meter {
+    height: 0.375rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-paper-3);
+    box-shadow: inset 0 0 0 1px var(--color-rule);
+    overflow: hidden;
+  }
+
+  .l-meter-fill {
+    height: 100%;
+    border-radius: inherit;
+    background: var(--color-accent);
+  }
+
+  .l-meter-fill.is-live {
+    background: var(--color-accent-2);
+  }
+
+  /* the wayfinding tag: mono lane, hairline box */
+  .l-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    background: var(--color-paper);
+    padding: var(--space-2xs) var(--space-sm);
+    font-family: var(--font-outlier);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--color-ink-2);
+  }
+
+  /* the ledger: cells strutted with hairlines, two across on mobile, four on sm */
+  .l-ledger {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border: var(--rule-hair) solid var(--color-rule);
+    background: var(--color-paper-2);
+  }
+
+  .l-ledger > * {
+    min-width: 0;
+    border-left: var(--rule-hair) solid var(--color-rule);
+    border-top: 0;
+  }
+
+  .l-ledger > *:nth-child(2n + 1) {
+    border-left: 0;
+  }
+
+  .l-ledger > *:nth-child(n + 3) {
+    border-top: var(--rule-hair) solid var(--color-rule);
+  }
+
+  @media (min-width: 40rem) {
+    .l-ledger {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .l-ledger > *:nth-child(2n + 1) {
+      border-left: var(--rule-hair) solid var(--color-rule);
+    }
+
+    .l-ledger > *:first-child {
+      border-left: 0;
+    }
+
+    .l-ledger > *:nth-child(n + 3) {
+      border-top: 0;
+    }
+  }
+
+  /* the stage: the deep well the interview session and code sit on */
+  .l-stage {
+    background: color-mix(in oklab, var(--color-paper) 72%, black);
+    border: var(--rule-hair) solid var(--color-rule-2);
+    border-radius: var(--radius-card);
+  }
+
+  /* the page mount: one quiet settle, dropped by reduced motion */
+  .l-enter {
+    animation: l-enter var(--dur-long) var(--ease-out) both;
+  }
+
+  @keyframes l-enter {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+
+  /* the waveform: bars breathe while a voice is live;
+     colour comes from the component (brass / pink) */
+  .interview-wave-bar {
+    height: 1.5rem;
+    animation: interview-wave 720ms ease-in-out infinite alternate;
+  }
 }
 
 /* ------------------------------------------------------------------
@@ -529,6 +725,16 @@
     font-weight: 700;
     line-height: 2.25rem;
     color: #111827;
+  }
+
+  /* the utility canvas: /api-test keeps its own light ground, token-named
+     from the legacy body block, on an opaque well so it reads on dark rail */
+  .workspace-utility {
+    background: var(--background-legacy-surface);
+    color: var(--foreground-legacy-ink);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    padding: var(--space-lg);
   }
 
   .glass-panel {
@@ -644,11 +850,6 @@
 
   .onboarding-date {
     color-scheme: dark;
-  }
-
-  .interview-wave-bar {
-    height: 1.5rem;
-    animation: interview-wave 720ms ease-in-out infinite alternate;
   }
 
   .workspace-shell {

@@ -53,7 +53,7 @@ export function ProgressCards({
   }
 
   return (
-    <section className="grid auto-rows-fr gap-5 sm:grid-cols-2">
+    <section className="grid auto-rows-fr grid-cols-2 gap-4">
       {cards.map((card) => (
         <ProgressMetricCard
           icon={card.icon}
@@ -78,12 +78,10 @@ function ProgressMetricCard({ icon, label, value }: ProgressMetricCardProps) {
   }
 
   return (
-    <article className="glass-panel min-h-36 rounded-[24px] p-5 transition hover:-translate-y-0.5">
-      <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-[16px] bg-blue-50 text-blue-600">
-        {icon}
-      </div>
-      <p className="text-sm font-semibold text-slate-500">{label}</p>
-      <p className="mt-2 text-xl font-bold text-slate-950">{value}</p>
+    <article className="l-well min-h-36 p-4">
+      <span className="text-accent">{icon}</span>
+      <p className="l-readout mt-3">{label}</p>
+      <p className="mt-1 font-outlier text-xl text-ink">{value}</p>
     </article>
   );
 }
